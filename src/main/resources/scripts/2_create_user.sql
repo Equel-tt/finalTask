@@ -1,0 +1,2 @@
+CREATE USER test WITH PASSWORD 'test';
+GRANT SELECT, INSERT, UPDATE, DELETE ON manufacture.public.* TO test;
