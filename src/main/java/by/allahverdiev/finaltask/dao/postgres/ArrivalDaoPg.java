@@ -33,6 +33,10 @@ public class ArrivalDaoPg implements ArrivalDao {
             "SELECT * " +
                     "FROM manufacture.public.arrival " +
                     "WHERE product_id = (?)";
+    private static final String SQL_SELECT_ARRIVALS_BY_PRODUCT_ID_IN_PERIOD =
+            "SELECT * " +
+                    "FROM manufacture.public.arrival " +
+                    "WHERE product_id = (?) AND date BETWEEN (?) AND (?)";
 
 
     @Override
@@ -59,20 +63,37 @@ public class ArrivalDaoPg implements ArrivalDao {
         List<Arrival> arrivals = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARRIVALS_BY_PRODUCT_ID)) {
             ps.setInt(1, id);
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                String doc = resultSet.getString("doc");
-                double count = resultSet.getDouble("count");
-                LocalDate date = conversion.toLocalDate(resultSet.getDate("date"));
-                Product product = new Product(id);
-                double price = resultSet.getDouble("price");
-                User user = new User(resultSet.getInt("user_id"));
-                arrivals.add(new Arrival(doc, count, date, product, price, user));
-            }
+            buildArrivalWithProductId(id, arrivals, ps);
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
         return arrivals;
+    }
+
+    public List<Arrival> findByProductIdInTimePeriod(int id, LocalDate start, LocalDate end) {
+        List<Arrival> arrivals = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARRIVALS_BY_PRODUCT_ID_IN_PERIOD)) {
+            ps.setInt(1, id);
+            ps.setDate(2, Date.valueOf(start));
+            ps.setDate(3, Date.valueOf(end));
+            buildArrivalWithProductId(id, arrivals, ps);
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+        return arrivals;
+    }
+
+    private void buildArrivalWithProductId(int id, List<Arrival> arrivals, PreparedStatement ps) throws SQLException {
+        ResultSet resultSet = ps.executeQuery();
+        while (resultSet.next()) {
+            String doc = resultSet.getString("doc");
+            double count = resultSet.getDouble("count");
+            LocalDate date = conversion.toLocalDate(resultSet.getDate("date"));
+            Product product = new Product(id);
+            double price = resultSet.getDouble("price");
+            User user = new User(resultSet.getInt("user_id"));
+            arrivals.add(new Arrival(doc, count, date, product, price, user));
+        }
     }
 
     @Override
