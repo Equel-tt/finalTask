@@ -51,6 +51,15 @@ public class Product implements Entity {
     public Product() {
     }
 
+    public Product(int id) {
+        this.id = id;
+    }
+
+    public Product(int newId, String newName) {
+        this.id = newId;
+        this.name = newName;
+    }
+
     public Product(int newId, String newName, User newManager, ProductType newProductType, Provider newProvider) {
         this.id = newId;
         this.name = newName;
@@ -59,13 +68,8 @@ public class Product implements Entity {
         this.provider = newProvider;
     }
 
-    public Product(int newId, String newName) {
-        this.id = newId;
-        this.name = newName;
-    }
-
     @Override
     public String toString() {
-        return this.id + " " + this.name;
+        return this.id + " " + this.name + " " + this.manager + " " + this.productType + " " + this.provider;
     }
 }

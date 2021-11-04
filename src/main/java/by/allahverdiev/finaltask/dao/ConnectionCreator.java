@@ -28,7 +28,7 @@ public class ConnectionCreator {
     public static Connection createConnection() throws SQLException {
         return DriverManager.getConnection(DATABASE_URL, properties);
     }
-//    public static PreparedStatement createPreparedStatement(){
-//        return DriverManager.get
+//    public static PreparedStatement createPreparedStatement() throws SQLException {
+//        return DriverManager.getConnection(DATABASE_URL, properties);
 //    }
 }

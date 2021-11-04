@@ -6,10 +6,7 @@ import by.allahverdiev.finaltask.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,20 +20,26 @@ public class UserDaoPg implements UserDao {
 
     private static final String SQL_SELECT_ALL_USERS =
             "SELECT *" +
-                    "FROM manufacture.public.users";
+                    "FROM manufacture.public.employee";
+    private static final String SQL_SELECT_USER_BY_ID =
+            "SELECT * " +
+                    "FROM manufacture.public.employee " +
+                    "WHERE employee.id = (?)";
 
 
     @Override
     public List findAll() {
         List<User> users = new ArrayList<>();
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_USERS);
             while (resultSet.next()) {
-                int newId = resultSet.getInt("id");
-                String newName = resultSet.getString("name");
-                users.add(new User(newId, newName));
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String surname = resultSet.getString("surname");
+                String patronymic = resultSet.getString("patronymic");
+                int role = resultSet.getInt("role");
+                String description = resultSet.getString("description");
+                users.add(new User(id, name, surname, patronymic, role, description));
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -47,6 +50,25 @@ public class UserDaoPg implements UserDao {
     @Override
     public Entity findEntityById(Object id) {
         return null;
+    }
+
+    public User findEntityById(int id) {
+        User user = new User();
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_USER_BY_ID)) {
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                user.setId(resultSet.getInt("id"));
+                user.setName(resultSet.getString("name"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setPatronymic(resultSet.getString("patronymic"));
+                user.setRole(resultSet.getInt("role"));
+                user.setDescription(resultSet.getString("description"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+        return user;
     }
 
     @Override

@@ -1,8 +1,7 @@
 package by.allahverdiev.finaltask.dao.postgres;
 
 import by.allahverdiev.finaltask.dao.ProductDao;
-import by.allahverdiev.finaltask.entity.Entity;
-import by.allahverdiev.finaltask.entity.Product;
+import by.allahverdiev.finaltask.entity.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +12,9 @@ import java.util.List;
 public class ProductDaoPg implements ProductDao {
     private static final Logger LOGGER = LogManager.getLogger(ProductDaoPg.class);
     Connection connection;
+
+    public ProductDaoPg() {
+    }
 
     public ProductDaoPg(Connection newConnection) {
         this.connection = newConnection;
@@ -26,21 +28,18 @@ public class ProductDaoPg implements ProductDao {
                     "FROM manufacture.public.product " +
                     "WHERE product.id = (?)";
 
-    public ProductDaoPg() throws SQLException {
-    }
-
-
     @Override
     public List<Product> findAll() {
         List<Product> products = new ArrayList<>();
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_PRODUCTS);
             while (resultSet.next()) {
                 int newId = resultSet.getInt("id");
                 String newName = resultSet.getString("name");
-                products.add(new Product(newId, newName));
+                User user = new User(resultSet.getInt("manager_id"));
+                ProductType type = new ProductType(resultSet.getInt("product_type_id"));
+                Provider provider = new Provider(resultSet.getInt("provider_id"));
+                products.add(new Product(newId, newName, user, type, provider));
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -55,12 +54,16 @@ public class ProductDaoPg implements ProductDao {
 
     public Product findEntityById(int id) throws SQLException {
         Product result = new Product();
-        PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID);
-        ps.setInt(1, id);
-        ResultSet resultSet = ps.executeQuery();
-        while (resultSet.next()) {
-            result.setId(resultSet.getInt("id"));
-            result.setName(resultSet.getString("name"));
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                result.setId(resultSet.getInt("id"));
+                result.setName(resultSet.getString("name"));
+                result.setManager(new User(resultSet.getInt("manager_id")));
+                result.setProductType(new ProductType(resultSet.getInt("product_type_id")));
+                result.setProvider(new Provider(resultSet.getInt("provider_id")));
+            }
         }
         return result;
     }

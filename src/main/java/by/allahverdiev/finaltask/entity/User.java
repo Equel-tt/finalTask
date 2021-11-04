@@ -5,7 +5,11 @@ public class User implements Entity {
     private String name;
     private String surname;
     private String patronymic;
+    private String description;
     private int role;
+
+    public User() {
+    }
 
     public User(int newId) {
         this.id = newId;
@@ -29,6 +33,23 @@ public class User implements Entity {
         this.patronymic = newPatronymic;
     }
 
+    public User(int newId, String newName, String newSurname, String newPatronymic, int newRole) {
+        this.id = newId;
+        this.name = newName;
+        this.surname = newSurname;
+        this.patronymic = newPatronymic;
+        this.role = newRole;
+    }
+
+    public User(int newId, String newName, String newSurname, String newPatronymic, int newRole, String newDescription) {
+        this.id = newId;
+        this.name = newName;
+        this.surname = newSurname;
+        this.patronymic = newPatronymic;
+        this.role = newRole;
+        this.description = newDescription;
+    }
+
     public int getId() {
         return id;
     }
@@ -40,7 +61,6 @@ public class User implements Entity {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -48,7 +68,6 @@ public class User implements Entity {
     public String getSurname() {
         return surname;
     }
-
     public void setSurname(String surname) {
         this.surname = surname;
     }
@@ -56,7 +75,6 @@ public class User implements Entity {
     public String getPatronymic() {
         return patronymic;
     }
-
     public void setPatronymic(String patronymic) {
         this.patronymic = patronymic;
     }
@@ -69,8 +87,17 @@ public class User implements Entity {
         this.role = role;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
-        return this.name + " " + this.surname + " " + this.patronymic;
+        return this.surname + " " + this.name + " " + this.patronymic + " / " + this.description;
+//        return String.valueOf(this.id);
     }
 }
