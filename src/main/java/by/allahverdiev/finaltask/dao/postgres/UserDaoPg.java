@@ -88,6 +88,20 @@ public class UserDaoPg implements UserDao {
 
     @Override
     public Entity update(Entity entity) {
-        return null;
+        int id = ((User) entity).getId();
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_USER_BY_ID)) {
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                ((User) entity).setName(resultSet.getString("name"));
+                ((User) entity).setSurname(resultSet.getString("surname"));
+                ((User) entity).setPatronymic(resultSet.getString("patronymic"));
+                ((User) entity).setRole(resultSet.getInt("role"));
+                ((User) entity).setDescription(resultSet.getString("description"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
+        return entity;
     }
 }
