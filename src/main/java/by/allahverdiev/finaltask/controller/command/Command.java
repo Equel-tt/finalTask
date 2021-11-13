@@ -1,5 +1,7 @@
 package by.allahverdiev.finaltask.controller.command;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface Command {
-    public void execute();
+    HttpServletRequest execute(HttpServletRequest request);
 }

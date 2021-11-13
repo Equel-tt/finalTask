@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="toFileLogger">
+            %d{DATE} [%t] %-5level %logger{36} - %msg%n
+        </Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{2} - %msg%n"/>
+        </Console>
+        <File name="LogFile" fileName="H:\\FinalTask\\log_file.log">
+            <!--        <File name="LogFile" fileName="h:\\JAVA\\Server\\apache-tomcat\\logs\\log_file.log">-->
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{3} - %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="LogFile"/>
+        </Root>
+        <Logger name="main.java.by.allahverdiev.finaltask.controller.ControlServlet" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="LogFile"/>
+        </Logger>
+    </Loggers>
+</Configuration>

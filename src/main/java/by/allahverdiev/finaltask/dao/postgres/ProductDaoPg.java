@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDaoPg implements ProductDao {
-    private static final Logger LOGGER = LogManager.getLogger(ProductDaoPg.class);
+    private static final Logger logger = LogManager.getLogger(ProductDaoPg.class);
     Connection connection;
 
     public ProductDaoPg() {
@@ -27,6 +27,14 @@ public class ProductDaoPg implements ProductDao {
             "SELECT * " +
                     "FROM manufacture.public.product " +
                     "WHERE product.id = (?)";
+    private static final String SQL_UPDATE_PRODUCT_TYPE_BY_ID =
+            "SELECT * " +
+                    "FROM manufacture.public.product_type " +
+                    "WHERE product_type.id = (?)";
+    private static final String SQL_UPDATE_PROVIDER_BY_ID =
+            "SELECT * " +
+                    "FROM manufacture.public.provider " +
+                    "WHERE provider.id = (?)";
 
     @Override
     public List<Product> findAll() {
@@ -42,17 +50,17 @@ public class ProductDaoPg implements ProductDao {
                 products.add(new Product(newId, newName, user, type, provider));
             }
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
         }
         return products;
     }
 
     @Override
-    public Entity findEntityById(Object id) throws SQLException {
+    public Entity findEntityById(Object id) {
         return null;
     }
 
-    public Product findEntityById(int id) throws SQLException {
+    public Product findEntityById(int id) {
         Product result = new Product();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {
             ps.setInt(1, id);
@@ -62,10 +70,46 @@ public class ProductDaoPg implements ProductDao {
                 result.setName(resultSet.getString("name"));
                 result.setManager(new User(resultSet.getInt("manager_id")));
                 result.setProductType(new ProductType(resultSet.getInt("product_type_id")));
+                updateType(result.getProductType());
                 result.setProvider(new Provider(resultSet.getInt("provider_id")));
+                updateProvider(result.getProvider());
             }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return result;
+    }
+
+    /**
+     * update product type using reference table
+     */
+    private void updateType(Entity entity) {
+        int id = ((ProductType) entity).getId();
+        try (PreparedStatement ps = connection.prepareStatement(SQL_UPDATE_PRODUCT_TYPE_BY_ID)) {
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                ((ProductType) entity).setName(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    /**
+     * update provider using reference table
+     */
+    private void updateProvider(Entity entity) {
+        int id = ((Provider) entity).getId();
+        try (PreparedStatement ps = connection.prepareStatement(SQL_UPDATE_PROVIDER_BY_ID)) {
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                ((Provider) entity).setName(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
     }
 
     @Override
