@@ -16,6 +16,7 @@ import java.util.List;
 
 public class ArrivalDaoPg implements ArrivalDao {
     private static final Logger LOGGER = LogManager.getLogger(ArrivalDaoPg.class);
+    private static final LocalDate startDate = LocalDate.of(2021, 01, 07);
     DateConversion conversion = new DateConversion();
     Connection connection;
 
@@ -26,9 +27,10 @@ public class ArrivalDaoPg implements ArrivalDao {
         this.connection = newConnection;
     }
 
-    private static final String SQL_SELECT_ALL_ARRIVALS =
+    private static final String SQL_SELECT_ALL_ARRIVALS_IN_PERIOD =
             "SELECT * " +
-                    "FROM manufacture.public.arrival";
+                    "FROM manufacture.public.arrival " +
+                    "WHERE date BETWEEN (?) AND (?)";
     private static final String SQL_SELECT_ARRIVALS_BY_PRODUCT_ID =
             "SELECT * " +
                     "FROM manufacture.public.arrival " +
@@ -37,13 +39,18 @@ public class ArrivalDaoPg implements ArrivalDao {
             "SELECT * " +
                     "FROM manufacture.public.arrival " +
                     "WHERE product_id = (?) AND date BETWEEN (?) AND (?)";
+    private static final String SQL_SELECT_PRODUCT_COUNT_BY_ID_IN_PERIOD =
+            "SELECT * " +
+                    "FROM manufacture.public.arrival " +
+                    "WHERE product_id = (?) AND date BETWEEN (?) AND (?)";
 
 
-    @Override
-    public List<Arrival> findAll() {
+    public List<Arrival> findAllInTimePeriod(LocalDate startDate, LocalDate endDate) {
         List<Arrival> arrivals = new ArrayList<>();
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_ARRIVALS);
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ALL_ARRIVALS_IN_PERIOD)) {
+            ps.setDate(1, Date.valueOf(startDate));
+            ps.setDate(2, Date.valueOf(endDate));
+            ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
                 String doc = resultSet.getString("doc");
                 double count = resultSet.getDouble("count");
@@ -83,6 +90,22 @@ public class ArrivalDaoPg implements ArrivalDao {
         return arrivals;
     }
 
+    public int countOfProductInTimePeriod(Product product, LocalDate startDate, LocalDate endDate) {
+        int count = 0;
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_COUNT_BY_ID_IN_PERIOD)) {
+            ps.setInt(1, product.getId());
+            ps.setDate(2, Date.valueOf(startDate));
+            ps.setDate(3, Date.valueOf(endDate));
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                count += resultSet.getInt("count");
+            }
+        } catch (SQLException e) {
+
+        }
+        return count;
+    }
+
     private void buildArrivalWithProductId(int id, List<Arrival> arrivals, PreparedStatement ps) throws SQLException {
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next()) {
@@ -94,6 +117,11 @@ public class ArrivalDaoPg implements ArrivalDao {
             User user = new User(resultSet.getInt("user_id"));
             arrivals.add(new Arrival(doc, count, date, product, price, user));
         }
+    }
+
+    @Override
+    public List findAll() throws SQLException {
+        return null;
     }
 
     @Override

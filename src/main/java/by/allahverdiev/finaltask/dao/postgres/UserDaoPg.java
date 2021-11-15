@@ -14,6 +14,9 @@ public class UserDaoPg implements UserDao {
     private static final Logger LOGGER = LogManager.getLogger(UserDaoPg.class);
     Connection connection;
 
+    public UserDaoPg() {
+    }
+
     public UserDaoPg(Connection newConnection) {
         this.connection = newConnection;
     }

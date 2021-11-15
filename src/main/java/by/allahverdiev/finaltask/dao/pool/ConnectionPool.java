@@ -80,7 +80,6 @@ public final class ConnectionPool {
 
 	public synchronized void init() {
 		try {
-            logger.info("start init connection pool");
             properties.load(new FileReader("H:\\FinalTask\\src\\main\\resources\\database.properties"));
             String driverName = (String) properties.get("db.driver");
             Class.forName(driverName);
@@ -91,7 +90,6 @@ public final class ConnectionPool {
             for (int counter = 0; counter < startSize; counter++) {
                 freeConnections.put(createConnection());
             }
-            logger.info("end init connection pool");
 		} catch (ClassNotFoundException | IOException | SQLException | InterruptedException e) {
             logger.fatal(e.getMessage()); // fatal exception
 		}

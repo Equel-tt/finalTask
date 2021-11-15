@@ -8,6 +8,7 @@ public class CommandProvider {
 
     public CommandProvider() {
         repository.put(CommandName.FIND_PRODUCT_BY_ID, new FindProductByIdCommand());
+        repository.put(CommandName.FIND_ALL_PRODUCTS_IN_CURRENT_DATE, new FindAllProdInCurrDateCommand());
 
     }
 

@@ -81,7 +81,7 @@ public class ProductDaoPg implements ProductDao {
     }
 
     /**
-     * update product type using reference table
+     * update product type using reference table "manufacture.public.product_type"
      */
     private void updateType(Entity entity) {
         int id = ((ProductType) entity).getId();
@@ -97,7 +97,7 @@ public class ProductDaoPg implements ProductDao {
     }
 
     /**
-     * update provider using reference table
+     * update provider using reference table "manufacture.public.provider"
      */
     private void updateProvider(Entity entity) {
         int id = ((Provider) entity).getId();

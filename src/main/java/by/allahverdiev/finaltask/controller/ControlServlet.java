@@ -32,7 +32,7 @@ public class ControlServlet extends HttpServlet {
 //            ProductDaoPg daoPg = new ProductDaoPg(ConnectionCreator.createConnection());
 //            List<Product> set = daoPg.findAll();
 //            request.setAttribute("products", set);
-//            getServletContext().getRequestDispatcher("/result.jsp").forward(request, response);
+//            getServletContext().getRequestDispatcher("/.jsp").forward(request, response);
 //        } catch (SQLException | ServletException | IOException e) {
 //            e.printStackTrace();
 //        }
