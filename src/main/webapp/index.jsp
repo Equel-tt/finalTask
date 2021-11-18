@@ -8,14 +8,11 @@
 <body>
 <h2><%="Find product by ID"%>
 </h2>
-
 <form action="${pageContext.request.contextPath}/control" method="post">
     <input type="hidden" name="command" value="FIND_PRODUCT_BY_ID"/>
     <input type="hidden" name="destination" value="/ProductOverview.jsp"/>
     <input required="required" type="text" name="productId" placeholder="type ID of product"/>
     <input type="submit" value="ok"/>
-    <br>
-    <br>
 </form>
 <br>
 <br>
@@ -26,6 +23,40 @@
     <input type="hidden" name="destination" value="/Warehouse.jsp"/>
     <input type="hidden" name="command" value="FIND_ALL_PRODUCTS_IN_CURRENT_DATE">
     <input type="submit" value="ok">
+</form>
+<br>
+<br>
+<h2><%="Need overview"%>
+</h2>
+<form action="${pageContext.request.contextPath}/control" method="post">
+    <input type="hidden" name="destination" value="/NeedOverview.jsp"/>
+    <input type="hidden" name="command" value="FIND_ALL_NEED">
+    <input type="submit" value="Show all need">
+</form>
+<br>
+<form action="${pageContext.request.contextPath}/control" method="post">
+    <input type="hidden" name="destination" value="/NeedOverview.jsp"/>
+    <input type="hidden" name="command" value="FIND_NEED_FOR_MONTH">
+    <input type="date" name="date">
+    <input type="submit" value="Show need">
+</form>
+<br>
+<br>
+<h2><%="Bookkeeping overview"%>
+</h2>
+<form action="${pageContext.request.contextPath}/control" method="post">
+    <input type="hidden" name="destination" value="/Archive.jsp"/>
+    <input type="hidden" name="command" value="ADD_ARCHIVE_ENTRY">
+    <input type="date" name="date">
+    <input type="submit" value="'Close' month">
+    <br>
+    <br>
+    <form action="${pageContext.request.contextPath}/control" method="post">
+        <input type="hidden" name="destination" value="/Archive.jsp"/>
+        <input type="hidden" name="command" value="">
+        <input type="date" name="date">
+        <input type="submit" value="View archive entry">
+    </form>
 </form>
 </body>
 </html>

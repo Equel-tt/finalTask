@@ -129,6 +129,19 @@ public class ProductDaoPg implements ProductDao {
 
     @Override
     public Entity update(Entity entity) {
-        return null;
+        int id = ((Product) entity).getId();
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                ((Product) entity).setName(resultSet.getString("name"));
+                ((Product) entity).setManager(new User(resultSet.getInt("manager_id")));
+                ((Product) entity).setProductType(new ProductType(resultSet.getInt("product_type_id")));
+                ((Product) entity).setProvider(new Provider(resultSet.getInt("provider_id")));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return entity;
     }
 }

@@ -8,8 +8,18 @@ public class ServiceFactory {
     }
 
     private final WarehouseService warehouseService = new WarehouseService();
+    private final SupplyService supplyService = new SupplyService();
+    private final BookkeepingService bookkeepingService = new BookkeepingService();
 
     public WarehouseService getWarehouseService() {
         return warehouseService;
+    }
+
+    public SupplyService getSupplyService() {
+        return supplyService;
+    }
+
+    public BookkeepingService getBookkeepingService() {
+        return bookkeepingService;
     }
 }

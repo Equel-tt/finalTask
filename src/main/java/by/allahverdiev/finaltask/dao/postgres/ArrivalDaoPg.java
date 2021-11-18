@@ -15,13 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArrivalDaoPg implements ArrivalDao {
-    private static final Logger LOGGER = LogManager.getLogger(ArrivalDaoPg.class);
+    private static final Logger Logger = LogManager.getLogger(ArrivalDaoPg.class);
     private static final LocalDate startDate = LocalDate.of(2021, 01, 07);
     DateConversion conversion = new DateConversion();
     Connection connection;
-
-    public ArrivalDaoPg() {
-    }
 
     public ArrivalDaoPg(Connection newConnection) {
         this.connection = newConnection;
@@ -61,7 +58,7 @@ public class ArrivalDaoPg implements ArrivalDao {
                 arrivals.add(new Arrival(doc, count, date, product, price, user));
             }
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
+            Logger.error(e.getMessage());
         }
         return arrivals;
     }
@@ -72,7 +69,7 @@ public class ArrivalDaoPg implements ArrivalDao {
             ps.setInt(1, id);
             buildArrivalWithProductId(id, arrivals, ps);
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
+            Logger.error(e.getMessage());
         }
         return arrivals;
     }
@@ -85,7 +82,7 @@ public class ArrivalDaoPg implements ArrivalDao {
             ps.setDate(3, Date.valueOf(end));
             buildArrivalWithProductId(id, arrivals, ps);
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
+            Logger.error(e.getMessage());
         }
         return arrivals;
     }

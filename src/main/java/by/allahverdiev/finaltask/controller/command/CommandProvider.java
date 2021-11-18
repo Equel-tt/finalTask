@@ -9,6 +9,9 @@ public class CommandProvider {
     public CommandProvider() {
         repository.put(CommandName.FIND_PRODUCT_BY_ID, new FindProductByIdCommand());
         repository.put(CommandName.FIND_ALL_PRODUCTS_IN_CURRENT_DATE, new FindAllProdInCurrDateCommand());
+        repository.put(CommandName.FIND_ALL_NEED, new FindAllNeedCommand());
+        repository.put(CommandName.FIND_NEED_FOR_MONTH, new FindNeedForMonthCommand());
+        repository.put(CommandName.ADD_ARCHIVE_ENTRY, new AddArchiveEntryCommand());
 
     }
 

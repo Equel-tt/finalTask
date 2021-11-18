@@ -9,12 +9,11 @@ import by.allahverdiev.finaltask.service.WarehouseService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
-import java.util.Map;
 
 public class Main {
     private static final Logger logger = LogManager.getLogger(ProductDaoPg.class);
@@ -32,17 +31,23 @@ public class Main {
 //        Map<Product,Integer> map = service.findAllProductsCountInCurrentDate(LocalDate.of(2021,01,01),LocalDate.of(2021,01,31), connection.getConnection());
 //        Map<Product,Integer> map = service.findAllProductsCountInCurrentDate(LocalDate.of(2021,02,01),LocalDate.of(2021,02,28), connection.getConnection());
 //        Map<Product,Integer> map = service.findAllProductsCountInCurrentDate(LocalDate.of(2021,03,01),LocalDate.of(2021,03,31), connection.getConnection());
-        Map<Product, Integer> map = service.findAllProductsCountInCurrentDate(LocalDate.of(2021, 04, 01), LocalDate.of(2021, 04, 30), connection.getConnection());
+//        Map<Product, Integer> map = service.findAllProductsCountInCurrentDate(LocalDate.of(2021, 04, 01), LocalDate.of(2021, 04, 30), connection.getConnection());
 
-        FileWriter writer = new FileWriter("H:\\FinalTask\\product4.txt", false);
-        FileWriter writer2 = new FileWriter("H:\\FinalTask\\count4.txt", false);
-        for (Map.Entry<Product, Integer> entry : map.entrySet()) {
-            writer.write(entry.getKey().getId() + "\n");
-            writer2.write(entry.getValue() + "\n");
-        }
-        writer.close();
-        writer2.close();
+//        FileWriter writer = new FileWriter("H:\\FinalTask\\product4.txt", false);
+//        FileWriter writer2 = new FileWriter("H:\\FinalTask\\count4.txt", false);
+//        for (Map.Entry<Product, Integer> entry : map.entrySet()) {
+//            writer.write(entry.getKey().getId() + "\n");
+//            writer2.write(entry.getValue() + "\n");
+//        }
+//        writer.close();
+//        writer2.close();
+        LocalDate date = LocalDate.of(2021, 02, 15);
 
+        YearMonth mont = YearMonth.of(date.getYear(), date.getMonthValue());
+        LocalDate startDate = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
+        LocalDate endDate = mont.atEndOfMonth();
+        System.out.println(startDate);
+        System.out.println(endDate);
 //        for (Entity product : products) {
 //            System.out.println(product);
 //        }
