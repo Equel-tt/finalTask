@@ -12,6 +12,8 @@ public class CommandProvider {
         repository.put(CommandName.FIND_ALL_NEED, new FindAllNeedCommand());
         repository.put(CommandName.FIND_NEED_FOR_MONTH, new FindNeedForMonthCommand());
         repository.put(CommandName.ADD_ARCHIVE_ENTRY, new AddArchiveEntryCommand());
+        repository.put(CommandName.FIND_ALL_ARCHIVE, new FindAllArchiveCommand());
+        repository.put(CommandName.FIND_ARCHIVE_ENTRY_BY_MONTH, new FindArchiveEntryByMonthCommand());
 
     }
 

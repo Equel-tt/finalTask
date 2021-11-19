@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 public class FindArchiveEntryByMonthCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(AddArchiveEntryCommand.class);
+    private static final Logger logger = LogManager.getLogger(FindArchiveEntryByMonthCommand.class);
     DateConversion conversion = new DateConversion();
 
     ServiceFactory factory = ServiceFactory.getInstance();

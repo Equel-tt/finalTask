@@ -11,7 +11,7 @@
         </Console>
         <File name="LogFile" fileName="H:\\FinalTask\\log_file.log">
             <!--        <File name="LogFile" fileName="h:\\JAVA\\Server\\apache-tomcat\\logs\\log_file.log">-->
-            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{3} - %msg%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{2} - %msg%n"/>
         </File>
     </Appenders>
     <Loggers>

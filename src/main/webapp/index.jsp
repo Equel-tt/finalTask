@@ -44,19 +44,27 @@
 <br>
 <h2><%="Bookkeeping overview"%>
 </h2>
-<form action="${pageContext.request.contextPath}/control" method="post">
-    <input type="hidden" name="destination" value="/Archive.jsp"/>
+<form action="${pageContext.request.contextPath}/control" method="post" name="createEntry">
+    <input type="hidden" name="destination" value="/Answer.jsp"/>
     <input type="hidden" name="command" value="ADD_ARCHIVE_ENTRY">
     <input type="date" name="date">
     <input type="submit" value="'Close' month">
-    <br>
-    <br>
-    <form action="${pageContext.request.contextPath}/control" method="post">
-        <input type="hidden" name="destination" value="/Archive.jsp"/>
-        <input type="hidden" name="command" value="">
-        <input type="date" name="date">
-        <input type="submit" value="View archive entry">
-    </form>
 </form>
+<br>
+<br>
+<form action="${pageContext.request.contextPath}/control" method="post" name="findInMonth">
+    <input type="hidden" name="destination" value="/Archive.jsp"/>
+    <input type="hidden" name="command" value="FIND_ARCHIVE_ENTRY_BY_MONTH">
+    <input type="date" name="date">
+    <input type="submit" value="View archive entry">
+</form>
+<br>
+<br>
+<form action="${pageContext.request.contextPath}/control" method="post" name="findAll">
+    <input type="hidden" name="destination" value="/Archive.jsp"/>
+    <input type="hidden" name="command" value="FIND_ALL_ARCHIVE">
+    <input type="submit" value="Show all archive">
+</form>
+
 </body>
 </html>

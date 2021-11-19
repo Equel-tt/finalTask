@@ -1,6 +1,7 @@
 package by.allahverdiev.finaltask.dao.postgres;
 
 import by.allahverdiev.finaltask.dao.Dao;
+import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.entity.Archive;
 import by.allahverdiev.finaltask.entity.Entity;
 import by.allahverdiev.finaltask.entity.Product;
@@ -58,19 +59,7 @@ public class ArchiveDao implements Dao {
         List<Archive> archive = new ArrayList<>();
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
         LocalDate currentDate = tempMonth.atEndOfMonth();
-        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARCHIVE_AT_MONTH)) {
-            ps.setDate(1, Date.valueOf(currentDate));
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                LocalDate month = conversion.toLocalDate(resultSet.getDate("month"));
-                Product product = new Product(resultSet.getInt("product_id"));
-                int count = resultSet.getInt("count");
-                archive.add(new Archive(month, product, count));
-            }
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-        }
-        return archive;
+        return buildArchiveList(archive, currentDate);
     }
 
     public void createArchiveEntry(LocalDate date, Map<Product, Integer> map) {
@@ -87,16 +76,59 @@ public class ArchiveDao implements Dao {
     }
 
     public boolean isArchiveEntryExist(LocalDate date) {
-        boolean isExist = false;
-        LocalDate startDate = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
+        boolean isExist = true;
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARCHIVE_AT_MONTH)) {
-            ps.setDate(1, Date.valueOf(startDate));
-            isExist = ps.execute();
-            logger.info(isExist + "после проверки на существование записи в методе isArchiveEntryExist");
+            ps.setDate(1, Date.valueOf(date));
+            ResultSet resultSet = ps.executeQuery();
+            isExist = resultSet.next();
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
+        logger.info(isExist + " существует ли запись");
         return isExist;
+    }
+
+    //    public List findLastArchiveEntry(LocalDate date) {
+//        LocalDate previousMonth = date;
+//        List<Archive> archive = new ArrayList<>();
+//        for (int i = 1; i < 12; i++) {
+//            previousMonth = date.minusMonths(i);
+//            logger.info(previousMonth);
+//            if (isArchiveEntryExist(previousMonth)){
+//                return buildArchiveList(archive, previousMonth);
+//            }
+//        }
+//        return archive;
+//    }
+    public List findLastArchiveEntry(LocalDate date) throws RegulationException {
+        List<Archive> archive = new ArrayList<>();
+        logger.info(date + " пришедшее значение месяца в методе findLastArchiveEntry");
+        LocalDate previousMonth = date.minusMonths(1);
+        YearMonth tempMonth = YearMonth.of(previousMonth.getYear(), previousMonth.getMonthValue());
+        LocalDate lastDate = tempMonth.atEndOfMonth();
+        logger.info(previousMonth + " вычисленный предыдущий месяц");
+        if (isArchiveEntryExist(lastDate)) {
+            return buildArchiveList(archive, previousMonth);
+        } else {
+            throw new RegulationException("Предыдущий месяц не закрыт");
+        }
+    }
+
+    private List buildArchiveList(List<Archive> archive, LocalDate currentDate) {
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARCHIVE_AT_MONTH)) {
+            ps.setDate(1, Date.valueOf(currentDate));
+            ResultSet resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                LocalDate month = conversion.toLocalDate(resultSet.getDate("month"));
+                Product product = new Product(resultSet.getInt("product_id"));
+                int count = resultSet.getInt("count");
+                archive.add(new Archive(month, product, count));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return archive;
     }
 
     @Override

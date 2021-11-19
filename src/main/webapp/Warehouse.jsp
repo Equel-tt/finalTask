@@ -8,12 +8,14 @@
 <body>
 <table border="1px">
     <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Count</th>
     </tr>
 
     <c:forEach items="${result.entrySet()}" var="product">
         <tr>
+            <td><c:out value="${product.getKey().id}"/></td>
             <td><c:out value="${product.getKey().name}"/></td>
             <td><c:out value="${product.getValue()}"/></td>
         </tr>

@@ -1,5 +1,6 @@
 package by.allahverdiev.finaltask.service;
 
+import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.dao.postgres.ArchiveDao;
 import by.allahverdiev.finaltask.dao.postgres.ArrivalDaoPg;
 import by.allahverdiev.finaltask.dao.postgres.ConsumptionDaoPg;
@@ -21,11 +22,11 @@ import java.util.Map;
 public class BookkeepingService implements Service {
     private static final Logger logger = LogManager.getLogger(BookkeepingService.class);
 
-    public boolean createArchiveEntry(LocalDate date, Connection connection) {
+    public boolean createArchiveEntry(LocalDate date, Connection connection) throws RegulationException {
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
         LocalDate start = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
         LocalDate month = tempMonth.atEndOfMonth();
-        logger.info(month + "месяц после обработки в сервисе");
+        logger.info(month + " месяц после обработки в сервисе");
         ArchiveDao archiveDao = new ArchiveDao(connection);
         if (!archiveDao.isArchiveEntryExist(month)) {
             logger.info("записи в архиве нет");
@@ -51,6 +52,18 @@ public class BookkeepingService implements Service {
                 }
                 result.put(product, count);
             }
+
+            if (!month.equals(LocalDate.parse("2021-01-31"))) {
+                List<Archive> archiveList = archiveDao.findLastArchiveEntry(date);
+                for (Map.Entry<Product, Integer> map : result.entrySet()) {
+                    for (Archive archive : archiveList) {
+                        if (map.getKey().getId() == archive.getProduct().getId()) {
+                            map.setValue(map.getValue() + archive.getCount());
+                        }
+                    }
+                }
+            }
+
             archiveDao.createArchiveEntry(month, result);
             return true;
         }
@@ -62,5 +75,10 @@ public class BookkeepingService implements Service {
         LocalDate month = tempMonth.atEndOfMonth();
         ArchiveDao archiveDao = new ArchiveDao(connection);
         return archiveDao.findEntryForMonth(month);
+    }
+
+    public List<Archive> findAllArchive(Connection connection) {
+        ArchiveDao archiveDao = new ArchiveDao(connection);
+        return (List<Archive>) archiveDao.findAll();
     }
 }

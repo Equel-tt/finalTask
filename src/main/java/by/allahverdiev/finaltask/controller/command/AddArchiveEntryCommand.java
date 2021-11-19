@@ -1,5 +1,6 @@
 package by.allahverdiev.finaltask.controller.command;
 
+import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
 import by.allahverdiev.finaltask.service.BookkeepingService;
 import by.allahverdiev.finaltask.service.DateConversion;
@@ -34,7 +35,8 @@ public class AddArchiveEntryCommand implements Command {
                 logger.info(answer);
             }
             request.setAttribute("result", answer);
-        } catch (ParseException e) {
+        } catch (ParseException | RuntimeException | RegulationException e) {
+            request.setAttribute("result", e.getMessage());
             logger.info(e.getMessage());
         }
         return request;
