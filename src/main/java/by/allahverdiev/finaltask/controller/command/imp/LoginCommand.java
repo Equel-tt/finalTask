@@ -29,14 +29,14 @@ public class LoginCommand implements Command {
             session.setAttribute("user", user);
             request.setAttribute("result", "Успешно вошли в систему");
             request.setAttribute("destination", map.getDestination(this.getClass().getName()));
+            request.setAttribute("way", "forward");
             logger.debug("вышли из команды");
         } catch (AccessException e) {
             logger.debug("попали в исключение команды Login");
-            request.setAttribute("result", e.getMessage());
             logger.info(e.getMessage());
-            request.setAttribute("destination", "/index.jsp");
+//            request.setAttribute("destination", "/login.jsp");
+            request.setAttribute("way", "redirect");
         }
-        request.setAttribute("way", "forward");
         return request;
     }
 }

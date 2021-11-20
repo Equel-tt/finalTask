@@ -43,6 +43,7 @@ public class AddArchiveEntryCommand implements Command {
             logger.info(e.getMessage());
         }
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));
+        request.setAttribute("way", "forward");
         return request;
     }
 }

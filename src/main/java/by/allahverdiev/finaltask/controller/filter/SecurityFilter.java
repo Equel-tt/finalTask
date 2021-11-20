@@ -49,12 +49,16 @@ public class SecurityFilter implements Filter {
             everythingIsAllowed = true;
         }
         if (everythingIsAllowed) {
-            logger.info(everythingIsAllowed + " фильтр до сервлета");
+            logger.debug(everythingIsAllowed + " фильтр до сервлета");
             chain.doFilter(request, response);
-            logger.info(" фильтр после сервлета");
+            logger.debug(" фильтр после сервлета");
         } else {
             response.sendRedirect(request.getContextPath());
-            logger.info("Доступ ЗАПРЕЩЕН!");
+            logger.info("Доступ запрещен");
         }
+    }
+
+    @Override
+    public void destroy() {
     }
 }

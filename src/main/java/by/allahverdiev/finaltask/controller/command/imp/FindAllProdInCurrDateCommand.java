@@ -2,8 +2,8 @@ package by.allahverdiev.finaltask.controller.command.imp;
 
 import by.allahverdiev.finaltask.controller.command.Command;
 import by.allahverdiev.finaltask.controller.command.DestinationMap;
+import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
-import by.allahverdiev.finaltask.dao.postgres.ConsumptionDaoPg;
 import by.allahverdiev.finaltask.entity.Product;
 import by.allahverdiev.finaltask.service.DateConversion;
 import by.allahverdiev.finaltask.service.ServiceFactory;
@@ -29,16 +29,15 @@ public class FindAllProdInCurrDateCommand implements Command {
     @Override
     public HttpServletRequest execute(HttpServletRequest request) {
         try {
-            String s = request.getParameter("end");
+            String s = request.getParameter("date");
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = format.parse(s);
-            LocalDate end = conversion.toLocalDate(date);
-            logger.info(end);
-            Map<Product, Integer> products = service.findAllProductsCountInCurrentDate(ConsumptionDaoPg.startDate, end, ConnectionPool.getInstance().getConnection());
-            logger.info(products.isEmpty());
+            Date tempDate = format.parse(s);
+            LocalDate date = conversion.toLocalDate(tempDate);
+            Map<Product, Integer> products = service.findAllProductsCountInCurrentDate(date, ConnectionPool.getInstance().getConnection());
             request.setAttribute("result", products);
             request.setAttribute("destination", map.getDestination(this.getClass().getName()));
-        } catch (ParseException e) {
+            request.setAttribute("way", "forward");
+        } catch (ParseException | RegulationException e) {
             logger.info(e.getMessage());
         }
         return request;

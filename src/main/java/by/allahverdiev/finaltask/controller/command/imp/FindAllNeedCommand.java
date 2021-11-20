@@ -23,6 +23,7 @@ public class FindAllNeedCommand implements Command {
         List<Need> result = service.findAllNeed(ConnectionPool.getInstance().getConnection());
         request.setAttribute("result", result);
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));
+        request.setAttribute("way", "forward");
         return request;
     }
 }

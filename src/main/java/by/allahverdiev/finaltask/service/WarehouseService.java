@@ -1,13 +1,8 @@
 package by.allahverdiev.finaltask.service;
 
-import by.allahverdiev.finaltask.dao.postgres.ArrivalDaoPg;
-import by.allahverdiev.finaltask.dao.postgres.ConsumptionDaoPg;
-import by.allahverdiev.finaltask.dao.postgres.ProductDaoPg;
-import by.allahverdiev.finaltask.dao.postgres.UserDaoPg;
-import by.allahverdiev.finaltask.entity.Arrival;
-import by.allahverdiev.finaltask.entity.Consumption;
-import by.allahverdiev.finaltask.entity.Entity;
-import by.allahverdiev.finaltask.entity.Product;
+import by.allahverdiev.finaltask.dao.RegulationException;
+import by.allahverdiev.finaltask.dao.postgres.*;
+import by.allahverdiev.finaltask.entity.*;
 
 import java.sql.Connection;
 import java.time.LocalDate;
@@ -26,14 +21,16 @@ public class WarehouseService implements Service {
         return product;
     }
 
-    public Map<Product, Integer> findAllProductsCountInCurrentDate(LocalDate start, LocalDate end, Connection connection) {
+    public Map<Product, Integer> findAllProductsCountInCurrentDate(LocalDate date, Connection connection) throws RegulationException {
+        LocalDate start = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
+        ;
         Map<Product, Integer> result = new HashMap<>();
         ProductDaoPg productDao = new ProductDaoPg(connection);
         List<Product> productList = productDao.findAll();
         ArrivalDaoPg arrivalDao = new ArrivalDaoPg(connection);
-        List<Arrival> arrivalList = arrivalDao.findAllInTimePeriod(start, end);
+        List<Arrival> arrivalList = arrivalDao.findAllInTimePeriod(start, date);
         ConsumptionDaoPg consumptionDao = new ConsumptionDaoPg(connection);
-        List<Consumption> consumptionsList = consumptionDao.findAllInTimePeriod(start, end);
+        List<Consumption> consumptionsList = consumptionDao.findAllInTimePeriod(start, date);
 
         for (Product product : productList) {
             int count = 0;
@@ -48,6 +45,19 @@ public class WarehouseService implements Service {
                 }
             }
             result.put(product, count);
+        }
+        //find last archive entry and its date, if non exist - use static startDate (start date of accounting)
+
+        if (date.getMonthValue() != 1 && date.getYear() != 2021) {
+            ArchiveDaoPg archiveDao = new ArchiveDaoPg(connection);
+            List<Archive> archiveList = archiveDao.findLastArchiveEntry(date);
+            for (Map.Entry<Product, Integer> entry : result.entrySet()) {
+                for (Archive archive : archiveList) {
+                    if (entry.getKey().getId() == archive.getProduct().getId()) {
+                        entry.setValue(entry.getValue() + archive.getCount());
+                    }
+                }
+            }
         }
         return result;
     }

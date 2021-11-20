@@ -35,6 +35,7 @@ public class FindNeedForMonthCommand implements Command {
             List<Need> result = service.findNeedForCurrentMonth(date, ConnectionPool.getInstance().getConnection());
             request.setAttribute("result", result);
             request.setAttribute("destination", map.getDestination(this.getClass().getName()));
+            request.setAttribute("way", "forward");
         } catch (ParseException e) {
             logger.info(e.getMessage());
         }

@@ -61,6 +61,7 @@ public class ControlServlet extends HttpServlet {
                     break;
                 case "forward":
                     String destination = "/WEB-INF/jsp" + request.getAttribute("destination");
+                    logger.info(destination);
                     getServletContext().getRequestDispatcher(destination).forward(request, response);
                     break;
             }

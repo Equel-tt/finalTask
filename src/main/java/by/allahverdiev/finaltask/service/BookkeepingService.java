@@ -1,7 +1,7 @@
 package by.allahverdiev.finaltask.service;
 
 import by.allahverdiev.finaltask.dao.RegulationException;
-import by.allahverdiev.finaltask.dao.postgres.ArchiveDao;
+import by.allahverdiev.finaltask.dao.postgres.ArchiveDaoPg;
 import by.allahverdiev.finaltask.dao.postgres.ArrivalDaoPg;
 import by.allahverdiev.finaltask.dao.postgres.ConsumptionDaoPg;
 import by.allahverdiev.finaltask.dao.postgres.ProductDaoPg;
@@ -27,7 +27,7 @@ public class BookkeepingService implements Service {
         LocalDate start = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
         LocalDate month = tempMonth.atEndOfMonth();
         logger.info(month + " месяц после обработки в сервисе");
-        ArchiveDao archiveDao = new ArchiveDao(connection);
+        ArchiveDaoPg archiveDao = new ArchiveDaoPg(connection);
         if (!archiveDao.isArchiveEntryExist(month)) {
             logger.info("записи в архиве нет");
             Map<Product, Integer> result = new HashMap<>();
@@ -73,12 +73,17 @@ public class BookkeepingService implements Service {
     public List<Archive> findArchiveEntryByMonth(LocalDate date, Connection connection) {
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
         LocalDate month = tempMonth.atEndOfMonth();
-        ArchiveDao archiveDao = new ArchiveDao(connection);
+        ArchiveDaoPg archiveDao = new ArchiveDaoPg(connection);
         return archiveDao.findEntryForMonth(month);
     }
 
     public List<Archive> findAllArchive(Connection connection) {
-        ArchiveDao archiveDao = new ArchiveDao(connection);
-        return (List<Archive>) archiveDao.findAll();
+        ArchiveDaoPg archiveDaoPg = new ArchiveDaoPg(connection);
+        return archiveDaoPg.findAll();
+    }
+
+    public List<Archive> findPreviousArchiveEntry(LocalDate date, Connection connection) throws RegulationException {
+        ArchiveDaoPg archiveDao = new ArchiveDaoPg(connection);
+        return archiveDao.findLastArchiveEntry(date);
     }
 }

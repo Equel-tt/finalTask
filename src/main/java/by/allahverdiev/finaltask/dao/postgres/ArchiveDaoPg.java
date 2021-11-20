@@ -16,13 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ArchiveDao implements Dao {
-    private static final Logger logger = LogManager.getLogger(ArchiveDao.class);
+public class ArchiveDaoPg implements Dao {
+    private static final Logger logger = LogManager.getLogger(ArchiveDaoPg.class);
     private static final LocalDate startDate = LocalDate.of(2021, 01, 07);
     DateConversion conversion = new DateConversion();
     Connection connection;
 
-    public ArchiveDao(Connection newConnection) {
+    public ArchiveDaoPg(Connection newConnection) {
         this.connection = newConnection;
     }
 
@@ -88,27 +88,13 @@ public class ArchiveDao implements Dao {
         return isExist;
     }
 
-    //    public List findLastArchiveEntry(LocalDate date) {
-//        LocalDate previousMonth = date;
-//        List<Archive> archive = new ArrayList<>();
-//        for (int i = 1; i < 12; i++) {
-//            previousMonth = date.minusMonths(i);
-//            logger.info(previousMonth);
-//            if (isArchiveEntryExist(previousMonth)){
-//                return buildArchiveList(archive, previousMonth);
-//            }
-//        }
-//        return archive;
-//    }
     public List findLastArchiveEntry(LocalDate date) throws RegulationException {
         List<Archive> archive = new ArrayList<>();
-        logger.info(date + " пришедшее значение месяца в методе findLastArchiveEntry");
         LocalDate previousMonth = date.minusMonths(1);
         YearMonth tempMonth = YearMonth.of(previousMonth.getYear(), previousMonth.getMonthValue());
         LocalDate lastDate = tempMonth.atEndOfMonth();
-        logger.info(previousMonth + " вычисленный предыдущий месяц");
         if (isArchiveEntryExist(lastDate)) {
-            return buildArchiveList(archive, previousMonth);
+            return buildArchiveList(archive, lastDate); //был previousMonth
         } else {
             throw new RegulationException("Предыдущий месяц не закрыт");
         }

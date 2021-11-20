@@ -18,7 +18,7 @@
 <h2><%="Warehouse overview"%>
 </h2>
 <form action="${pageContext.request.contextPath}/control" method="post">
-    <input type="date" name="end" id="endDate">
+    <input type="date" name="date" id="endDate">
     <input type="hidden" name="command" value="FIND_ALL_PRODUCTS_IN_CURRENT_DATE">
     <input type="submit" value="ok">
 </form>

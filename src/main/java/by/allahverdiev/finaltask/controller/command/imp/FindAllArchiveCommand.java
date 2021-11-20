@@ -23,6 +23,7 @@ public class FindAllArchiveCommand implements Command {
         List<Archive> result = service.findAllArchive(ConnectionPool.getInstance().getConnection());
         request.setAttribute("result", result);
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));
+        request.setAttribute("way", "forward");
         return request;
     }
 }
