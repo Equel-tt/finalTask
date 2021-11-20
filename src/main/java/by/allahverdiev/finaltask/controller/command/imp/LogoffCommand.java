@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.Connection;
 
 public class LogoffCommand implements Command {
     private static final Logger logger = LogManager.getLogger(LogoffCommand.class);
@@ -18,7 +19,7 @@ public class LogoffCommand implements Command {
     UserService service = factory.getUserService();
 
     @Override
-    public HttpServletRequest execute(HttpServletRequest request) {
+    public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
         HttpSession session = request.getSession(false);
         logger.info(session.isNew() + " есть ли сессия");
 //        session.removeAttribute("user");

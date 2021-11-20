@@ -1,7 +1,7 @@
 package by.allahverdiev.finaltask.controller;
 
 import by.allahverdiev.finaltask.controller.command.CommandController;
-import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
+import by.allahverdiev.finaltask.service.InitializationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,7 +24,7 @@ public class ControlServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        ConnectionPool.getInstance().init();
+        InitializationService.getInstance().initialize();
     }
 
     @Override
@@ -50,8 +50,6 @@ public class ControlServlet extends HttpServlet {
         try {
             CommandController control = new CommandController();
             control.executeTask(request);
-//            String destination = "/WEB-INF/jsp" + request.getAttribute("destination");
-//            getServletContext().getRequestDispatcher(destination).forward(request, response);
             String way = (String) request.getAttribute("way");
             logger.info(way);
             switch (way) {

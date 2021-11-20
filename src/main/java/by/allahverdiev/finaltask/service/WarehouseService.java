@@ -1,5 +1,6 @@
 package by.allahverdiev.finaltask.service;
 
+import by.allahverdiev.finaltask.dao.DaoFactory;
 import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.dao.postgres.*;
 import by.allahverdiev.finaltask.entity.*;
@@ -11,11 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 public class WarehouseService implements Service {
+    DaoFactory factory = DaoFactory.getInstance();
 
     public Entity findProductById(int newId, Connection connection) {
 //        DaoFactory factory = DaoFactory.getInstance();
-        ProductDaoPg productDao = new ProductDaoPg(connection);
-        UserDaoPg userDao = new UserDaoPg(connection);
+        ProductDaoPg productDao = factory.getProductDao(connection);
+        UserDaoPg userDao = factory.getUserDao(connection);
         Product product = productDao.findEntityById(newId);
         userDao.update(product.getManager());
         return product;
@@ -25,11 +27,11 @@ public class WarehouseService implements Service {
         LocalDate start = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
         ;
         Map<Product, Integer> result = new HashMap<>();
-        ProductDaoPg productDao = new ProductDaoPg(connection);
+        ProductDaoPg productDao = factory.getProductDao(connection);
         List<Product> productList = productDao.findAll();
-        ArrivalDaoPg arrivalDao = new ArrivalDaoPg(connection);
+        ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);
         List<Arrival> arrivalList = arrivalDao.findAllInTimePeriod(start, date);
-        ConsumptionDaoPg consumptionDao = new ConsumptionDaoPg(connection);
+        ConsumptionDaoPg consumptionDao = factory.getConsumptionDao(connection);
         List<Consumption> consumptionsList = consumptionDao.findAllInTimePeriod(start, date);
 
         for (Product product : productList) {
@@ -46,10 +48,9 @@ public class WarehouseService implements Service {
             }
             result.put(product, count);
         }
-        //find last archive entry and its date, if non exist - use static startDate (start date of accounting)
-
+        //find last archive entry, and it's date, if not exist - use static startDate (start date of accounting)
         if (date.getMonthValue() != 1 && date.getYear() != 2021) {
-            ArchiveDaoPg archiveDao = new ArchiveDaoPg(connection);
+            ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);
             List<Archive> archiveList = archiveDao.findLastArchiveEntry(date);
             for (Map.Entry<Product, Integer> entry : result.entrySet()) {
                 for (Archive archive : archiveList) {

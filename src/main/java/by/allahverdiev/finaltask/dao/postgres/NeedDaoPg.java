@@ -19,6 +19,13 @@ public class NeedDaoPg implements Dao {
     DateConversion conversion = new DateConversion();
     Connection connection;
 
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public NeedDaoPg() {
+    }
+
     public NeedDaoPg(Connection newConnection) {
         this.connection = newConnection;
     }

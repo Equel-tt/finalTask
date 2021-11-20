@@ -20,6 +20,13 @@ public class ArrivalDaoPg implements ArrivalDao {
     DateConversion conversion = new DateConversion();
     Connection connection;
 
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public ArrivalDaoPg() {
+    }
+
     public ArrivalDaoPg(Connection newConnection) {
         this.connection = newConnection;
     }

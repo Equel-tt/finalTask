@@ -20,6 +20,13 @@ public class ConsumptionDaoPg implements Dao {
     DateConversion conversion = new DateConversion();
     Connection connection;
 
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public ConsumptionDaoPg() {
+    }
+
     public ConsumptionDaoPg(Connection connection) {
         this.connection = connection;
     }

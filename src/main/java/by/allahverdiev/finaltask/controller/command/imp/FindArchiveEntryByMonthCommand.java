@@ -2,7 +2,6 @@ package by.allahverdiev.finaltask.controller.command.imp;
 
 import by.allahverdiev.finaltask.controller.command.Command;
 import by.allahverdiev.finaltask.controller.command.DestinationMap;
-import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
 import by.allahverdiev.finaltask.entity.Archive;
 import by.allahverdiev.finaltask.service.BookkeepingService;
 import by.allahverdiev.finaltask.service.DateConversion;
@@ -11,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -26,13 +26,13 @@ public class FindArchiveEntryByMonthCommand implements Command {
     BookkeepingService service = factory.getBookkeepingService();
 
     @Override
-    public HttpServletRequest execute(HttpServletRequest request) {
+    public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
         try {
             String s = request.getParameter("date");
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date tempDate = format.parse(s);
             LocalDate date = conversion.toLocalDate(tempDate);
-            List<Archive> result = service.findArchiveEntryByMonth(date, ConnectionPool.getInstance().getConnection());
+            List<Archive> result = service.findArchiveEntryByMonth(date, connection);
             request.setAttribute("result", result);
             request.setAttribute("destination", map.getDestination(this.getClass().getName()));
             request.setAttribute("way", "forward");

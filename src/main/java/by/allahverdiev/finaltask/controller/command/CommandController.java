@@ -1,5 +1,7 @@
 package by.allahverdiev.finaltask.controller.command;
 
+import by.allahverdiev.finaltask.dao.TransactionFactory;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class CommandController {
@@ -9,13 +11,13 @@ public class CommandController {
     }
 
     public HttpServletRequest executeTask(HttpServletRequest request) {
-//        String request = validator.takeLine();
+//        String request = validator.takeLine();//TODO Валидаторы
         Command executionCommand;
         try {
             executionCommand = provider.getCommand(request.getParameter("command"));
-            request = executionCommand.execute(request);
+            request = executionCommand.execute(request, TransactionFactory.getInstance().getConnection());
         } catch (Exception e) {
-
+            //TODO пустой catch
         }
         return request;
     }

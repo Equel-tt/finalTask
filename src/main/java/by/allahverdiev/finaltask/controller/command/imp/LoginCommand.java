@@ -2,7 +2,6 @@ package by.allahverdiev.finaltask.controller.command.imp;
 
 import by.allahverdiev.finaltask.controller.command.Command;
 import by.allahverdiev.finaltask.controller.command.DestinationMap;
-import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
 import by.allahverdiev.finaltask.entity.User;
 import by.allahverdiev.finaltask.service.AccessException;
 import by.allahverdiev.finaltask.service.ServiceFactory;
@@ -12,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.Connection;
 
 public class LoginCommand implements Command {
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
@@ -21,9 +21,9 @@ public class LoginCommand implements Command {
     UserService service = factory.getUserService();
 
     @Override
-    public HttpServletRequest execute(HttpServletRequest request) {
+    public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
         try {
-            User user = service.login(ConnectionPool.getInstance().getConnection(), request.getParameter("login"), request.getParameter("password"));
+            User user = service.login(connection, request.getParameter("login"), request.getParameter("password"));
             logger.debug("старт команды Login");
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);

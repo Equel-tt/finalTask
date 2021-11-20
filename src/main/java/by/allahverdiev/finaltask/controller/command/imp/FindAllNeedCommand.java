@@ -2,7 +2,6 @@ package by.allahverdiev.finaltask.controller.command.imp;
 
 import by.allahverdiev.finaltask.controller.command.Command;
 import by.allahverdiev.finaltask.controller.command.DestinationMap;
-import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
 import by.allahverdiev.finaltask.entity.Need;
 import by.allahverdiev.finaltask.service.ServiceFactory;
 import by.allahverdiev.finaltask.service.SupplyService;
@@ -10,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Connection;
 import java.util.List;
 
 public class FindAllNeedCommand implements Command {
@@ -19,8 +19,8 @@ public class FindAllNeedCommand implements Command {
     SupplyService service = factory.getSupplyService();
 
     @Override
-    public HttpServletRequest execute(HttpServletRequest request) {
-        List<Need> result = service.findAllNeed(ConnectionPool.getInstance().getConnection());
+    public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
+        List<Need> result = service.findAllNeed(connection);
         request.setAttribute("result", result);
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));
         request.setAttribute("way", "forward");

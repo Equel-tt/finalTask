@@ -22,6 +22,13 @@ public class ArchiveDaoPg implements Dao {
     DateConversion conversion = new DateConversion();
     Connection connection;
 
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
+
+    public ArchiveDaoPg() {
+    }
+
     public ArchiveDaoPg(Connection newConnection) {
         this.connection = newConnection;
     }

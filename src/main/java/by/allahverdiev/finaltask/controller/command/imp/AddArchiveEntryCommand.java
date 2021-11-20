@@ -3,7 +3,6 @@ package by.allahverdiev.finaltask.controller.command.imp;
 import by.allahverdiev.finaltask.controller.command.Command;
 import by.allahverdiev.finaltask.controller.command.DestinationMap;
 import by.allahverdiev.finaltask.dao.RegulationException;
-import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
 import by.allahverdiev.finaltask.service.BookkeepingService;
 import by.allahverdiev.finaltask.service.DateConversion;
 import by.allahverdiev.finaltask.service.ServiceFactory;
@@ -11,6 +10,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class AddArchiveEntryCommand implements Command {
     BookkeepingService service = factory.getBookkeepingService();
 
     @Override
-    public HttpServletRequest execute(HttpServletRequest request) {
+    public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
         String answer = "";
         try {
             String s = request.getParameter("date");
@@ -33,12 +34,12 @@ public class AddArchiveEntryCommand implements Command {
             Date date = format.parse(s);
             LocalDate month = conversion.toLocalDate(date);
             logger.info(month);
-            if (service.createArchiveEntry(month, ConnectionPool.getInstance().getConnection())) {
+            if (service.createArchiveEntry(month, connection)) {
                 answer = "success";
                 logger.info(answer);
             }
             request.setAttribute("result", answer);
-        } catch (ParseException | RuntimeException | RegulationException e) {
+        } catch (ParseException | RuntimeException | RegulationException | SQLException e) {
             request.setAttribute("result", e.getMessage());
             logger.info(e.getMessage());
         }
