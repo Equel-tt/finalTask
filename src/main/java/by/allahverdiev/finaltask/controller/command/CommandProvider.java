@@ -1,5 +1,7 @@
 package by.allahverdiev.finaltask.controller.command;
 
+import by.allahverdiev.finaltask.controller.command.imp.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ public class CommandProvider {
         repository.put(CommandName.ADD_ARCHIVE_ENTRY, new AddArchiveEntryCommand());
         repository.put(CommandName.FIND_ALL_ARCHIVE, new FindAllArchiveCommand());
         repository.put(CommandName.FIND_ARCHIVE_ENTRY_BY_MONTH, new FindArchiveEntryByMonthCommand());
+        repository.put(CommandName.LOGIN, new LoginCommand());
 
     }
 

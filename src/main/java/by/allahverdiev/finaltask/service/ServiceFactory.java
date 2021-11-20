@@ -10,6 +10,7 @@ public class ServiceFactory {
     private final WarehouseService warehouseService = new WarehouseService();
     private final SupplyService supplyService = new SupplyService();
     private final BookkeepingService bookkeepingService = new BookkeepingService();
+    private final UserService userService = new UserService();
 
     public WarehouseService getWarehouseService() {
         return warehouseService;
@@ -21,5 +22,9 @@ public class ServiceFactory {
 
     public BookkeepingService getBookkeepingService() {
         return bookkeepingService;
+    }
+
+    public UserService getUserService() {
+        return userService;
     }
 }

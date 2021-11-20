@@ -7,7 +7,6 @@
     <%--    <link rel="stylesheet" href="stylesheet.css">--%>
 </head>
 <body>
-<%--<jsp:useBean id="result" scope="request" type="java.util.List"/>--%>
 <jsp:useBean id="result" scope="request" type="by.allahverdiev.finaltask.entity.Product"/>
 <table border="1px" cellpadding="4" cellspacing="0">
     <caption>Results</caption>
@@ -32,14 +31,6 @@
     </tr>
 
 </table>
-
-<br>
-<%--<c:out value="${result.name}"/>--%>
-<%--<c:out value="${result.manager.name}"/>--%>
-<%--<c:out value="${result.manager.surname}"/>--%>
-<%--<c:out value="${result.manager.patronymic}"/>--%>
-<%--<c:out value="${result.productType.name}"/>--%>
-<%--<c:out value="${result.provider.name}"/>--%>
 
 </body>
 </html>

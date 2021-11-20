@@ -1,7 +1,4 @@
-package by.allahverdiev.finaltask.controller;
-
-import by.allahverdiev.finaltask.controller.command.Command;
-import by.allahverdiev.finaltask.controller.command.CommandProvider;
+package by.allahverdiev.finaltask.controller.command;
 
 import javax.servlet.http.HttpServletRequest;
 

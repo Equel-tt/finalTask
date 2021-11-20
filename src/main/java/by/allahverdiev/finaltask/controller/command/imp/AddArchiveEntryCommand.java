@@ -1,5 +1,7 @@
-package by.allahverdiev.finaltask.controller.command;
+package by.allahverdiev.finaltask.controller.command.imp;
 
+import by.allahverdiev.finaltask.controller.command.Command;
+import by.allahverdiev.finaltask.controller.command.DestinationMap;
 import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
 import by.allahverdiev.finaltask.service.BookkeepingService;
@@ -16,6 +18,7 @@ import java.util.Date;
 
 public class AddArchiveEntryCommand implements Command {
     private static final Logger logger = LogManager.getLogger(AddArchiveEntryCommand.class);
+    DestinationMap map = new DestinationMap();
     DateConversion conversion = new DateConversion();
 
     ServiceFactory factory = ServiceFactory.getInstance();
@@ -39,6 +42,7 @@ public class AddArchiveEntryCommand implements Command {
             request.setAttribute("result", e.getMessage());
             logger.info(e.getMessage());
         }
+        request.setAttribute("destination", map.getDestination(this.getClass().getName()));
         return request;
     }
 }

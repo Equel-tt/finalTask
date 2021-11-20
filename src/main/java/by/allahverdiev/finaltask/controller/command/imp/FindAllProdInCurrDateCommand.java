@@ -1,5 +1,7 @@
-package by.allahverdiev.finaltask.controller.command;
+package by.allahverdiev.finaltask.controller.command.imp;
 
+import by.allahverdiev.finaltask.controller.command.Command;
+import by.allahverdiev.finaltask.controller.command.DestinationMap;
 import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
 import by.allahverdiev.finaltask.dao.postgres.ConsumptionDaoPg;
 import by.allahverdiev.finaltask.entity.Product;
@@ -19,6 +21,7 @@ import java.util.Map;
 public class FindAllProdInCurrDateCommand implements Command {
     private static final Logger logger = LogManager.getLogger(FindAllProdInCurrDateCommand.class);
     DateConversion conversion = new DateConversion();
+    DestinationMap map = new DestinationMap();
     ServiceFactory factory = ServiceFactory.getInstance();
     WarehouseService service = factory.getWarehouseService();
 
@@ -34,6 +37,7 @@ public class FindAllProdInCurrDateCommand implements Command {
             Map<Product, Integer> products = service.findAllProductsCountInCurrentDate(ConsumptionDaoPg.startDate, end, ConnectionPool.getInstance().getConnection());
             logger.info(products.isEmpty());
             request.setAttribute("result", products);
+            request.setAttribute("destination", map.getDestination(this.getClass().getName()));
         } catch (ParseException e) {
             logger.info(e.getMessage());
         }

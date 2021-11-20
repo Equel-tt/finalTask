@@ -8,7 +8,7 @@
     <display-name>Product control</display-name>
 
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>
     </welcome-file-list>
 
     <servlet>
@@ -19,19 +19,12 @@
         <servlet-name>control</servlet-name>
         <url-pattern>/control</url-pattern>
     </servlet-mapping>
-
-    <!--    <resource-ref>-->
-    <!--        <res-ref-name>jdbc/pool</res-ref-name>-->
-    <!--        <res-type>javax.sql.DataSource</res-type>-->
-    <!--        <res-auth>Container</res-auth>-->
-    <!--    </resource-ref>-->
-
     <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>by.allahverdiev.finaltask.controller.filter.EncodingFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/control</url-pattern>
     </filter-mapping>
 </web-app>

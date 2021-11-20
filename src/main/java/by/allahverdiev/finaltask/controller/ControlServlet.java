@@ -1,5 +1,6 @@
 package by.allahverdiev.finaltask.controller;
 
+import by.allahverdiev.finaltask.controller.command.CommandController;
 import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,20 +49,9 @@ public class ControlServlet extends HttpServlet {
     private void buildRequest(HttpServletRequest request, HttpServletResponse response) {
         try {
             CommandController control = new CommandController();
-            //работает
-//            ProductDaoPg daoPg = new ProductDaoPg(ConnectionPool.getInstance().getConnection());
-//            UserDaoPg userDaoPg = new UserDaoPg(ConnectionPool.getInstance().getConnection());
-//            Product product = daoPg.findEntityById(Integer.parseInt(request.getParameter("productId")));
-//            userDaoPg.update(product.getManager());
-//            logger.info(request.getParameter("productId"));
-//            logger.info(product.getName());
-//            List<Product> list = new ArrayList<>();
-//            list.add(product);
-//            request.setAttribute("products", list);
-//            getServletContext().getRequestDispatcher(request.getParameter("destination")).forward(request, response);
-
             control.executeTask(request);
-            getServletContext().getRequestDispatcher(request.getParameter("destination")).forward(request, response);
+            String destination = "/WEB-INF/jsp" + request.getAttribute("destination");
+            getServletContext().getRequestDispatcher(destination).forward(request, response);
 
         } catch (ServletException | IOException e) {
             e.printStackTrace();
