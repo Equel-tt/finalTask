@@ -60,13 +60,9 @@
 </form>
 <br>
 <br>
-<h2><%="Login"%>
-</h2>
 <form action="${pageContext.request.contextPath}/control" method="post">
-    <input type="text" name="login" id="login">
-    <input type="text" name="password" id="password">
-    <input type="hidden" name="command" value="LOGIN">
-    <input type="submit" value="ok">
+    <input type="hidden" name="command" value="LOGOFF">
+    <input type="submit" value="Выпилиться">
 </form>
 </body>
 </html>

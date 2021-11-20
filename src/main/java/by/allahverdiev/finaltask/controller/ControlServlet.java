@@ -50,8 +50,20 @@ public class ControlServlet extends HttpServlet {
         try {
             CommandController control = new CommandController();
             control.executeTask(request);
-            String destination = "/WEB-INF/jsp" + request.getAttribute("destination");
-            getServletContext().getRequestDispatcher(destination).forward(request, response);
+//            String destination = "/WEB-INF/jsp" + request.getAttribute("destination");
+//            getServletContext().getRequestDispatcher(destination).forward(request, response);
+            String way = (String) request.getAttribute("way");
+            logger.info(way);
+            switch (way) {
+                case "redirect":
+                    response.sendRedirect("login.jsp");
+//                    response.sendRedirect("/WEB-INF/jsp" + request.getAttribute("destination"));
+                    break;
+                case "forward":
+                    String destination = "/WEB-INF/jsp" + request.getAttribute("destination");
+                    getServletContext().getRequestDispatcher(destination).forward(request, response);
+                    break;
+            }
 
         } catch (ServletException | IOException e) {
             e.printStackTrace();

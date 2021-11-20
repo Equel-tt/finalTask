@@ -14,7 +14,8 @@ public class DestinationMap {
         destination.put("FindAllProdInCurrDateCommand", "/warehouse.jsp");
         destination.put("FindAllNeedCommand", "/needOverview.jsp");
         destination.put("FindAllArchiveCommand", "/archive.jsp");
-        destination.put("LoginCommand", "/testStart.jsp");
+        destination.put("LoginCommand", "/index.jsp");
+//        destination.put("LogoffCommand", "/index.jsp");
 
 
     }

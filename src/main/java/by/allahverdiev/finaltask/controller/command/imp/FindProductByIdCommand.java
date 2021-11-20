@@ -23,6 +23,7 @@ public class FindProductByIdCommand implements Command {
         Entity product = service.findProductById(Integer.parseInt(request.getParameter("productId")), ConnectionPool.getInstance().getConnection());
         request.setAttribute("result", product);
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));
+        request.setAttribute("way", "forward");
         return request;
     }
 }

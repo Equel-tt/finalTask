@@ -8,7 +8,7 @@
     <display-name>Product control</display-name>
 
     <welcome-file-list>
-        <welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>
+        <welcome-file>/login.jsp</welcome-file>
     </welcome-file-list>
 
     <servlet>
@@ -25,6 +25,14 @@
     </filter>
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/control</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>by.allahverdiev.finaltask.controller.filter.SecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
         <url-pattern>/control</url-pattern>
     </filter-mapping>
 </web-app>

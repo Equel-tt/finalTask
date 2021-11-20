@@ -17,6 +17,7 @@ public class CommandProvider {
         repository.put(CommandName.FIND_ALL_ARCHIVE, new FindAllArchiveCommand());
         repository.put(CommandName.FIND_ARCHIVE_ENTRY_BY_MONTH, new FindArchiveEntryByMonthCommand());
         repository.put(CommandName.LOGIN, new LoginCommand());
+        repository.put(CommandName.LOGOFF, new LogoffCommand());
 
     }
 

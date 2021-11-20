@@ -36,6 +36,7 @@ public class LoginCommand implements Command {
             logger.info(e.getMessage());
             request.setAttribute("destination", "/index.jsp");
         }
+        request.setAttribute("way", "forward");
         return request;
     }
 }

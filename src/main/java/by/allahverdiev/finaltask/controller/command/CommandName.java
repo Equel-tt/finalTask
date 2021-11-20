@@ -8,5 +8,6 @@ public enum CommandName {
     ADD_ARCHIVE_ENTRY,
     FIND_ARCHIVE_ENTRY_BY_MONTH,
     FIND_ALL_ARCHIVE,
-    LOGIN
+    LOGIN,
+    LOGOFF
 }
