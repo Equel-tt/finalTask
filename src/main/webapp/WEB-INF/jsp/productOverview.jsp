@@ -15,6 +15,13 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/header.jsp"/>
 <jsp:useBean id="result" scope="request" type="by.allahverdiev.finaltask.entity.Product"/>
+<form role="form" action="<c:out value="${urlServlet}"/>" method="post">
+    <input type="hidden" name="command" value="TEST">
+    <label for="test">Test redirect</label>
+    <div class="input-group">
+        <input class="form-control row-cols-sm-2 btn-primary" type="submit" value="RUN" id="test">
+    </div>
+</form>
 <table class="table table-bordered table-hover container-sm">
     <thead>
     <tr class="bg-success">

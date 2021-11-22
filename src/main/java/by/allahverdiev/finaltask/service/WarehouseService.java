@@ -32,7 +32,6 @@ public class WarehouseService implements Service {
 
     public Map<Product, Integer> findAllProductsCountInCurrentDate(LocalDate date, Connection connection) throws RegulationException {
         LocalDate start = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
-        ;
         Map<Product, Integer> result = new HashMap<>();
         ProductDaoPg productDao = factory.getProductDao(connection);
         List<Product> productList = productDao.findAll();

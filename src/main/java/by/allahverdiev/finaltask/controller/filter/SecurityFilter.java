@@ -31,6 +31,8 @@ public class SecurityFilter implements Filter {
         repository.put("LOGOUT", List.of(1, 2, 3, 4));
         repository.put("LOGIN", List.of(1, 2, 3, 4));
         repository.put("SEARCH", List.of(1, 2, 3, 4));
+        repository.put("FIND_DEFICIT", List.of(2));
+        repository.put("TEST", List.of(1, 2, 3, 4));
 
     }
 

@@ -51,7 +51,10 @@ public class ControlServlet extends HttpServlet {
                 case "redirect":
 //                    response.sendRedirect(request.getHeader("referer"));
 //                    response.sendRedirect("/WEB-INF/jsp" + request.getAttribute("destination"));
-                    response.sendRedirect(request.getContextPath() + "/success.jsp");
+                    request.setAttribute("result", request.getSession(false).getAttribute("result"));
+//                    response.sendRedirect(request.getContextPath() + "/success.jsp");
+                    String redirectPage = (String) request.getSession(false).getAttribute("lastPage");
+                    getServletContext().getRequestDispatcher(redirectPage).forward(request, response);
                     break;
                 case "directRedirect":
                     response.sendRedirect("/finalWebApp/login.jsp");
@@ -59,6 +62,7 @@ public class ControlServlet extends HttpServlet {
                 case "forward":
                     String destination = "/WEB-INF/jsp" + request.getAttribute("destination");
                     logger.info(destination);
+                    request.getSession(false).setAttribute("lastPage", destination);
                     getServletContext().getRequestDispatcher(destination).forward(request, response);
                     break;
             }

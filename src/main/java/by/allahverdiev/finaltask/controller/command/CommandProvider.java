@@ -20,6 +20,8 @@ public class CommandProvider {
         repository.put(CommandName.LOGIN, new LoginCommand());
         repository.put(CommandName.LOGOUT, new LogoutCommand());
         repository.put(CommandName.SEARCH, new ProductSearchCommand());
+        repository.put(CommandName.FIND_DEFICIT, new FindDeficitCommand());
+        repository.put(CommandName.TEST, new Test());
 
     }
 

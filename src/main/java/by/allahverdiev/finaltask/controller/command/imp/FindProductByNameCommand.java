@@ -2,7 +2,7 @@ package by.allahverdiev.finaltask.controller.command.imp;
 
 import by.allahverdiev.finaltask.controller.command.Command;
 import by.allahverdiev.finaltask.controller.command.DestinationMap;
-import by.allahverdiev.finaltask.entity.Entity;
+import by.allahverdiev.finaltask.entity.Product;
 import by.allahverdiev.finaltask.service.ServiceFactory;
 import by.allahverdiev.finaltask.service.WarehouseService;
 import org.apache.logging.log4j.LogManager;
@@ -20,8 +20,10 @@ public class FindProductByNameCommand implements Command {
 
     @Override
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
-        Entity product = service.findProductByName(request.getParameter("product"), connection);
+        Product product = (Product) service.findProductByName(request.getParameter("product"), connection);
         request.setAttribute("result", product);
+        request.getSession(false).setAttribute("result", product);
+        logger.info(request.getSession(false).getAttribute("result") == null);
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));
         request.setAttribute("way", "forward");
         return request;

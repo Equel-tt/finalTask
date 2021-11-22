@@ -11,5 +11,7 @@ public enum CommandName {
     FIND_ALL_ARCHIVE,
     LOGIN,
     LOGOUT,
-    SEARCH
+    SEARCH,
+    FIND_DEFICIT,
+    TEST
 }
