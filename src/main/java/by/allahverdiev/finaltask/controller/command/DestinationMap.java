@@ -9,13 +9,15 @@ public class DestinationMap {
     public DestinationMap() {
         destination.put("AddArchiveEntryCommand", "/archive.jsp");
         destination.put("FindProductByIdCommand", "/productOverview.jsp");
+        destination.put("FindProductByNameCommand", "/productOverview.jsp");
         destination.put("FindNeedForMonthCommand", "/needOverview.jsp");
         destination.put("FindArchiveEntryByMonthCommand", "/archive.jsp");
         destination.put("FindAllProdInCurrDateCommand", "/warehouse.jsp");
         destination.put("FindAllNeedCommand", "/needOverview.jsp");
         destination.put("FindAllArchiveCommand", "/archive.jsp");
         destination.put("LoginCommand", "/index.jsp");
-//        destination.put("LogoffCommand", "/index.jsp");
+        destination.put("LogoutCommand", "/login.jsp");
+        destination.put("ProductSearchCommand", "/productSearch.jsp");
 
 
     }

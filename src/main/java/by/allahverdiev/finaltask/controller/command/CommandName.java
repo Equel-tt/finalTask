@@ -2,6 +2,7 @@ package by.allahverdiev.finaltask.controller.command;
 
 public enum CommandName {
     FIND_PRODUCT_BY_ID,
+    FIND_PRODUCT_BY_NAME,
     FIND_ALL_PRODUCTS_IN_CURRENT_DATE,
     FIND_ALL_NEED,
     FIND_NEED_FOR_MONTH,
@@ -9,5 +10,6 @@ public enum CommandName {
     FIND_ARCHIVE_ENTRY_BY_MONTH,
     FIND_ALL_ARCHIVE,
     LOGIN,
-    LOGOFF
+    LOGOUT,
+    SEARCH
 }

@@ -29,14 +29,9 @@ public class ControlServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
-//        try {
-//            ProductDaoPg daoPg = new ProductDaoPg(ConnectionCreator.createConnection());
-//            List<Product> set = daoPg.findAll();
-//            request.setAttribute("products", set);
-//            getServletContext().getRequestDispatcher("/.jsp").forward(request, response);
-//        } catch (SQLException | ServletException | IOException e) {
-//            e.printStackTrace();
-//        }
+        logger.info("start do get");
+        buildRequest(request, response);
+        logger.info("end do get");
     }
 
     @Override
@@ -54,8 +49,12 @@ public class ControlServlet extends HttpServlet {
             logger.info(way);
             switch (way) {
                 case "redirect":
-                    response.sendRedirect("login.jsp");
+//                    response.sendRedirect(request.getHeader("referer"));
 //                    response.sendRedirect("/WEB-INF/jsp" + request.getAttribute("destination"));
+                    response.sendRedirect(request.getContextPath() + "/success.jsp");
+                    break;
+                case "directRedirect":
+                    response.sendRedirect("/finalWebApp/login.jsp");
                     break;
                 case "forward":
                     String destination = "/WEB-INF/jsp" + request.getAttribute("destination");
@@ -63,9 +62,8 @@ public class ControlServlet extends HttpServlet {
                     getServletContext().getRequestDispatcher(destination).forward(request, response);
                     break;
             }
-
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
     }
 

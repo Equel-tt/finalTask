@@ -10,6 +10,7 @@ public class CommandProvider {
 
     public CommandProvider() {
         repository.put(CommandName.FIND_PRODUCT_BY_ID, new FindProductByIdCommand());
+        repository.put(CommandName.FIND_PRODUCT_BY_NAME, new FindProductByNameCommand());
         repository.put(CommandName.FIND_ALL_PRODUCTS_IN_CURRENT_DATE, new FindAllProdInCurrDateCommand());
         repository.put(CommandName.FIND_ALL_NEED, new FindAllNeedCommand());
         repository.put(CommandName.FIND_NEED_FOR_MONTH, new FindNeedForMonthCommand());
@@ -17,7 +18,8 @@ public class CommandProvider {
         repository.put(CommandName.FIND_ALL_ARCHIVE, new FindAllArchiveCommand());
         repository.put(CommandName.FIND_ARCHIVE_ENTRY_BY_MONTH, new FindArchiveEntryByMonthCommand());
         repository.put(CommandName.LOGIN, new LoginCommand());
-        repository.put(CommandName.LOGOFF, new LogoffCommand());
+        repository.put(CommandName.LOGOUT, new LogoutCommand());
+        repository.put(CommandName.SEARCH, new ProductSearchCommand());
 
     }
 

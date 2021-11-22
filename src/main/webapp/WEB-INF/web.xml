@@ -35,4 +35,8 @@
         <filter-name>SecurityFilter</filter-name>
         <url-pattern>/control</url-pattern>
     </filter-mapping>
+    <!--    <error-page>-->
+    <!--        <error-code>404</error-code>-->
+    <!--        <location>/login.jsp</location>-->
+    <!--    </error-page>-->
 </web-app>

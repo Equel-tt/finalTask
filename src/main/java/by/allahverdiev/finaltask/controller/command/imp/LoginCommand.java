@@ -27,15 +27,16 @@ public class LoginCommand implements Command {
             logger.debug("старт команды Login");
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
-            request.setAttribute("result", "Успешно вошли в систему");
-            request.setAttribute("destination", map.getDestination(this.getClass().getName()));
+            if (user.getRole() == 2) {
+                request.setAttribute("destination", "/supplyHomePage.jsp");
+            }
+//            request.setAttribute("destination", map.getDestination(this.getClass().getName()));
             request.setAttribute("way", "forward");
             logger.debug("вышли из команды");
         } catch (AccessException e) {
-            logger.debug("попали в исключение команды Login");
+            logger.debug("исключение команды Login");
             logger.info(e.getMessage());
-//            request.setAttribute("destination", "/login.jsp");
-            request.setAttribute("way", "redirect");
+            request.setAttribute("way", "directRedirect");
         }
         return request;
     }

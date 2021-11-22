@@ -3,30 +3,28 @@ package by.allahverdiev.finaltask.controller.command.imp;
 import by.allahverdiev.finaltask.controller.command.Command;
 import by.allahverdiev.finaltask.controller.command.DestinationMap;
 import by.allahverdiev.finaltask.service.ServiceFactory;
-import by.allahverdiev.finaltask.service.UserService;
+import by.allahverdiev.finaltask.service.WarehouseService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.sql.Connection;
+import java.util.List;
 
-public class LogoffCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(LogoffCommand.class);
+public class ProductSearchCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(ProductSearchCommand.class);
+    ServiceFactory factory = ServiceFactory.getInstance();
+    WarehouseService service = factory.getWarehouseService();
     DestinationMap map = new DestinationMap();
 
-    ServiceFactory factory = ServiceFactory.getInstance();
-    UserService service = factory.getUserService();
 
     @Override
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
-        HttpSession session = request.getSession(false);
-        logger.info(session.isNew() + " есть ли сессия");
-//        session.removeAttribute("user");
-        session.invalidate();
-        request.setAttribute("result", "вы вышли");
+        List<String> result = service.prepareForSearch(connection);
+        request.setAttribute("result", result);
 //        request.setAttribute("destination", map.getDestination(this.getClass().getName()));
-        request.setAttribute("way", "redirect");
+        request.setAttribute("destination", "/productSearch.jsp");
+        request.setAttribute("way", "forward");
         return request;
     }
 }

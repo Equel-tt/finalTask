@@ -31,6 +31,10 @@ public class ProductDaoPg implements ProductDao {
             "SELECT * " +
                     "FROM manufacture.public.product " +
                     "WHERE product.id = (?)";
+    private static final String SQL_SELECT_PRODUCT_BY_NAME =
+            "SELECT * " +
+                    "FROM manufacture.public.product " +
+                    "WHERE product.name = (?)";
     private static final String SQL_UPDATE_PRODUCT_TYPE_BY_ID =
             "SELECT * " +
                     "FROM manufacture.public.product_type " +
@@ -39,6 +43,9 @@ public class ProductDaoPg implements ProductDao {
             "SELECT * " +
                     "FROM manufacture.public.provider " +
                     "WHERE provider.id = (?)";
+    private static final String SQL_SELECT_PRODUCT_LIST_BY_NAME_FOR_SEARCH =
+            "SELECT name " +
+                    "FROM manufacture.public.product ";
 
     @Override
     public List<Product> findAll() {
@@ -77,6 +84,40 @@ public class ProductDaoPg implements ProductDao {
                 updateType(result.getProductType());
                 result.setProvider(new Provider(resultSet.getInt("provider_id")));
                 updateProvider(result.getProvider());
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+    public Product findEntityByName(String name) {
+        Product result = new Product();
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_NAME)) {
+            ps.setString(1, name);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                result.setId(resultSet.getInt("id"));
+                result.setName(resultSet.getString("name"));
+                result.setManager(new User(resultSet.getInt("manager_id")));
+                result.setProductType(new ProductType(resultSet.getInt("product_type_id")));
+                updateType(result.getProductType());
+                result.setProvider(new Provider(resultSet.getInt("provider_id")));
+                updateProvider(result.getProvider());
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return result;
+    }
+
+
+    public List<String> findNamesOfProducts() {
+        List<String> result = new ArrayList<>();
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_PRODUCT_LIST_BY_NAME_FOR_SEARCH);
+            while (resultSet.next()) {
+                result.add(resultSet.getString("name"));
             }
         } catch (SQLException e) {
             logger.error(e.getMessage());

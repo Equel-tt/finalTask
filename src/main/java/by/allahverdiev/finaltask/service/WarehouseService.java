@@ -15,10 +15,17 @@ public class WarehouseService implements Service {
     DaoFactory factory = DaoFactory.getInstance();
 
     public Entity findProductById(int newId, Connection connection) {
-//        DaoFactory factory = DaoFactory.getInstance();
         ProductDaoPg productDao = factory.getProductDao(connection);
         UserDaoPg userDao = factory.getUserDao(connection);
         Product product = productDao.findEntityById(newId);
+        userDao.update(product.getManager());
+        return product;
+    }
+
+    public Entity findProductByName(String name, Connection connection) {
+        ProductDaoPg productDao = factory.getProductDao(connection);
+        UserDaoPg userDao = factory.getUserDao(connection);
+        Product product = productDao.findEntityByName(name);
         userDao.update(product.getManager());
         return product;
     }
@@ -61,5 +68,10 @@ public class WarehouseService implements Service {
             }
         }
         return result;
+    }
+
+    public List<String> prepareForSearch(Connection connection) {
+        ProductDaoPg productDao = factory.getProductDao(connection);
+        return productDao.findNamesOfProducts();
     }
 }

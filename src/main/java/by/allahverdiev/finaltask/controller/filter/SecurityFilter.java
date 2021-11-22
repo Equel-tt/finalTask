@@ -20,6 +20,7 @@ public class SecurityFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
         repository.put("FIND_PRODUCT_BY_ID", List.of(2, 3));
+        repository.put("FIND_PRODUCT_BY_NAME", List.of(2, 3));
         repository.put("FIND_NEED_FOR_MONTH", List.of(2));
         repository.put("FindDeficitCommand", List.of(2));
         repository.put("FIND_ARCHIVE_ENTRY_BY_MONTH", List.of(1));
@@ -27,7 +28,9 @@ public class SecurityFilter implements Filter {
         repository.put("FIND_ALL_NEED", List.of(2));
         repository.put("FIND_ALL_ARCHIVE", List.of(1));
         repository.put("ADD_ARCHIVE_ENTRY", List.of(1));
-        repository.put("LOGOFF", List.of(1, 2, 3, 4));
+        repository.put("LOGOUT", List.of(1, 2, 3, 4));
+        repository.put("LOGIN", List.of(1, 2, 3, 4));
+        repository.put("SEARCH", List.of(1, 2, 3, 4));
 
     }
 
@@ -36,6 +39,7 @@ public class SecurityFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String commandName = request.getParameter("command");
+        logger.info(commandName);
         HttpSession session = request.getSession(false);
         User user;
         boolean everythingIsAllowed = false;
@@ -54,7 +58,6 @@ public class SecurityFilter implements Filter {
             logger.debug(" фильтр после сервлета");
         } else {
             response.sendRedirect(request.getContextPath());
-            logger.info("Доступ запрещен");
         }
     }
 
