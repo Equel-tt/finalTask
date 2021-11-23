@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class FindArchiveEntryByMonthCommand implements Command {
     private static final Logger logger = LogManager.getLogger(FindArchiveEntryByMonthCommand.class);
@@ -33,7 +34,9 @@ public class FindArchiveEntryByMonthCommand implements Command {
             Date tempDate = format.parse(s);
             LocalDate date = conversion.toLocalDate(tempDate);
             List<Archive> result = service.findArchiveEntryByMonth(date, connection);
+            request.getSession(false).setAttribute("uid", UUID.randomUUID());
             request.setAttribute("result", result);
+            request.getSession(false).setAttribute("result", result);
             request.setAttribute("destination", map.getDestination(this.getClass().getName()));
             request.setAttribute("way", "forward");
         } catch (ParseException e) {

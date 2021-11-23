@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Connection;
+import java.util.UUID;
 
 public class LoginCommand implements Command {
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
@@ -24,15 +25,13 @@ public class LoginCommand implements Command {
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
         try {
             User user = service.login(connection, request.getParameter("login"), request.getParameter("password"));
-            logger.debug("старт команды Login");
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
+            session.setAttribute("uid", UUID.randomUUID());
             if (user.getRole() == 2) {
                 request.setAttribute("destination", "/supplyHomePage.jsp");
             }
-//            request.setAttribute("destination", map.getDestination(this.getClass().getName()));
             request.setAttribute("way", "forward");
-            logger.debug("вышли из команды");
         } catch (AccessException e) {
             logger.debug("исключение команды Login");
             logger.info(e.getMessage());

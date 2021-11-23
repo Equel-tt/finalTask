@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 public class FindAllProdInCurrDateCommand implements Command {
     private static final Logger logger = LogManager.getLogger(FindAllProdInCurrDateCommand.class);
@@ -33,8 +34,10 @@ public class FindAllProdInCurrDateCommand implements Command {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date tempDate = format.parse(s);
             LocalDate date = conversion.toLocalDate(tempDate);
-            Map<Product, Integer> products = service.findAllProductsCountInCurrentDate(date, connection);
-            request.setAttribute("result", products);
+            Map<Product, Integer> result = service.findAllProductsCountInCurrentDate(date, connection);
+            request.getSession(false).setAttribute("uid", UUID.randomUUID());
+            request.setAttribute("result", result);
+            request.getSession(false).setAttribute("result", result);
             request.setAttribute("destination", map.getDestination(this.getClass().getName()));
             request.setAttribute("way", "forward");
         } catch (ParseException | RegulationException e) {

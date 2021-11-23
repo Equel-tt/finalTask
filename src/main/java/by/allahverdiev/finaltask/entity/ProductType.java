@@ -1,6 +1,8 @@
 package by.allahverdiev.finaltask.entity;
 
-public class ProductType implements Entity {
+import java.io.Serializable;
+
+public class ProductType implements Entity, Serializable {
     private int id;
     private String name;
 

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.util.List;
+import java.util.UUID;
 
 public class ProductSearchCommand implements Command {
     private static final Logger logger = LogManager.getLogger(ProductSearchCommand.class);
@@ -22,8 +23,8 @@ public class ProductSearchCommand implements Command {
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
         List<String> result = service.prepareForSearch(connection);
         request.setAttribute("result", result);
-//        request.setAttribute("destination", map.getDestination(this.getClass().getName()));
-        request.setAttribute("destination", "/productSearch.jsp");
+        request.getSession(false).setAttribute("uid", UUID.randomUUID());
+        request.setAttribute("destination", map.getDestination(this.getClass().getName()));
         request.setAttribute("way", "forward");
         return request;
     }

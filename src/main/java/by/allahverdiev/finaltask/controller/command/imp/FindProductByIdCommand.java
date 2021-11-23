@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
+import java.util.UUID;
 
 public class FindProductByIdCommand implements Command {
     private static final Logger logger = LogManager.getLogger(FindProductByIdCommand.class);
@@ -20,8 +21,10 @@ public class FindProductByIdCommand implements Command {
 
     @Override
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
-        Entity product = service.findProductById(Integer.parseInt(request.getParameter("productId")), connection);
-        request.setAttribute("result", product);
+        Entity result = service.findProductById(Integer.parseInt(request.getParameter("productId")), connection);
+        request.getSession(false).setAttribute("uid", UUID.randomUUID());
+        request.setAttribute("result", result);
+        request.getSession(false).setAttribute("result", result);
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));
         request.setAttribute("way", "forward");
         return request;

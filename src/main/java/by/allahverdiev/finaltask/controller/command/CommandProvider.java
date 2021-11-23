@@ -21,7 +21,8 @@ public class CommandProvider {
         repository.put(CommandName.LOGOUT, new LogoutCommand());
         repository.put(CommandName.SEARCH, new ProductSearchCommand());
         repository.put(CommandName.FIND_DEFICIT, new FindDeficitCommand());
-        repository.put(CommandName.TEST, new Test());
+        repository.put(CommandName.REFRESH, new RefreshCommand());
+        repository.put(CommandName.CHANGE_LANGUAGE, new LocaleCommand());
 
     }
 

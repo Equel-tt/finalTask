@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.UUID;
 
 public class AddArchiveEntryCommand implements Command {
     private static final Logger logger = LogManager.getLogger(AddArchiveEntryCommand.class);
@@ -27,7 +28,7 @@ public class AddArchiveEntryCommand implements Command {
 
     @Override
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
-        String answer = "";
+        String result = "";
         try {
             String s = request.getParameter("date");
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -35,14 +36,16 @@ public class AddArchiveEntryCommand implements Command {
             LocalDate month = conversion.toLocalDate(date);
             logger.info(month);
             if (service.createArchiveEntry(month, connection)) {
-                answer = "success";
-                logger.info(answer);
+                result = "success";
+                logger.info(result);
             }
-            request.setAttribute("result", answer);
+            request.setAttribute("result", result);
+            request.getSession(false).setAttribute("result", result);
         } catch (ParseException | RuntimeException | RegulationException | SQLException e) {
             request.setAttribute("result", e.getMessage());
             logger.info(e.getMessage());
         }
+        request.getSession(false).setAttribute("uid", UUID.randomUUID());
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));
         request.setAttribute("way", "forward");
         return request;

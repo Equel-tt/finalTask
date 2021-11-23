@@ -12,10 +12,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class SecurityFilter implements Filter {
     private static final Logger logger = LogManager.getLogger(SecurityFilter.class);
     private final Map<String, List<Integer>> repository = new HashMap<>();
+    private static final Map<UUID, String> idList = new HashMap<>();
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -33,6 +35,7 @@ public class SecurityFilter implements Filter {
         repository.put("SEARCH", List.of(1, 2, 3, 4));
         repository.put("FIND_DEFICIT", List.of(2));
         repository.put("TEST", List.of(1, 2, 3, 4));
+        repository.put("CHANGE_LANGUAGE", List.of(1, 2, 3, 4));
 
     }
 
@@ -42,22 +45,45 @@ public class SecurityFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String commandName = request.getParameter("command");
         logger.info(commandName);
+        logger.info(request.getSession(false).getAttribute("uid"));
         HttpSession session = request.getSession(false);
         User user;
+        logger.debug(idList.entrySet().toString());
         boolean everythingIsAllowed = false;
-        if (session != null) {
-            user = (User) session.getAttribute("user");
-            if (user != null && repository.get(commandName).contains(user.getRole())) {
+
+        if (session.getAttribute("uid") != null) {
+            if (!idList.keySet().contains((UUID) session.getAttribute("uid"))) {
+                user = (User) session.getAttribute("user");
+                if ((user != null
+                        && repository.get(commandName).contains(user.getRole()))
+                        || (user == null && commandName.equals("LOGIN"))) {
+                    everythingIsAllowed = true;
+                    request.setAttribute("command", request.getParameter("command"));
+                }
+            } else if (!idList.get((UUID) session.getAttribute("uid")).equals(commandName)) {
                 everythingIsAllowed = true;
+                request.setAttribute("command", request.getParameter("command"));
+            } else {
+                everythingIsAllowed = true;
+                request.setAttribute("command", "REFRESH");
             }
         }
-        if (commandName.equals("LOGIN")) {
+
+        if ((session.getAttribute("uid") == null) && (commandName.equals("LOGIN") || commandName.equals("CHANGE_LANGUAGE"))) {
             everythingIsAllowed = true;
+            request.setAttribute("command", request.getParameter("command"));
         }
+
         if (everythingIsAllowed) {
-            logger.debug(everythingIsAllowed + " фильтр до сервлета");
             chain.doFilter(request, response);
-            logger.debug(" фильтр после сервлета");
+            try {
+                if (session.getAttribute("uid") != null) {
+                    idList.put((UUID) session.getAttribute("uid"), commandName);
+                }
+            } catch (IllegalStateException ex) {
+                logger.info(ex.getMessage());
+            }
+            logger.debug(idList.entrySet().toString());
         } else {
             response.sendRedirect(request.getContextPath());
         }

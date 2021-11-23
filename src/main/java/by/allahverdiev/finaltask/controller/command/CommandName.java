@@ -13,5 +13,6 @@ public enum CommandName {
     LOGOUT,
     SEARCH,
     FIND_DEFICIT,
-    TEST
+    REFRESH,
+    CHANGE_LANGUAGE
 }

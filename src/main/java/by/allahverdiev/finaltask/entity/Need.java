@@ -1,8 +1,9 @@
 package by.allahverdiev.finaltask.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Need implements Entity {
+public class Need implements Entity, Serializable {
     private LocalDate month;
     private Product product;
     private int count;

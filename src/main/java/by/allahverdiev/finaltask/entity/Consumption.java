@@ -1,8 +1,9 @@
 package by.allahverdiev.finaltask.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Consumption implements Entity {
+public class Consumption implements Entity, Serializable {
     private int id;
     private int count;
     private LocalDate date;

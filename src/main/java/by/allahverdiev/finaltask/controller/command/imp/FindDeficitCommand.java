@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 public class FindDeficitCommand implements Command {
     private static final Logger logger = LogManager.getLogger(FindDeficitCommand.class);
@@ -34,7 +35,9 @@ public class FindDeficitCommand implements Command {
             Date tempDate = format.parse(s);
             LocalDate date = conversion.toLocalDate(tempDate);
             Map<Product, ArrayList<Integer>> result = service.findDeficit(date, connection);
+            request.getSession(false).setAttribute("uid", UUID.randomUUID());
             request.setAttribute("result", result);
+            request.getSession(false).setAttribute("result", result);
             request.setAttribute("destination", map.getDestination(this.getClass().getName()));
             request.setAttribute("way", "forward");
         } catch (ParseException e) {

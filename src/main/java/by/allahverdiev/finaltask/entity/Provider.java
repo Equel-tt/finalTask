@@ -1,6 +1,8 @@
 package by.allahverdiev.finaltask.entity;
 
-public class Provider implements Entity {
+import java.io.Serializable;
+
+public class Provider implements Entity, Serializable {
     private int id;
     private String name;
 

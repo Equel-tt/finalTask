@@ -1,6 +1,8 @@
 package by.allahverdiev.finaltask.entity;
 
-public class Department {
+import java.io.Serializable;
+
+public class Department implements Entity, Serializable {
     private int id;
     private String name;
 

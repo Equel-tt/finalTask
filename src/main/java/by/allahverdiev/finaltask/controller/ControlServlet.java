@@ -2,10 +2,12 @@ package by.allahverdiev.finaltask.controller;
 
 import by.allahverdiev.finaltask.controller.command.CommandController;
 import by.allahverdiev.finaltask.service.InitializationService;
+import by.allahverdiev.finaltask.view.Localization;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +27,7 @@ public class ControlServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         InitializationService.getInstance().initialize();
+        Localization lang = Localization.ru_RU;
     }
 
     @Override
@@ -44,9 +47,13 @@ public class ControlServlet extends HttpServlet {
     private void buildRequest(HttpServletRequest request, HttpServletResponse response) {
         try {
             CommandController control = new CommandController();
+            logger.info(request.getAttribute("command"));
             control.executeTask(request);
             String way = (String) request.getAttribute("way");
             logger.info(way);
+            if (request.getAttribute("lang") != null) {
+                response.addCookie(new Cookie("lang", (String) request.getAttribute("lang")));
+            }
             switch (way) {
                 case "redirect":
 //                    response.sendRedirect(request.getHeader("referer"));

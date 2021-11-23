@@ -1,8 +1,9 @@
 package by.allahverdiev.finaltask.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Arrival implements Entity {
+public class Arrival implements Entity, Serializable {
     private String document;
     private double count;
     private LocalDate date;

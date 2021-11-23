@@ -1,8 +1,9 @@
 package by.allahverdiev.finaltask.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Archive implements Entity {
+public class Archive implements Entity, Serializable {
     private LocalDate date;
     private Product product;
     private int count;

@@ -14,7 +14,7 @@ public class CommandController {
 //        String request = validator.takeLine();//TODO Валидаторы
         Command executionCommand;
         try {
-            executionCommand = provider.getCommand(request.getParameter("command"));
+            executionCommand = provider.getCommand((String) request.getAttribute("command"));
             request = executionCommand.execute(request, TransactionFactory.getInstance().getConnection());
         } catch (Exception e) {
             //TODO пустой catch
