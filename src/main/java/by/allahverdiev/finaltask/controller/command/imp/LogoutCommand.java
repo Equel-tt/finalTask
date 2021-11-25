@@ -14,7 +14,8 @@ public class LogoutCommand implements Command {
     @Override
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
         HttpSession session = request.getSession(false);
-        logger.debug(session.isNew());
+        session.setAttribute("lastPage", "/login.jsp");
+        request.removeAttribute("result");
         session.invalidate();
         request.setAttribute("way", "directRedirect");
         return request;

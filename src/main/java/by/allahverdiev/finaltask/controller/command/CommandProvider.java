@@ -28,6 +28,7 @@ public class CommandProvider {
         repository.put(CommandName.CHANGE_LANGUAGE, new LocaleCommand());
         repository.put(CommandName.FIND_ARRIVALS_IN_CURRENT_DATE, new FindArrivalsInDateCommand());
         repository.put(CommandName.ADD_ARRIVAL_ENTRY, new AddArrivalEntryCommand());
+        repository.put(CommandName.HOME, new HomeCommand());
 
     }
 

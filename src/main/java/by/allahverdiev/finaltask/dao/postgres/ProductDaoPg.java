@@ -35,6 +35,10 @@ public class ProductDaoPg implements ProductDao {
             "SELECT * " +
                     "FROM manufacture.public.product " +
                     "WHERE product.name = (?)";
+    private static final String SQL_SELECT_PRODUCT_BY_MANAGER =
+            "SELECT * " +
+                    "FROM manufacture.public.product " +
+                    "WHERE manager_id = (?)";
     private static final String SQL_UPDATE_PRODUCT_TYPE_BY_ID =
             "SELECT * " +
                     "FROM manufacture.public.product_type " +
@@ -109,6 +113,25 @@ public class ProductDaoPg implements ProductDao {
             logger.error(e.getMessage());
         }
         return result;
+    }
+
+    public List<Product> findAllByManagerRole(int roleId) {
+        List<Product> products = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_MANAGER)) {
+            ps.setInt(1, roleId);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                int newId = resultSet.getInt("id");
+                String newName = resultSet.getString("name");
+                User user = new User(roleId);
+                ProductType type = new ProductType(resultSet.getInt("product_type_id"));
+                Provider provider = new Provider(resultSet.getInt("provider_id"));
+                products.add(new Product(newId, newName, user, type, provider));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return products;
     }
 
 

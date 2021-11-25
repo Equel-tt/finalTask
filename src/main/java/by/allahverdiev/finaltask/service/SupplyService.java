@@ -18,7 +18,7 @@ import java.util.*;
 public class SupplyService implements Service {
     DaoFactory factory = DaoFactory.getInstance();
 
-    public Map<Product, ArrayList<Integer>> findDeficit(LocalDate date, Connection connection) {
+    public Map<Product, ArrayList<Integer>> findDeficit(LocalDate date, int userId, Connection connection) {
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
         LocalDate startOfMonth = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
         LocalDate endOfMonth = tempMonth.atEndOfMonth();
@@ -26,7 +26,7 @@ public class SupplyService implements Service {
         Map<Product, ArrayList<Integer>> result = new HashMap<>();
         //TODO conection auto commit
         ProductDaoPg productDao = factory.getProductDao(connection);
-        List<Product> productList = productDao.findAll();
+        List<Product> productList = productDao.findAllByManagerRole(userId);
         ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);
         List<Arrival> arrivalList = arrivalDao.findAllInTimePeriod(startOfMonth, endOfMonth);
         ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);

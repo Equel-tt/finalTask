@@ -37,6 +37,7 @@ public class SecurityFilter implements Filter {
         repository.put("CHANGE_LANGUAGE", List.of(1, 2, 3, 4));
         repository.put("FIND_ARRIVALS_IN_CURRENT_DATE", List.of(3));
         repository.put("ADD_ARRIVAL_ENTRY", List.of(3));
+        repository.put("HOME", List.of(1, 2, 3, 4));
 
     }
 
@@ -70,7 +71,7 @@ public class SecurityFilter implements Filter {
             }
         }
 
-        if (((session.getAttribute("uid") == null) && (commandName.equals("LOGIN"))) || commandName.equals("CHANGE_LANGUAGE")) {
+        if (((session.getAttribute("uid") == null) && (commandName.equals("LOGIN"))) || commandName.equals("CHANGE_LANGUAGE") || commandName.equals("HOME")) {
             everythingIsAllowed = true;
             request.setAttribute("command", request.getParameter("command"));
         }

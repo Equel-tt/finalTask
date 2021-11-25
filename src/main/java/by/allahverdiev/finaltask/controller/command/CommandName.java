@@ -16,5 +16,6 @@ public enum CommandName {
     SEARCH,
     FIND_DEFICIT,
     REFRESH,
-    CHANGE_LANGUAGE
+    CHANGE_LANGUAGE,
+    HOME
 }

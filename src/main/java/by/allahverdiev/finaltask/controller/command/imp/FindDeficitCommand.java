@@ -4,6 +4,7 @@ import by.allahverdiev.finaltask.controller.command.Command;
 import by.allahverdiev.finaltask.controller.command.DestinationMap;
 import by.allahverdiev.finaltask.dao.util.DateConversion;
 import by.allahverdiev.finaltask.entity.Product;
+import by.allahverdiev.finaltask.entity.User;
 import by.allahverdiev.finaltask.service.ServiceFactory;
 import by.allahverdiev.finaltask.service.SupplyService;
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +35,8 @@ public class FindDeficitCommand implements Command {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date tempDate = format.parse(s);
             LocalDate date = conversion.toLocalDate(tempDate);
-            Map<Product, ArrayList<Integer>> result = service.findDeficit(date, connection);
+            User user = (User) request.getSession(false).getAttribute("user");
+            Map<Product, ArrayList<Integer>> result = service.findDeficit(date, user.getId(), connection);
             request.getSession(false).setAttribute("uid", UUID.randomUUID());
             request.setAttribute("result", result);
             request.getSession(false).setAttribute("result", result);

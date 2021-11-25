@@ -29,9 +29,9 @@ public class WarehouseService implements Service {
 
     public Entity findProductByName(String name, Connection connection) {
         ProductDaoPg productDao = factory.getProductDao(connection);
-//        UserDaoPg userDao = factory.getUserDao(connection);
+        UserDaoPg userDao = factory.getUserDao(connection);
         Product product = productDao.findEntityByName(name);
-//        userDao.update(product.getManager());
+        userDao.update(product.getManager());
         return product;
     }
 

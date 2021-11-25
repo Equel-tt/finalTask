@@ -46,7 +46,7 @@
         </c:forEach>
         </tbody>
     </table>
-
-    <br>
+</div>
+<br>
 </body>
 </html>

@@ -25,7 +25,7 @@ public class AddArrivalEntryCommand implements Command {
 
     @Override
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
-        String result = "";
+
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String doc = request.getParameter("doc");
@@ -36,17 +36,12 @@ public class AddArrivalEntryCommand implements Command {
             User user = (User) request.getSession(false).getAttribute("user");
 
             if (service.addArrivalEntry(doc, count, date, product, price, user, connection)) {
-                result = "success.add";
-                logger.info(result);
+                request.setAttribute("message", "message.success");
             }
-            request.setAttribute("result", result);
-            request.getSession(false).setAttribute("result", result);
             request.getSession(false).setAttribute("uid", UUID.randomUUID());
-
-            request.setAttribute("message", "message.success");
         } catch (ParseException | RuntimeException | SQLException e) {
             request.setAttribute("result", e.getMessage());
-            request.setAttribute("message", "error.add"); //TODO вывести ошибки в отдельную категорию
+            request.setAttribute("error", "error.add");
             logger.info(e.getMessage());
         }
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));

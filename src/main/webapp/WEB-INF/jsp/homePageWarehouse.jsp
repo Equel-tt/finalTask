@@ -58,10 +58,17 @@
     </form>
     <br>
     <hr>
-    <%-- message--%>
+    <%-- message success--%>
     <c:if test="${not empty requestScope.message}">
         <div class="alert alert-success" role="alert">
             <fmt:message key="${requestScope.message}" bundle="${bundle}"/>
+        </div>
+    </c:if>
+    <%-- message--%>
+    <%-- message error--%>
+    <c:if test="${not empty requestScope.error}">
+        <div class="alert alert-danger" role="alert">
+            <fmt:message key="${requestScope.error}" bundle="${bundle}"/>
         </div>
     </c:if>
     <%-- message--%>

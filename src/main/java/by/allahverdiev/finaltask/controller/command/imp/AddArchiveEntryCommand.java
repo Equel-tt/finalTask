@@ -28,7 +28,6 @@ public class AddArchiveEntryCommand implements Command {
 
     @Override
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
-        String result = "";
         try {
             String s = request.getParameter("date");
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -36,11 +35,8 @@ public class AddArchiveEntryCommand implements Command {
             LocalDate month = conversion.toLocalDate(date);
             logger.info(month);
             if (service.createArchiveEntry(month, connection)) {
-                result = "success";
-                logger.info(result);
+                request.setAttribute("message", "message.success");
             }
-            request.setAttribute("result", result);
-            request.getSession(false).setAttribute("result", result);
         } catch (ParseException | RuntimeException | RegulationException | SQLException e) {
             request.setAttribute("result", e.getMessage());
             logger.info(e.getMessage());
