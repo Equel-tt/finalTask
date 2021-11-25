@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArrivalDaoPg implements ArrivalDao {
-    private static final Logger Logger = LogManager.getLogger(ArrivalDaoPg.class);
+    private static final Logger logger = LogManager.getLogger(ArrivalDaoPg.class);
     private static final LocalDate startDate = LocalDate.of(2021, 01, 07);
     DateConversion conversion = new DateConversion();
     Connection connection;
@@ -47,6 +47,13 @@ public class ArrivalDaoPg implements ArrivalDao {
             "SELECT * " +
                     "FROM manufacture.public.arrival " +
                     "WHERE product_id = (?) AND date BETWEEN (?) AND (?)";
+    private static final String SQL_SELECT_ARRIVALS_IN_DATE =
+            "SELECT * " +
+                    "FROM manufacture.public.arrival " +
+                    "WHERE date = (?)";
+    private static final String SQL_INSERT_ARRIVAL_ENTRY =
+            "INSERT INTO manufacture.public.arrival " +
+                    "(doc, count, date, product_id, price, user_id) VALUES ((?),(?),(?),(?),(?),(?))";
 
 
     public List<Arrival> findAllInTimePeriod(LocalDate startDate, LocalDate endDate) {
@@ -65,7 +72,7 @@ public class ArrivalDaoPg implements ArrivalDao {
                 arrivals.add(new Arrival(doc, count, date, product, price, user));
             }
         } catch (SQLException e) {
-            Logger.error(e.getMessage());
+            logger.error(e.getMessage());
         }
         return arrivals;
     }
@@ -76,7 +83,7 @@ public class ArrivalDaoPg implements ArrivalDao {
             ps.setInt(1, id);
             buildArrivalWithProductId(id, arrivals, ps);
         } catch (SQLException e) {
-            Logger.error(e.getMessage());
+            logger.error(e.getMessage());
         }
         return arrivals;
     }
@@ -89,7 +96,7 @@ public class ArrivalDaoPg implements ArrivalDao {
             ps.setDate(3, Date.valueOf(end));
             buildArrivalWithProductId(id, arrivals, ps);
         } catch (SQLException e) {
-            Logger.error(e.getMessage());
+            logger.error(e.getMessage());
         }
         return arrivals;
     }
@@ -121,6 +128,37 @@ public class ArrivalDaoPg implements ArrivalDao {
             User user = new User(resultSet.getInt("user_id"));
             arrivals.add(new Arrival(doc, count, date, product, price, user));
         }
+    }
+
+    public void createArrivalEntry(String doc, int count, Date date, int productId, double price, int userId) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement(SQL_INSERT_ARRIVAL_ENTRY);
+        ps.setString(1, doc);
+        ps.setInt(2, count);
+        ps.setDate(3, date);
+        ps.setInt(4, productId);
+        ps.setDouble(5, price);
+        ps.setInt(6, userId);
+        ps.executeUpdate();
+    }
+
+    public List<Arrival> findArrivalsInCurrentDate(Date date) {
+        List<Arrival> result = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARRIVALS_IN_DATE)) {
+            ps.setDate(1, date);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                String doc = resultSet.getString("doc");
+                double count = resultSet.getDouble("count");
+                LocalDate tempDate = conversion.toLocalDate(resultSet.getDate("date"));
+                Product product = new Product(Integer.parseInt(resultSet.getString("product_id")));
+                double price = resultSet.getDouble("price");
+                User user = new User(resultSet.getInt("user_id"));
+                result.add(new Arrival(doc, count, tempDate, product, price, user));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return result;
     }
 
     @Override

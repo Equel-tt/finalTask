@@ -189,4 +189,20 @@ public class ProductDaoPg implements ProductDao {
         }
         return entity;
     }
+
+    public Product updateName(Product product) {
+        logger.info("начало работы дао продукта");
+        int id = product.getId();
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                product.setName(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        logger.info(product.getName());
+        return product;
+    }
 }

@@ -1,11 +1,14 @@
 package by.allahverdiev.finaltask.controller.command;
 
 import by.allahverdiev.finaltask.controller.command.imp.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandProvider {
+    private static final Logger logger = LogManager.getLogger(CommandProvider.class);
     private final Map<CommandName, Command> repository = new HashMap<>();
 
     public CommandProvider() {
@@ -23,6 +26,8 @@ public class CommandProvider {
         repository.put(CommandName.FIND_DEFICIT, new FindDeficitCommand());
         repository.put(CommandName.REFRESH, new RefreshCommand());
         repository.put(CommandName.CHANGE_LANGUAGE, new LocaleCommand());
+        repository.put(CommandName.FIND_ARRIVALS_IN_CURRENT_DATE, new FindArrivalsInDateCommand());
+        repository.put(CommandName.ADD_ARRIVAL_ENTRY, new AddArrivalEntryCommand());
 
     }
 
@@ -33,7 +38,7 @@ public class CommandProvider {
             commandName = CommandName.valueOf(name.toUpperCase());
             command = repository.get(commandName);
         } catch (IllegalArgumentException | NullPointerException e) {
-//            command = repository.get(CommandName.WRONG_COMMAND);
+            logger.info(e.getMessage());
         }
         return command;
     }

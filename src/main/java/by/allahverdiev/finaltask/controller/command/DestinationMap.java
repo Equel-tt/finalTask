@@ -19,7 +19,8 @@ public class DestinationMap {
         destination.put("LogoutCommand", "/login.jsp");
         destination.put("ProductSearchCommand", "/productSearch.jsp");
         destination.put("FindDeficitCommand", "/deficitOverview.jsp");
-
+        destination.put("AddArrivalEntryCommand", "/homePageWarehouse.jsp");
+        destination.put("FindArrivalsInDateCommand", "/arrivalOverview.jsp");
 
     }
 

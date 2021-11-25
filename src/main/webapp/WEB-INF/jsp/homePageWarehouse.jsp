@@ -19,8 +19,19 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/header.jsp"/>
-<div class="container-fluid col-md-2">
+<div class="container-fluid col-md-3">
     <br><br>
+    <form role="form" action="<c:out value="${urlServlet}"/>" method="post">
+        <input type="hidden" name="command" value="SEARCH">
+        <input type="hidden" name="mark" value="warehouse">
+        <label for="search"><fmt:message key="warehouse.add.arrival" bundle="${bundle}"/></label>
+        <div class="input-group">
+            <input class="form-control row-cols-sm-2 btn-primary" type="submit"
+                   value="<fmt:message key="warehouse.add.create" bundle="${bundle}"/>" id="search">
+        </div>
+    </form>
+    <br>
+    <hr>
     <form role="form" action="<c:out value="${urlServlet}"/>" method="post">
         <input type="hidden" name="command" value="FIND_ALL_PRODUCTS_IN_CURRENT_DATE">
         <label for="warehouse"><fmt:message key="supply.find.wh" bundle="${bundle}"/></label>
@@ -29,11 +40,31 @@
         </div>
         <div class="input-group">
             <input class="form-control row-cols-sm-2 btn-primary" type="submit"
-                   value="<fmt:message key="all.show" bundle="${bundle}"/>" id="warehouse">
+                   value="<fmt:message key="general.show" bundle="${bundle}"/>" id="warehouse">
         </div>
     </form>
-    <br><br>
-
+    <br>
+    <hr>
+    <form role="form" action="<c:out value="${urlServlet}"/>" method="post">
+        <input type="hidden" name="command" value="FIND_ARRIVALS_IN_CURRENT_DATE">
+        <label for="wh"><fmt:message key="warehouse.arrival.search" bundle="${bundle}"/></label>
+        <div class="input-group">
+            <input class="form-control row-cols-sm-2" type="date" name="date">
+        </div>
+        <div class="input-group">
+            <input class="form-control row-cols-sm-2 btn-primary" type="submit"
+                   value="<fmt:message key="general.search" bundle="${bundle}"/>" id="wh">
+        </div>
+    </form>
+    <br>
+    <hr>
+    <%-- message--%>
+    <c:if test="${not empty requestScope.message}">
+        <div class="alert alert-success" role="alert">
+            <fmt:message key="${requestScope.message}" bundle="${bundle}"/>
+        </div>
+    </c:if>
+    <%-- message--%>
     <br>
     <hr>
     <br>

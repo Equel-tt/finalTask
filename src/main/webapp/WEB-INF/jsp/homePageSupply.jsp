@@ -9,6 +9,9 @@
     <title>Supply Home Page</title>
     <!-- URL -->
     <c:url value="/control" var="urlServlet"/>
+    <c:if test="${not empty requestScope.result}">
+        <jsp:useBean id="result" scope="request" type="java.util.List"/>
+    </c:if>
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -20,13 +23,14 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/header.jsp"/>
 <br><br>
-<div class="container-fluid col-md-2">
+<div class="container-fluid col-md-3">
     <form role="form" action="<c:out value="${urlServlet}"/>" method="post">
         <input type="hidden" name="command" value="SEARCH">
+        <input type="hidden" name="mark" value="supply">
         <label for="search"><fmt:message key="supply.find.product" bundle="${bundle}"/></label>
         <div class="input-group">
             <input class="form-control row-cols-sm-2 btn-primary" type="submit"
-                   value="<fmt:message key="all.search" bundle="${bundle}"/>" id="search">
+                   value="<fmt:message key="general.search" bundle="${bundle}"/>" id="search">
         </div>
     </form>
     <br><br>
@@ -50,7 +54,7 @@
         </div>
         <div class="input-group">
             <input class="form-control row-cols-sm-2 btn-primary" type="submit"
-                   value="<fmt:message key="all.show" bundle="${bundle}"/>" id="warehouse">
+                   value="<fmt:message key="general.show" bundle="${bundle}"/>" id="warehouse">
         </div>
     </form>
     <br><br>
@@ -62,7 +66,7 @@
         </div>
         <div class="input-group">
             <input class="form-control row-cols-sm-2 btn-primary" type="submit"
-                   value="<fmt:message key="all.show" bundle="${bundle}"/>" id="deficit">
+                   value="<fmt:message key="general.show" bundle="${bundle}"/>" id="deficit">
         </div>
     </form>
     <br>

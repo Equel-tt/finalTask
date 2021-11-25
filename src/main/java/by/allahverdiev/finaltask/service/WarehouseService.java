@@ -4,14 +4,19 @@ import by.allahverdiev.finaltask.dao.DaoFactory;
 import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.dao.postgres.*;
 import by.allahverdiev.finaltask.entity.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class WarehouseService implements Service {
+    private static final Logger logger = LogManager.getLogger(WarehouseService.class);
     DaoFactory factory = DaoFactory.getInstance();
 
     public Entity findProductById(int newId, Connection connection) {
@@ -24,9 +29,9 @@ public class WarehouseService implements Service {
 
     public Entity findProductByName(String name, Connection connection) {
         ProductDaoPg productDao = factory.getProductDao(connection);
-        UserDaoPg userDao = factory.getUserDao(connection);
+//        UserDaoPg userDao = factory.getUserDao(connection);
         Product product = productDao.findEntityByName(name);
-        userDao.update(product.getManager());
+//        userDao.update(product.getManager());
         return product;
     }
 
@@ -69,8 +74,28 @@ public class WarehouseService implements Service {
         return result;
     }
 
+    public List<Arrival> findArrivalInDate(Date date, Connection connection) {
+        ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);
+        List<Arrival> arrivalList = arrivalDao.findArrivalsInCurrentDate(new java.sql.Date(date.getTime()));
+        ProductDaoPg productDao = factory.getProductDao(connection);
+        UserDaoPg userDao = factory.getUserDao(connection);
+        for (Arrival arrival : arrivalList) {
+            arrival.setProduct(productDao.updateName(arrival.getProduct()));
+            arrival.setUser(userDao.updateName(arrival.getUser()));
+        }
+        return arrivalList;
+    }
+
     public List<String> prepareForSearch(Connection connection) {
         ProductDaoPg productDao = factory.getProductDao(connection);
         return productDao.findNamesOfProducts();
+    }
+
+    public boolean addArrivalEntry(String doc, int count, Date date, Product product, double price, User user, Connection connection) throws SQLException {
+        ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);
+        int productId = product.getId();
+        int userId = user.getId();
+        arrivalDao.createArrivalEntry(doc, count, new java.sql.Date(date.getTime()), productId, price, userId);
+        return true;
     }
 }
