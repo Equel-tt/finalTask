@@ -28,14 +28,22 @@ public class LoginCommand implements Command {
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
             session.setAttribute("uid", UUID.randomUUID());
-            if (user.getRole() == 2) {
-                request.setAttribute("destination", "/supplyHomePage.jsp");
+            switch (user.getRole()) {
+                case 1:
+                    request.setAttribute("destination", "/homePageBookkeeping.jsp");
+                    break;
+                case 2:
+                    request.setAttribute("destination", "/homePageSupply.jsp");
+                    break;
+                case 3:
+                    request.setAttribute("destination", "/homePageWarehouse.jsp");
+                    break;
             }
             request.setAttribute("way", "forward");
         } catch (AccessException e) {
-            logger.debug("исключение команды Login");
             logger.info(e.getMessage());
-            request.setAttribute("way", "directRedirect");
+            request.setAttribute("way", "redirect");
+            request.setAttribute("error", "error.login");
         }
         return request;
     }

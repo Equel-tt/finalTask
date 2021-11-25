@@ -1,7 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<fmt:setLocale value="en-US"/>
+<c:if test="${empty sessionScope.language}"><fmt:setLocale value="ru_RU"/></c:if>
+<c:if test="${not empty sessionScope.language}"><fmt:setLocale value="${sessionScope.language}"/></c:if>
 <fmt:setBundle basename="lang.text" scope="session" var="bundle"/>
 <!doctype html>
 <html>
@@ -34,19 +35,27 @@
         <h1 class="h3 mb-3 fw-normal"><fmt:message key="login.message" bundle="${bundle}"/></h1>
 
         <div class="form-floating">
-            <input type="text" name="login" class="form-control" id="floatingInput" placeholder="Login">
-            <label for="floatingInput"><fmt:message key="login.login" bundle="${bundle}"/></label>
+            <input type="text" name="login" class="form-control" id="log" placeholder="Login">
+            <label for="log"><fmt:message key="login.login" bundle="${bundle}"/></label>
         </div>
         <div class="form-floating">
-            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword"><fmt:message key="login.password" bundle="${bundle}"/></label>
+            <input type="password" name="password" class="form-control" id="pass" placeholder="Password">
+            <label for="pass"><fmt:message key="login.password" bundle="${bundle}"/></label>
         </div>
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit"><fmt:message key="login.signin"
-                                                                                bundle="${bundle}"/></button>
+        <button class="w-100 btn btn-lg btn-primary"
+                type="submit"><fmt:message key="login.signin" bundle="${bundle}"/></button>
+        <%-- error message--%>
+        <c:if test="${not empty requestScope.error}">
+            <div class="alert alert-danger" role="alert">
+                <fmt:message key="${requestScope.error}" bundle="${bundle}"/>
+            </div>
+        </c:if>
+        <%-- /error message--%>
         <p class="mt-5 mb-3 text-muted">&copy; 2021</p>
     </form>
-    <br>
+
+    <%-- language panel--%>
     <div class="btn-group">
         <form action="<c:out value="${urlServlet}"/>" method="post">
             <label class="btn btn-outline-success">
@@ -54,14 +63,18 @@
                 <input type="hidden" name="language" value="ru_RU">
                 <input type="submit" class="btn" value="RU">
             </label>
+        </form>
+        <form action="<c:out value="${urlServlet}"/>" method="post">
             <label class="btn btn-outline-success">
                 <input type="hidden" name="command" value="CHANGE_LANGUAGE">
                 <input type="hidden" name="language" value="en_US">
                 <input type="submit" class="btn" value="US">
             </label>
+        </form>
+        <form action="<c:out value="${urlServlet}"/>" method="post">
             <label class="btn btn-outline-success">
                 <input type="hidden" name="command" value="CHANGE_LANGUAGE">
-                <input type="hidden" name="language" value="be_BY">
+                <input type="hidden" name="language" value="be_BE">
                 <input type="submit" class="btn" value="BY">
             </label>
         </form>

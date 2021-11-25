@@ -31,10 +31,9 @@ public class SecurityFilter implements Filter {
         repository.put("FIND_ALL_ARCHIVE", List.of(1));
         repository.put("ADD_ARCHIVE_ENTRY", List.of(1));
         repository.put("LOGOUT", List.of(1, 2, 3, 4));
-        repository.put("LOGIN", List.of(1, 2, 3, 4));
+//        repository.put("LOGIN", List.of(1, 2, 3, 4));
         repository.put("SEARCH", List.of(1, 2, 3, 4));
         repository.put("FIND_DEFICIT", List.of(2));
-        repository.put("TEST", List.of(1, 2, 3, 4));
         repository.put("CHANGE_LANGUAGE", List.of(1, 2, 3, 4));
 
     }
@@ -45,7 +44,7 @@ public class SecurityFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String commandName = request.getParameter("command");
         logger.info(commandName);
-        logger.info(request.getSession(false).getAttribute("uid"));
+        logger.debug(request.getSession(false).getAttribute("uid"));
         HttpSession session = request.getSession(false);
         User user;
         logger.debug(idList.entrySet().toString());
@@ -69,7 +68,7 @@ public class SecurityFilter implements Filter {
             }
         }
 
-        if ((session.getAttribute("uid") == null) && (commandName.equals("LOGIN") || commandName.equals("CHANGE_LANGUAGE"))) {
+        if (((session.getAttribute("uid") == null) && (commandName.equals("LOGIN"))) || commandName.equals("CHANGE_LANGUAGE")) {
             everythingIsAllowed = true;
             request.setAttribute("command", request.getParameter("command"));
         }

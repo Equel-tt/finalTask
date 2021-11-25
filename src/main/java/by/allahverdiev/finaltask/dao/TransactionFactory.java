@@ -1,6 +1,7 @@
 package by.allahverdiev.finaltask.dao;
 
 import by.allahverdiev.finaltask.dao.pool.ConnectionPool;
+import by.allahverdiev.finaltask.dao.pool.PooledConnection;
 
 import java.sql.Connection;
 
@@ -15,5 +16,9 @@ public class TransactionFactory {
 
     public Connection getConnection() {
         return pool.getConnection();
+    }
+
+    public void closeConnection(PooledConnection connection) {
+        pool.freeConnection(connection);
     }
 }

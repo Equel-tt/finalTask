@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:if test="${empty sessionScope.language}"><fmt:setLocale value="ru_RU"/></c:if>
+<c:if test="${not empty sessionScope.language}"><fmt:setLocale value="${sessionScope.language}"/></c:if>
+<fmt:setBundle basename="lang.text" scope="session" var="bundle"/>
 <!DOCTYPE html>
 <html>
 <head>

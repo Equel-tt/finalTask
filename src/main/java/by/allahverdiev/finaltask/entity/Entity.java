@@ -1,4 +1,6 @@
 package by.allahverdiev.finaltask.entity;
 
-public interface Entity {
+import java.io.Serializable;
+
+public interface Entity extends Serializable {
 }

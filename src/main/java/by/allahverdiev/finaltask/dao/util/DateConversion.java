@@ -1,4 +1,4 @@
-package by.allahverdiev.finaltask.service;
+package by.allahverdiev.finaltask.dao.util;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -13,6 +13,7 @@ public class DateConversion {
     /**
      * Creates {@link LocalDate} from {@code java.util.Date} or {@code java.sql.Date}. Null-safe.
      */
+    //TODO static???
     public LocalDate toLocalDate(java.util.Date date) {
         if (date == null)
             return null;

@@ -23,6 +23,7 @@ public class ProductSearchCommand implements Command {
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
         List<String> result = service.prepareForSearch(connection);
         request.setAttribute("result", result);
+        request.getSession(false).setAttribute("result", result);
         request.getSession(false).setAttribute("uid", UUID.randomUUID());
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));
         request.setAttribute("way", "forward");

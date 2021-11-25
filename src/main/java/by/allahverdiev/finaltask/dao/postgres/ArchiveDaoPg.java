@@ -2,10 +2,10 @@ package by.allahverdiev.finaltask.dao.postgres;
 
 import by.allahverdiev.finaltask.dao.Dao;
 import by.allahverdiev.finaltask.dao.RegulationException;
+import by.allahverdiev.finaltask.dao.util.DateConversion;
 import by.allahverdiev.finaltask.entity.Archive;
 import by.allahverdiev.finaltask.entity.Entity;
 import by.allahverdiev.finaltask.entity.Product;
-import by.allahverdiev.finaltask.service.DateConversion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

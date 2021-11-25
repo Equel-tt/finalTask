@@ -60,16 +60,16 @@ public final class ConnectionPool {
 		return connection;
 	}
 
-	synchronized void freeConnection(PooledConnection connection) {
-		try {
-			if (connection.isValid(checkConnectionTimeout)) {
-				connection.clearWarnings();
-				connection.setAutoCommit(true);
-				usedConnections.remove(connection);
+	public synchronized void freeConnection(PooledConnection connection) {
+        try {
+            if (connection.isValid(checkConnectionTimeout)) {
+                connection.clearWarnings();
+                connection.setAutoCommit(true);
+                usedConnections.remove(connection);
                 freeConnections.put(connection);
                 logger.debug(String.format("Connection was returned into pool. Current pool size: %d used connections; %d free connection", usedConnections.size(), freeConnections.size()));
-			}
-		} catch (SQLException | InterruptedException e1) {
+            }
+        } catch (SQLException | InterruptedException e1) {
             logger.warn("It is impossible to return database connection into pool", e1);
 			try {
 				connection.getConnection().close();

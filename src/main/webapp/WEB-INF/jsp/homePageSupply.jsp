@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<fmt:setLocale value="ru-RU"/>
+<c:if test="${empty sessionScope.language}"><fmt:setLocale value="ru_RU"/></c:if>
+<c:if test="${not empty sessionScope.language}"><fmt:setLocale value="${sessionScope.language}"/></c:if>
 <fmt:setBundle basename="lang.text" scope="session" var="bundle"/>
 <html>
 <head>
-    <title>Title</title>
+    <title>Supply Home Page</title>
     <!-- URL -->
     <c:url value="/control" var="urlServlet"/>
 
@@ -16,10 +16,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
-
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/header.jsp"/>
+<br><br>
 <div class="container-fluid col-md-2">
     <form role="form" action="<c:out value="${urlServlet}"/>" method="post">
         <input type="hidden" name="command" value="SEARCH">
