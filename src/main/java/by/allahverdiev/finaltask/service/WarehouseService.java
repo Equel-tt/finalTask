@@ -92,9 +92,12 @@ public class WarehouseService implements Service {
     }
 
     public boolean addArrivalEntry(String doc, int count, Date date, Product product, double price, User user, Connection connection) throws SQLException {
+        logger.info("страрт команды");
         ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);
         int productId = product.getId();
+        logger.info(product.getId());
         int userId = user.getId();
+        logger.info(user.getId());
         arrivalDao.createArrivalEntry(doc, count, new java.sql.Date(date.getTime()), productId, price, userId);
         return true;
     }

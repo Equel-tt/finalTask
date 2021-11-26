@@ -5,6 +5,7 @@ import by.allahverdiev.finaltask.controller.command.DestinationMap;
 import by.allahverdiev.finaltask.entity.Product;
 import by.allahverdiev.finaltask.entity.User;
 import by.allahverdiev.finaltask.service.ServiceFactory;
+import by.allahverdiev.finaltask.service.Validator;
 import by.allahverdiev.finaltask.service.WarehouseService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +23,7 @@ public class AddArrivalEntryCommand implements Command {
     DestinationMap map = new DestinationMap();
     ServiceFactory factory = ServiceFactory.getInstance();
     WarehouseService service = factory.getWarehouseService();
+    Validator validator = new Validator();
 
     @Override
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
@@ -35,13 +37,18 @@ public class AddArrivalEntryCommand implements Command {
             double price = Double.parseDouble(request.getParameter("price"));
             User user = (User) request.getSession(false).getAttribute("user");
 
-            if (service.addArrivalEntry(doc, count, date, product, price, user, connection)) {
-                request.setAttribute("message", "message.success");
+            if (validator.checkInvoice(doc)) {
+                if (service.addArrivalEntry(doc, count, date, product, price, user, connection)) {
+                    request.setAttribute("message", "message.success");
+                }
+            } else {
+                request.setAttribute("error", "error.add.invoice.wrong");
             }
+
             request.getSession(false).setAttribute("uid", UUID.randomUUID());
         } catch (ParseException | RuntimeException | SQLException e) {
-            request.setAttribute("result", e.getMessage());
-            request.setAttribute("error", "error.add");
+//            request.setAttribute("result", e.getMessage());
+            request.setAttribute("error", "error.add.product.notfound");
             logger.info(e.getMessage());
         }
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));

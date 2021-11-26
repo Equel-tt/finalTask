@@ -15,9 +15,7 @@ public class UserService implements Service {
     public User login(Connection connection, String login, String password) throws AccessException {
         UserDaoPg userDaoPg = factory.getUserDao(connection);
         User user = userDaoPg.login(login, password);
-        logger.debug(user.getName() + " работаем в сервисе");
         if (user.getName() == null) {
-            logger.debug("выбрасываем исключение из сервиса");
             throw new AccessException("Неверный логин/пароль");
         }
         return user;

@@ -5,6 +5,7 @@ import by.allahverdiev.finaltask.entity.Entity;
 import by.allahverdiev.finaltask.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -32,10 +33,10 @@ public class UserDaoPg implements UserDao {
             "SELECT * " +
                     "FROM manufacture.public.employee " +
                     "WHERE employee.id = (?)";
-    private static final String SQL_SELECT_USER_BY_LOGIN_PASSWORD =
+    private static final String SQL_SELECT_USER_BY_LOGIN =
             "SELECT * " +
                     "FROM manufacture.public.employee " +
-                    "WHERE employee.login = (?) AND employee.password = (?)";
+                    "WHERE employee.login = (?) ";
 
 
     @Override
@@ -58,12 +59,16 @@ public class UserDaoPg implements UserDao {
         return users;
     }
 
-    public User login(String login, String password) {
+    public User login(String login, String inputPassword) {
         User user = new User();
-        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN_PASSWORD)) {
+        try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN)) {
             ps.setString(1, login);
-            ps.setString(2, password);
-            createUser(user, ps);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                if (BCrypt.checkpw(inputPassword, resultSet.getString("password"))) {
+                    createUser(user, ps);
+                }
+            }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
         }
@@ -147,4 +152,5 @@ public class UserDaoPg implements UserDao {
         }
         return user;
     }
+
 }

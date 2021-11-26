@@ -1,7 +1,6 @@
 package by.allahverdiev.finaltask.controller.command.imp;
 
 import by.allahverdiev.finaltask.controller.command.Command;
-import by.allahverdiev.finaltask.controller.command.DestinationMap;
 import by.allahverdiev.finaltask.entity.User;
 import by.allahverdiev.finaltask.service.AccessException;
 import by.allahverdiev.finaltask.service.ServiceFactory;
@@ -16,7 +15,6 @@ import java.util.UUID;
 
 public class LoginCommand implements Command {
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
-    DestinationMap map = new DestinationMap();
 
     ServiceFactory factory = ServiceFactory.getInstance();
     UserService service = factory.getUserService();

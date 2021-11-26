@@ -5,13 +5,20 @@ VALUES (1, 'Цех №1'),
 
 INSERT INTO manufacture.public.employee
     (id, name, surname, patronymic, role, description, login, password)
-VALUES ('1', 'Алексей', 'Степанов', 'Андреевич', 2, 'Снабжение', 'alekseyStepanov', '2222'),
-       ('2', 'Петр', 'Коваль', 'Илларионович', 2, 'Снабжение', 'petrKoval', '6666'),
-       ('3', 'Жанна', 'Василюк', 'Геннадьевна', 1, 'Бухгалтер', 'jannaVasiluk', '1111'),
-       ('4', 'Лариса', 'Бортник', 'Антоновна', 3, 'Кладовщик', 'larisaBortnik', '3333'),
-       ('5', 'Виктор', 'Береста', 'Андреевич', 4, 'Мастер цеха', 'viktorBeresta', '4444'),
-       ('6', 'Вячеслав', 'Строчук', 'Константинович', 3, 'Кладовщик', 'viacheslavStrochuk', '5555'),
-       ('7', 'Светлана', 'Гарбар', 'Валерьевна', 4, 'Мастер цеха', 'svetlanaGarbar', '7777');
+VALUES ('1', 'Алексей', 'Степанов', 'Андреевич', 2, 'Снабжение', 'alekseyStepanov',
+        '$2a$10$5CF0djvzehDbdWQC3CUBPOVvIWNwYgcGJma572r05sS5rpIAOeRRy'),
+       ('2', 'Петр', 'Коваль', 'Илларионович', 2, 'Снабжение', 'petrKoval',
+        '$2a$10$pQYIVcxmTlUIgjBGQtR4a.zlbr.cjR3XRf/UL5/YWN/XCOyRxghr6'),
+       ('3', 'Жанна', 'Василюк', 'Геннадьевна', 1, 'Бухгалтер', 'jannaVasiluk',
+        '$2a$10$gKcGkeAWdp3KftVYY9rTWuCkQe8R.T3KDqfFaRcxNNqeUKkdD4oFK'),
+       ('4', 'Лариса', 'Бортник', 'Антоновна', 3, 'Кладовщик', 'larisaBortnik',
+        '$2a$10$PeJIXerWZwWD3umyUdAAwOFJhKJcXe37MCA8HnS.aCL.B1PXF54vq'),
+       ('5', 'Виктор', 'Береста', 'Андреевич', 4, 'Мастер цеха', 'viktorBeresta',
+        '$2a$10$q3SZ9RVQ0kWFCfGldv2hQ.zfOyWwXRpV/X78B7TBrEN/Texd0mBIm'),
+       ('6', 'Вячеслав', 'Строчук', 'Константинович', 3, 'Кладовщик', 'viacheslavStrochuk',
+        '$2a$10$3XbfbigKBK6IWQ2IpMem7eRe.PSaaaabe8J1.Q/kYY6BDqieR8bo.'),
+       ('7', 'Светлана', 'Гарбар', 'Валерьевна', 4, 'Мастер цеха', 'svetlanaGarbar',
+        '$2a$10$MkJGwtwViIhV25w4OTsod.iXB4l02EsNn56Gnu5o10o45x2SeLgC2');
 
 INSERT INTO manufacture.public.product_type
     (id, name)
