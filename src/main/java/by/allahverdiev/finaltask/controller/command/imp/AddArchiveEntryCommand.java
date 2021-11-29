@@ -36,10 +36,15 @@ public class AddArchiveEntryCommand implements Command {
             logger.info(month);
             if (service.createArchiveEntry(month, connection)) {
                 request.setAttribute("message", "message.success");
+            } else {
+                request.setAttribute("error", "error.entry.exist");
+                request.removeAttribute("command");
             }
-        } catch (ParseException | RuntimeException | RegulationException | SQLException e) {
-            request.setAttribute("result", e.getMessage());
+        } catch (ParseException | RuntimeException | SQLException e) {
             logger.info(e.getMessage());
+        } catch (RegulationException e) {
+            request.setAttribute("error", "error.entry.nolast");
+            request.removeAttribute("command");
         }
         request.getSession(false).setAttribute("uid", UUID.randomUUID());
         request.setAttribute("destination", map.getDestination(this.getClass().getName()));

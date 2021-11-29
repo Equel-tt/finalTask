@@ -38,8 +38,16 @@ public class AddArrivalEntryCommand implements Command {
             User user = (User) request.getSession(false).getAttribute("user");
 
             if (validator.checkInvoice(doc)) {
-                if (service.addArrivalEntry(doc, count, date, product, price, user, connection)) {
-                    request.setAttribute("message", "message.success");
+                if (validator.checkPositiveInteger(count)) {
+                    if (validator.checkPositiveDouble(price)) {
+                        if (service.addArrivalEntry(doc, count, date, product, price, user, connection)) {
+                            request.setAttribute("message", "message.success");
+                        }
+                    } else {
+                        request.setAttribute("error", "error.add.price.wrong");
+                    }
+                } else {
+                    request.setAttribute("error", "error.add.count.wrong");
                 }
             } else {
                 request.setAttribute("error", "error.add.invoice.wrong");
@@ -47,7 +55,6 @@ public class AddArrivalEntryCommand implements Command {
 
             request.getSession(false).setAttribute("uid", UUID.randomUUID());
         } catch (ParseException | RuntimeException | SQLException e) {
-//            request.setAttribute("result", e.getMessage());
             request.setAttribute("error", "error.add.product.notfound");
             logger.info(e.getMessage());
         }

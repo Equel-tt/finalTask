@@ -22,11 +22,11 @@
 <table class="table table-bordered table-hover container-sm">
     <thead>
     <tr class="bg-success">
-        <th class="col-sm-4">Product name</th>
-        <th class="col-sm-2">Need</th>
-        <th class="col-sm-2">Remainder on the 1st number</th>
-        <th class="col-sm-2">Coming</th>
-        <th class="col-sm-2">Deficit / Surplus</th>
+        <th class="col-sm-4"><fmt:message key="product.name" bundle="${bundle}"/></th>
+        <th class="col-sm-2"><fmt:message key="deficit.need" bundle="${bundle}"/></th>
+        <th class="col-sm-2"><fmt:message key="deficit.remainder" bundle="${bundle}"/></th>
+        <th class="col-sm-2"><fmt:message key="deficit.receipt" bundle="${bundle}"/></th>
+        <th class="col-sm-2"><fmt:message key="deficit.result" bundle="${bundle}"/></th>
 
     </tr>
     </thead>

@@ -34,7 +34,6 @@ public class BookkeepingService implements Service {
             connection.setAutoCommit(false);
             ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);
             if (!archiveDao.isArchiveEntryExist(month)) {
-                logger.info("записи в архиве нет");
                 Map<Product, Integer> result = new HashMap<>();
                 ProductDaoPg productDao = factory.getProductDao(connection);
                 List<Product> productList = productDao.findAll();

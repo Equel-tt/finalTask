@@ -7,14 +7,14 @@ public class DestinationMap {
     private final Map<String, String> destination = new HashMap<>();
 
     public DestinationMap() {
-        destination.put("AddArchiveEntryCommand", "/archive.jsp");
+        destination.put("AddArchiveEntryCommand", "/homePageBookkeeping.jsp");
         destination.put("FindProductByIdCommand", "/productOverview.jsp");
         destination.put("FindProductByNameCommand", "/productOverview.jsp");
         destination.put("FindNeedForMonthCommand", "/needOverview.jsp");
-        destination.put("FindArchiveEntryByMonthCommand", "/archive.jsp");
-        destination.put("FindAllProdInCurrDateCommand", "/warehouse.jsp");
+        destination.put("FindArchiveEntryByMonthCommand", "/archiveOverview.jsp");
+        destination.put("FindAllProdInCurrDateCommand", "/warehouseOverview.jsp");
         destination.put("FindAllNeedCommand", "/needOverview.jsp");
-        destination.put("FindAllArchiveCommand", "/archive.jsp");
+//        destination.put("FindAllArchiveCommand", "/archiveOverview.jsp");
         destination.put("LoginCommand", "/index.jsp");
         destination.put("LogoutCommand", "/login.jsp");
         destination.put("ProductSearchCommand", "/productSearch.jsp");

@@ -46,7 +46,7 @@
             </div>
             <div class="input-group">
                 <input class="form-control row-cols-sm-2" type="number"
-                       placeholder="<fmt:message key="placeholder.arrival.count" bundle="${bundle}"/>" name="count">
+                       placeholder="<fmt:message key="product.count" bundle="${bundle}"/>" name="count">
             </div>
             <div class="input-group">
                 <input class="form-control row-cols-sm-2" type="date" name="date">

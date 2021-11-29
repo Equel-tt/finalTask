@@ -26,7 +26,7 @@
         <thead>
         <tr class="bg-success">
             <th><fmt:message key="arrival.table.doc" bundle="${bundle}"/></th>
-            <th><fmt:message key="arrival.table.count" bundle="${bundle}"/></th>
+            <th><fmt:message key="product.count" bundle="${bundle}"/></th>
             <th><fmt:message key="arrival.table.date" bundle="${bundle}"/></th>
             <th><fmt:message key="arrival.table.product" bundle="${bundle}"/></th>
             <th><fmt:message key="arrival.table.price" bundle="${bundle}"/></th>

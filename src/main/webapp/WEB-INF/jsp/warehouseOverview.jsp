@@ -22,9 +22,9 @@
 <table class="table table-bordered table-hover container-sm">
     <thead>
     <tr class="bg-success">
-        <th class="col-sm-1">ID</th>
-        <th class="col-sm-3">Name</th>
-        <th class="col-sm-1">Count</th>
+        <th class="col-sm-1"><fmt:message key="product.id" bundle="${bundle}"/></th>
+        <th class="col-sm-3"><fmt:message key="product.name" bundle="${bundle}"/></th>
+        <th class="col-sm-1"><fmt:message key="product.count" bundle="${bundle}"/></th>
     </tr>
     </thead>
     <tbody>
