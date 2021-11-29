@@ -29,6 +29,7 @@ public class CommandProvider {
         repository.put(CommandName.FIND_ARRIVALS_IN_CURRENT_DATE, new FindArrivalsInDateCommand());
         repository.put(CommandName.ADD_ARRIVAL_ENTRY, new AddArrivalEntryCommand());
         repository.put(CommandName.HOME, new HomeCommand());
+        repository.put(CommandName.DELETE_ARRIVAL, new DeleteArrivalEntryCommand());
 
     }
 

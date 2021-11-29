@@ -94,4 +94,16 @@ public class BookkeepingService implements Service {
         ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);
         return archiveDao.findLastArchiveEntry(date);
     }
+
+    public boolean deleteArrivalEntry(Connection connection, String document, int productId) throws SQLException {
+        ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);
+        connection.setAutoCommit(false);
+        if (arrivalDao.deleteEntityByKeys(document, productId) == 1) {
+            connection.commit();
+            return true;
+        } else {
+            connection.rollback();
+            return false;
+        }
+    }
 }

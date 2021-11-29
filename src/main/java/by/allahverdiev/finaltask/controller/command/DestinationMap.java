@@ -21,6 +21,7 @@ public class DestinationMap {
         destination.put("FindDeficitCommand", "/deficitOverview.jsp");
         destination.put("AddArrivalEntryCommand", "/homePageWarehouse.jsp");
         destination.put("FindArrivalsInDateCommand", "/arrivalOverview.jsp");
+        destination.put("DeleteArrivalEntryCommand", "/homePageBookkeeping.jsp");
 
     }
 

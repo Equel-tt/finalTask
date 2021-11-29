@@ -38,6 +38,7 @@ public class SecurityFilter implements Filter {
         repository.put("FIND_ARRIVALS_IN_CURRENT_DATE", List.of(3));
         repository.put("ADD_ARRIVAL_ENTRY", List.of(3));
         repository.put("HOME", List.of(1, 2, 3, 4));
+        repository.put("DELETE_ARRIVAL", List.of(1));
     }
 
     @Override

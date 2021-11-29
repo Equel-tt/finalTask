@@ -17,5 +17,6 @@ public enum CommandName {
     FIND_DEFICIT,
     REFRESH,
     CHANGE_LANGUAGE,
-    HOME
+    HOME,
+    DELETE_ARRIVAL
 }

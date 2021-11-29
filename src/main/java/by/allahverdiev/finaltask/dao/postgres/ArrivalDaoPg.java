@@ -54,6 +54,9 @@ public class ArrivalDaoPg implements ArrivalDao {
     private static final String SQL_INSERT_ARRIVAL_ENTRY =
             "INSERT INTO manufacture.public.arrival " +
                     "(doc, count, date, product_id, price, user_id) VALUES ((?),(?),(?),(?),(?),(?))";
+    private static final String SQL_DELETE_ARRIVAL_BY_DOC_AND_PRODUCT =
+            "DELETE FROM manufacture.public.arrival " +
+                    "WHERE doc = (?) AND product_id = (?)";
 
 
     public List<Arrival> findAllInTimePeriod(LocalDate startDate, LocalDate endDate) {
@@ -159,6 +162,18 @@ public class ArrivalDaoPg implements ArrivalDao {
             logger.error(e.getMessage());
         }
         return result;
+    }
+
+    public int deleteEntityByKeys(String doc, int productId) {
+        int deletedRows = 0;
+        try (PreparedStatement ps = connection.prepareStatement(SQL_DELETE_ARRIVAL_BY_DOC_AND_PRODUCT)) {
+            ps.setString(1, doc);
+            ps.setInt(2, productId);
+            deletedRows = ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return deletedRows;
     }
 
     @Override

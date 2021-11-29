@@ -25,7 +25,7 @@ CREATE TABLE product
 CREATE TABLE arrival
 (
     doc        varchar(7) NOT NULL,
-    count      smallint   NOT NULL,
+    count      integer    NOT NULL,
     date       date       NOT NULL,
     product_id smallint   NOT NULL,
     price      real       NOT NULL,

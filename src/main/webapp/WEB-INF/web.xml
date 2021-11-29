@@ -43,18 +43,18 @@
         <filter-name>SecurityFilter</filter-name>
         <url-pattern>/control</url-pattern>
     </filter-mapping>
-    <listener>
-        <listener-class>by.allahverdiev.finaltask.controller.listener.ServletListenerImpl</listener-class>
-    </listener>
-    <listener>
-        <listener-class>by.allahverdiev.finaltask.controller.listener.SessionListenerImpl</listener-class>
-    </listener>
-    <listener>
-        <listener-class>by.allahverdiev.finaltask.controller.listener.ServletRequestListenerImpl</listener-class>
-    </listener>
-    <listener>
-        <listener-class>by.allahverdiev.finaltask.controller.listener.SessionAttributeListenerImpl</listener-class>
-    </listener>
+    <!--    <listener>-->
+    <!--        <listener-class>by.allahverdiev.finaltask.controller.listener.ServletListenerImpl</listener-class>-->
+    <!--    </listener>-->
+    <!--    <listener>-->
+    <!--        <listener-class>by.allahverdiev.finaltask.controller.listener.SessionListenerImpl</listener-class>-->
+    <!--    </listener>-->
+    <!--    <listener>-->
+    <!--        <listener-class>by.allahverdiev.finaltask.controller.listener.ServletRequestListenerImpl</listener-class>-->
+    <!--    </listener>-->
+    <!--    <listener>-->
+    <!--        <listener-class>by.allahverdiev.finaltask.controller.listener.SessionAttributeListenerImpl</listener-class>-->
+    <!--    </listener>-->
     <!--    <error-page>-->
     <!--        <error-code>404</error-code>-->
     <!--        <location>/login.jsp</location>-->

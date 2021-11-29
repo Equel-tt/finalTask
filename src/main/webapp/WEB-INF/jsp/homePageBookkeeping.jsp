@@ -45,6 +45,19 @@
                    value="<fmt:message key="bookkeeping.archive.view" bundle="${bundle}"/>" id="archive">
         </div>
     </form>
+    <br>
+    <hr>
+    <form role="form" action="<c:out value="${urlServlet}"/>" method="post">
+        <input type="hidden" name="command" value="FIND_ARRIVALS_IN_CURRENT_DATE">
+        <label for="wh"><fmt:message key="warehouse.arrival.search" bundle="${bundle}"/></label>
+        <div class="input-group">
+            <input class="form-control row-cols-sm-2" type="date" name="date">
+        </div>
+        <div class="input-group">
+            <input class="form-control row-cols-sm-2 btn-primary" type="submit"
+                   value="<fmt:message key="general.search" bundle="${bundle}"/>" id="wh">
+        </div>
+    </form>
 
     <%-- message success--%>
     <c:if test="${not empty requestScope.message}">

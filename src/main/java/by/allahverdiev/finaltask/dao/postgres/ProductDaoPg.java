@@ -214,7 +214,6 @@ public class ProductDaoPg implements ProductDao {
     }
 
     public Product updateName(Product product) {
-        logger.info("начало работы дао продукта");
         int id = product.getId();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {
             ps.setInt(1, id);

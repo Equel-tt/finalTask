@@ -7,6 +7,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- URL -->
+    <c:url value="/control" var="urlServlet"/>
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -14,7 +16,7 @@
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
 
-    <title>Result</title>
+    <title>Arrival overview</title>
 
 </head>
 <body>
@@ -42,6 +44,19 @@
                 <td><c:out value="${arrival.product.name}"/></td>
                 <td><c:out value="${arrival.price}"/></td>
                 <td><c:out value="${arrival.user.surname}"/></td>
+                <c:if test="${sessionScope.user.role == 1}">
+                    <td>
+                        <form role="form" action="<c:out value="${urlServlet}"/>" method="post">
+                            <input type="hidden" name="command" value="DELETE_ARRIVAL">
+                            <input type="hidden" name="doc" value="${arrival.document}">
+                            <input type="hidden" name="product" value="${arrival.product.id}">
+                            <div class="input-group">
+                                <input class="form-control row-cols-sm-2 btn-danger" type="submit"
+                                       value="<fmt:message key="general.delete" bundle="${bundle}"/>">
+                            </div>
+                        </form>
+                    </td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>
