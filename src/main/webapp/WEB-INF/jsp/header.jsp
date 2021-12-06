@@ -22,7 +22,7 @@
 <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
 
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <ul class="nav col-md-auto mb-2 justify-content-center mb-md-0">
             <li>
                 <div>
                     <form action="<c:out value="${urlServlet}"/>" method="post">
@@ -33,6 +33,25 @@
                 </div>
             </li>
         </ul>
+
+        <ul class="nav col-md-auto mb-2 justify-content-center mb-md-0">
+            <li>
+                <div>
+                    <form class="text-body text-md-end">
+                        <p class="form-control row-cols-sm-2"><c:out
+                                value="${sessionScope.user.name} ${sessionScope.user.surname}"/></p>
+                    </form>
+                </div>
+            </li>
+            <%--            <li>--%>
+            <%--                <div>--%>
+            <%--                    <form class="text-body text-md-end">--%>
+            <%--                        <p class="form-control row-cols-sm-2"><c:out value="${sessionScope.user.description}"/></p>--%>
+            <%--                    </form>--%>
+            <%--                </div>--%>
+            <%--            </li>--%>
+        </ul>
+
         <div class="btn-group btn-group-sm col-sm-1">
             <form action="<c:out value="${urlServlet}"/>" method="post">
                 <label class="btn btn-outline-success">
@@ -57,12 +76,6 @@
             </form>
         </div>
 
-        <%--  <div class="col-md-8 text-end pull-right">--%>
-        <%--    <form action="<c:out value="${urlServlet}"/>" method="post">--%>
-        <%--      <input type="hidden" name="command" value="LANG">--%>
-        <%--      <input type="submit" class="btn btn-secondary rounded-2" value="Lang">--%>
-        <%--    </form>--%>
-        <%--  </div>--%>
         <div class="col-md-2 text-end pull-right">
             <form action="<c:out value="${urlServlet}"/>" method="post">
                 <input type="hidden" name="command" value="LOGOUT">

@@ -1,6 +1,6 @@
-package by.allahverdiev.finaltask.dao.postgres;
+package by.allahverdiev.finaltask.dao.postgresTest;
 
-import by.allahverdiev.finaltask.dao.ProductDao;
+import by.allahverdiev.finaltask.dao.postgres.ProductDaoPg;
 import by.allahverdiev.finaltask.entity.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,49 +9,49 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDaoPg implements ProductDao {
-    private static final Logger logger = LogManager.getLogger(ProductDaoPg.class);
+public class ProductDaoTest extends ProductDaoPg {
+    private static final Logger logger = LogManager.getLogger(ProductDaoTest.class);
     Connection connection;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
 
-    public ProductDaoPg() {
+    public ProductDaoTest() {
     }
 
-    public ProductDaoPg(Connection newConnection) {
+    public ProductDaoTest(Connection newConnection) {
         this.connection = newConnection;
     }
 
     private static final String SQL_SELECT_ALL_PRODUCTS =
             "SELECT *" +
-                    "FROM manufacture.public.product";
+                    "FROM manufacturetest.public.product";
     private static final String SQL_SELECT_PRODUCT_BY_ID =
             "SELECT * " +
-                    "FROM manufacture.public.product " +
+                    "FROM manufacturetest.public.product " +
                     "WHERE product.id = (?)";
     private static final String SQL_SELECT_PRODUCT_BY_NAME =
             "SELECT * " +
-                    "FROM manufacture.public.product " +
+                    "FROM manufacturetest.public.product " +
                     "WHERE product.name = (?)";
     private static final String SQL_SELECT_PRODUCT_BY_MANAGER =
             "SELECT * " +
-                    "FROM manufacture.public.product " +
+                    "FROM manufacturetest.public.product " +
                     "WHERE manager_id = (?)";
     private static final String SQL_UPDATE_PRODUCT_TYPE_BY_ID =
             "SELECT * " +
-                    "FROM manufacture.public.product_type " +
+                    "FROM manufacturetest.public.product_type " +
                     "WHERE product_type.id = (?)";
     private static final String SQL_UPDATE_PROVIDER_BY_ID =
             "SELECT * " +
-                    "FROM manufacture.public.provider " +
+                    "FROM manufacturetest.public.provider " +
                     "WHERE provider.id = (?)";
     private static final String SQL_SELECT_PRODUCT_LIST_BY_NAME_FOR_SEARCH =
             "SELECT name " +
-                    "FROM manufacture.public.product ";
+                    "FROM manufacturetest.public.product ";
     private static final String SQL_INSERT_PRODUCT =
-            "INSERT INTO manufacture.public.product " +
+            "INSERT INTO manufacturetest.public.product " +
                     "(name, manager_id, provider_id, product_type_id) " +
                     "VALUES ((?), (?), (?), (?))";
 

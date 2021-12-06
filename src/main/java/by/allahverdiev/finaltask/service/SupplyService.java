@@ -1,6 +1,6 @@
 package by.allahverdiev.finaltask.service;
 
-import by.allahverdiev.finaltask.dao.DaoFactory;
+import by.allahverdiev.finaltask.dao.DaoFactoryPostgres;
 import by.allahverdiev.finaltask.dao.postgres.ArchiveDaoPg;
 import by.allahverdiev.finaltask.dao.postgres.ArrivalDaoPg;
 import by.allahverdiev.finaltask.dao.postgres.NeedDaoPg;
@@ -16,7 +16,12 @@ import java.time.YearMonth;
 import java.util.*;
 
 public class SupplyService implements Service {
-    DaoFactory factory = DaoFactory.getInstance();
+
+    private final DaoFactoryPostgres factory;
+
+    public SupplyService(DaoFactoryPostgres factory) {
+        this.factory = factory;
+    }
 
     public Map<Product, ArrayList<Integer>> findDeficit(LocalDate date, int userId, Connection connection) {
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());

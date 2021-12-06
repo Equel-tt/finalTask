@@ -17,11 +17,17 @@ import java.util.Map;
 
 public class WarehouseService implements Service {
     private static final Logger logger = LogManager.getLogger(WarehouseService.class);
-    DaoFactory factory = DaoFactory.getInstance();
+    private final DaoFactory factory;
+
+    public WarehouseService(DaoFactory factory) {
+        this.factory = factory;
+    }
 
     public Entity findProductById(int newId, Connection connection) {
+        logger.info(factory.getClass());
         ProductDaoPg productDao = factory.getProductDao(connection);
         UserDaoPg userDao = factory.getUserDao(connection);
+        logger.info(userDao.getClass());
         Product product = productDao.findEntityById(newId);
         userDao.update(product.getManager());
         return product;

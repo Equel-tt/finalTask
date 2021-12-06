@@ -1,6 +1,6 @@
 package by.allahverdiev.finaltask.service;
 
-import by.allahverdiev.finaltask.dao.DaoFactory;
+import by.allahverdiev.finaltask.dao.DaoFactoryPostgres;
 import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.dao.postgres.ArchiveDaoPg;
 import by.allahverdiev.finaltask.dao.postgres.ArrivalDaoPg;
@@ -23,7 +23,12 @@ import java.util.Map;
 
 public class BookkeepingService implements Service {
     private static final Logger logger = LogManager.getLogger(BookkeepingService.class);
-    DaoFactory factory = DaoFactory.getInstance();
+
+    private final DaoFactoryPostgres factory;
+
+    public BookkeepingService(DaoFactoryPostgres factory) {
+        this.factory = factory;
+    }
 
     public boolean createArchiveEntry(LocalDate date, Connection connection) throws RegulationException, SQLException {
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());

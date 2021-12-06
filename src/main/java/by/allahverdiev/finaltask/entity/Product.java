@@ -74,4 +74,13 @@ public class Product implements Entity, Serializable {
     public String toString() {
         return this.id + " " + this.name + " " + this.manager + " " + this.productType + " " + this.provider;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        if (this.hashCode() == o.hashCode()) return true;
+        Product product = (Product) o;
+        return id == (product.id);
+    }
 }

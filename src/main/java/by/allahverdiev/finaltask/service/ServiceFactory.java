@@ -1,5 +1,7 @@
 package by.allahverdiev.finaltask.service;
 
+import by.allahverdiev.finaltask.dao.DaoFactoryPostgres;
+
 public class ServiceFactory {
     private static final ServiceFactory instance = new ServiceFactory();
 
@@ -7,10 +9,10 @@ public class ServiceFactory {
         return instance;
     }
 
-    private final WarehouseService warehouseService = new WarehouseService();
-    private final SupplyService supplyService = new SupplyService();
-    private final BookkeepingService bookkeepingService = new BookkeepingService();
-    private final UserService userService = new UserService();
+    private final WarehouseService warehouseService = new WarehouseService(DaoFactoryPostgres.getInstance());
+    private final SupplyService supplyService = new SupplyService(DaoFactoryPostgres.getInstance());
+    private final BookkeepingService bookkeepingService = new BookkeepingService(DaoFactoryPostgres.getInstance());
+    private final UserService userService = new UserService(DaoFactoryPostgres.getInstance());
 
     public WarehouseService getWarehouseService() {
         return warehouseService;

@@ -4,49 +4,20 @@ import by.allahverdiev.finaltask.dao.postgres.*;
 
 import java.sql.Connection;
 
-public class DaoFactory {
-    private static final TransactionFactory factory = TransactionFactory.getInstance();
-
-    private static final DaoFactory instance = new DaoFactory();
-
-    public static DaoFactory getInstance() {
-        return instance;
+public interface DaoFactory {
+    static DaoFactory getInstance() {
+        return null;
     }
 
-    private final ArchiveDaoPg archiveDao = new ArchiveDaoPg();
-    private final ArrivalDaoPg arrivalDao = new ArrivalDaoPg();
-    private final ConsumptionDaoPg consumptionDao = new ConsumptionDaoPg();
-    private final NeedDaoPg needDao = new NeedDaoPg();
-    private final ProductDaoPg productDao = new ProductDaoPg();
-    private final UserDaoPg userDao = new UserDaoPg();
+    ArchiveDaoPg getArchiveDao(Connection connection);
 
-    public ArchiveDaoPg getArchiveDao(Connection connection) {
-        archiveDao.setConnection(connection);
-        return archiveDao;
-    }
+    ArrivalDaoPg getArrivalDao(Connection connection);
 
-    public ArrivalDaoPg getArrivalDao(Connection connection) {
-        arrivalDao.setConnection(connection);
-        return arrivalDao;
-    }
+    ConsumptionDaoPg getConsumptionDao(Connection connection);
 
-    public ConsumptionDaoPg getConsumptionDao(Connection connection) {
-        consumptionDao.setConnection(connection);
-        return consumptionDao;
-    }
+    NeedDaoPg getNeedDao(Connection connection);
 
-    public NeedDaoPg getNeedDao(Connection connection) {
-        needDao.setConnection(connection);
-        return needDao;
-    }
+    ProductDaoPg getProductDao(Connection connection);
 
-    public ProductDaoPg getProductDao(Connection connection) {
-        productDao.setConnection(connection);
-        return productDao;
-    }
-
-    public UserDaoPg getUserDao(Connection connection) {
-        userDao.setConnection(connection);
-        return userDao;
-    }
+    UserDaoPg getUserDao(Connection connection);
 }

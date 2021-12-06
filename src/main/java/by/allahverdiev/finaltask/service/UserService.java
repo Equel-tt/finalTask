@@ -1,6 +1,6 @@
 package by.allahverdiev.finaltask.service;
 
-import by.allahverdiev.finaltask.dao.DaoFactory;
+import by.allahverdiev.finaltask.dao.DaoFactoryPostgres;
 import by.allahverdiev.finaltask.dao.postgres.UserDaoPg;
 import by.allahverdiev.finaltask.entity.User;
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +10,12 @@ import java.sql.Connection;
 
 public class UserService implements Service {
     private static final Logger logger = LogManager.getLogger(UserService.class);
-    DaoFactory factory = DaoFactory.getInstance();
+    private final DaoFactoryPostgres factory;
+
+    public UserService(DaoFactoryPostgres factory) {
+        this.factory = factory;
+    }
+//    DaoFactory factory = DaoFactory.getInstance();
 
     public User login(Connection connection, String login, String password) throws AccessException {
         UserDaoPg userDaoPg = factory.getUserDao(connection);
