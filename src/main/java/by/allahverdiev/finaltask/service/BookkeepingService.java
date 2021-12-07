@@ -1,6 +1,6 @@
 package by.allahverdiev.finaltask.service;
 
-import by.allahverdiev.finaltask.dao.DaoFactoryPostgres;
+import by.allahverdiev.finaltask.dao.DaoFactory;
 import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.dao.postgres.ArchiveDaoPg;
 import by.allahverdiev.finaltask.dao.postgres.ArrivalDaoPg;
@@ -24,9 +24,9 @@ import java.util.Map;
 public class BookkeepingService implements Service {
     private static final Logger logger = LogManager.getLogger(BookkeepingService.class);
 
-    private final DaoFactoryPostgres factory;
+    private final DaoFactory factory;
 
-    public BookkeepingService(DaoFactoryPostgres factory) {
+    public BookkeepingService(DaoFactory factory) {
         this.factory = factory;
     }
 

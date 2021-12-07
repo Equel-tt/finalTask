@@ -1,6 +1,6 @@
 package by.allahverdiev.finaltask.service;
 
-import by.allahverdiev.finaltask.dao.DaoFactoryPostgres;
+import by.allahverdiev.finaltask.dao.DaoFactory;
 import by.allahverdiev.finaltask.dao.postgres.ArchiveDaoPg;
 import by.allahverdiev.finaltask.dao.postgres.ArrivalDaoPg;
 import by.allahverdiev.finaltask.dao.postgres.NeedDaoPg;
@@ -17,9 +17,9 @@ import java.util.*;
 
 public class SupplyService implements Service {
 
-    private final DaoFactoryPostgres factory;
+    private final DaoFactory factory;
 
-    public SupplyService(DaoFactoryPostgres factory) {
+    public SupplyService(DaoFactory factory) {
         this.factory = factory;
     }
 

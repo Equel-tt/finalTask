@@ -3,16 +3,20 @@ package by.allahverdiev.finaltask.service;
 import by.allahverdiev.finaltask.dao.DaoFactoryTest;
 import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.dao.testDatabaseConnection.ConnectionCreator;
+import by.allahverdiev.finaltask.entity.Arrival;
 import by.allahverdiev.finaltask.entity.Entity;
 import by.allahverdiev.finaltask.entity.Product;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -23,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class WarehouseServiceTest {
     Connection connection = ConnectionCreator.createConnection();
     WarehouseService serviceTest = new WarehouseService(DaoFactoryTest.getInstance());
+    static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     WarehouseServiceTest() throws SQLException {
     }
@@ -60,7 +65,21 @@ class WarehouseServiceTest {
         return Stream.of(
                 Arguments.of(LocalDate.parse("2021-02-13"), Map.ofEntries(
                         entry(1, 50),
-                        entry(2, 300)))
+                        entry(2, 300))),
+                Arguments.of(LocalDate.parse("2021-02-27"), Map.ofEntries(
+                        entry(1, 0),
+                        entry(2, 0))),
+                Arguments.of(LocalDate.parse("2021-03-13"), Map.ofEntries(
+                        entry(1, 50),
+                        entry(2, 100)))
+        );
+    }
+
+    private static Stream<Arguments> arrivalDate() {
+        return Stream.of(
+                Arguments.of("2021-02-01", "5555555"),
+                Arguments.of("2021-02-12", "1111111"),
+                Arguments.of("2021-03-01", "7777777")
         );
     }
 
@@ -102,16 +121,18 @@ class WarehouseServiceTest {
             int expValue = result.get(entry.getKey().getId());
             assertEquals(entry.getValue(), expValue);
         }
-//        for(Map.Entry<Integer, Integer> entry : result.entrySet()) {
-//            assertEquals(exp.get(new Product(entry.getKey())), entry.getValue());
-//        }
     }
 
-    @Test
-    void findArrivalInDate() {
+    @ParameterizedTest
+    @MethodSource("arrivalDate")
+    void findArrivalInDate(String date, String exp) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date tempDate = format.parse(date);
+        List<Arrival> act = serviceTest.findArrivalInDate(tempDate, connection);
+        assertEquals(act.get(0).getDocument(), exp);
     }
 
-    @Test
-    void addArrivalEntry() {
-    }
+//    @Test
+//    void addArrivalEntry() {
+//    }
 }

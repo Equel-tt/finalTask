@@ -1,6 +1,6 @@
 package by.allahverdiev.finaltask.service;
 
-import by.allahverdiev.finaltask.dao.DaoFactoryPostgres;
+import by.allahverdiev.finaltask.dao.DaoFactory;
 import by.allahverdiev.finaltask.dao.postgres.UserDaoPg;
 import by.allahverdiev.finaltask.entity.User;
 import org.apache.logging.log4j.LogManager;
@@ -10,9 +10,9 @@ import java.sql.Connection;
 
 public class UserService implements Service {
     private static final Logger logger = LogManager.getLogger(UserService.class);
-    private final DaoFactoryPostgres factory;
+    private final DaoFactory factory;
 
-    public UserService(DaoFactoryPostgres factory) {
+    public UserService(DaoFactory factory) {
         this.factory = factory;
     }
 //    DaoFactory factory = DaoFactory.getInstance();
