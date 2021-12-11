@@ -42,4 +42,28 @@ public class Archive implements Entity, Serializable {
     public void setCount(int count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "Archive{"
+                + "date=" + date
+                + ", product=" + product
+                + ", count=" + count + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Archive)) return false;
+        if (this.hashCode() == o.hashCode()) return true;
+        Archive archive = (Archive) o;
+        return date == (archive.date) && (product == archive.product);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = date == null ? 0 : date.hashCode();
+        result = 31 * result + product.getId();
+        return result;
+    }
 }

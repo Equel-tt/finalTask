@@ -33,7 +33,22 @@ public class ProductType implements Entity, Serializable {
 
     @Override
     public String toString() {
-//        return this.name;
-        return String.valueOf(this.id);
+        return "Provider{"
+                + "id=" + id
+                + ", name='" + name + '\'' + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductType)) return false;
+        if (this.hashCode() == o.hashCode()) return true;
+        ProductType productType = (ProductType) o;
+        return id == (productType.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id == 0 ? 0 : id * 31;
     }
 }

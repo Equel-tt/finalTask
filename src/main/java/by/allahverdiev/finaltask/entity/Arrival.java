@@ -92,4 +92,20 @@ public class Arrival implements Entity, Serializable {
                 this.price + " " +
                 this.user.getId();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Arrival)) return false;
+        if (this.hashCode() == o.hashCode()) return true;
+        Arrival arrival = (Arrival) o;
+        return document == (arrival.document) && (product == arrival.product);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = document == null ? 0 : document.hashCode();
+        result = 31 * result + product.getId();
+        return result;
+    }
 }

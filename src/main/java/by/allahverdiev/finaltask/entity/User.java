@@ -100,6 +100,20 @@ public class User implements Entity, Serializable {
     @Override
     public String toString() {
         return this.surname + " " + this.name + " " + this.patronymic + " / " + this.description;
-//        return String.valueOf(this.id);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        if (this.hashCode() == o.hashCode()) return true;
+        User user = (User) o;
+        return id == (user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id == 0 ? 0 : id * 31;
+    }
+
 }

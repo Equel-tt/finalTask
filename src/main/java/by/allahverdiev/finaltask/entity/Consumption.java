@@ -62,4 +62,28 @@ public class Consumption implements Entity, Serializable {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+    @Override
+    public String toString() {
+        return "Consumption{"
+                + "id=" + id
+                + ", count=" + count
+                + ", date=" + date
+                + ", department=" + department
+                + ", product=" + product + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Consumption)) return false;
+        if (this.hashCode() == o.hashCode()) return true;
+        Consumption consumption = (Consumption) o;
+        return id == (consumption.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id == 0 ? 0 : id * 31;
+    }
 }
