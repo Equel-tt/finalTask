@@ -15,7 +15,6 @@ public class UserService implements Service {
     public UserService(DaoFactory factory) {
         this.factory = factory;
     }
-//    DaoFactory factory = DaoFactory.getInstance();
 
     public User login(Connection connection, String login, String password) throws AccessException {
         UserDaoPg userDaoPg = factory.getUserDao(connection);
