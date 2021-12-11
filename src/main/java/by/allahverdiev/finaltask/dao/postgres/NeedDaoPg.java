@@ -26,10 +26,6 @@ public class NeedDaoPg implements Dao {
     public NeedDaoPg() {
     }
 
-    public NeedDaoPg(Connection newConnection) {
-        this.connection = newConnection;
-    }
-
     private static final String SQL_SELECT_ALL_NEED =
             "SELECT * " +
                     "FROM manufacture.public.need ";

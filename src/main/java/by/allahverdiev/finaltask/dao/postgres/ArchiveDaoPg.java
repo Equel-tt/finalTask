@@ -29,11 +29,6 @@ public class ArchiveDaoPg implements Dao {
     public ArchiveDaoPg() {
     }
 
-    public ArchiveDaoPg(Connection newConnection) {
-        this.connection = newConnection;
-    }
-
-
     private static final String SQL_SELECT_ARCHIVE =
             "SELECT * " +
                     "FROM manufacture.public.archive ";
@@ -62,7 +57,7 @@ public class ArchiveDaoPg implements Dao {
         return archive;
     }
 
-    public List findEntryForMonth(LocalDate date) {
+    public List<Archive> findEntryForMonth(LocalDate date) {
         List<Archive> archive = new ArrayList<>();
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
         LocalDate currentDate = tempMonth.atEndOfMonth();

@@ -28,8 +28,6 @@ public class SupplyService implements Service {
         LocalDate startOfMonth = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
         LocalDate endOfMonth = tempMonth.atEndOfMonth();
 
-        Map<Product, ArrayList<Integer>> result = new HashMap<>();
-        //TODO conection auto commit
         ProductDaoPg productDao = factory.getProductDao(connection);
         List<Product> productList = productDao.findAllByManagerRole(userId);
         ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);
@@ -38,30 +36,47 @@ public class SupplyService implements Service {
         List<Archive> archiveList = archiveDao.findEntryForMonth(date);
         NeedDaoPg needDao = factory.getNeedDao(connection);
         List<Need> needList = needDao.findNeedForCurrentMonth(date);
+
+        Map<Product, ArrayList<Integer>> result = new HashMap<>();
         for (Product product : productList) {
             int needCount = 0;
             int arrivalCount = 0;
             int archiveCount = 0;
             int deficit = 0;
-            for (Need need : needList) {
-                if (need.getProduct().getId() == product.getId()) {
-                    needCount += need.getCount();
-                }
-            }
-            for (Arrival arrival : arrivalList) {
-                if (arrival.getProduct().getId() == product.getId()) {
-                    arrivalCount += arrival.getCount();
-                }
-            }
-            for (Archive archive : archiveList) {
-                if (archive.getProduct().getId() == product.getId()) {
-                    archiveCount += archive.getCount();
-                }
-            }
+            needCount = getNeedCount(needList, product, needCount);
+            arrivalCount = getArrivalCount(arrivalList, product, arrivalCount);
+            archiveCount = getArchiveCount(archiveList, product, archiveCount);
             deficit = archiveCount + arrivalCount - needCount;
             result.put(product, new ArrayList(Arrays.asList(needCount, archiveCount, arrivalCount, deficit)));
         }
         return result;
+    }
+
+    private int getArchiveCount(List<Archive> archiveList, Product product, int archiveCount) {
+        for (Archive archive : archiveList) {
+            if (archive.getProduct().getId() == product.getId()) {
+                archiveCount += archive.getCount();
+            }
+        }
+        return archiveCount;
+    }
+
+    private int getArrivalCount(List<Arrival> arrivalList, Product product, int arrivalCount) {
+        for (Arrival arrival : arrivalList) {
+            if (arrival.getProduct().getId() == product.getId()) {
+                arrivalCount += arrival.getCount();
+            }
+        }
+        return arrivalCount;
+    }
+
+    private int getNeedCount(List<Need> needList, Product product, int needCount) {
+        for (Need need : needList) {
+            if (need.getProduct().getId() == product.getId()) {
+                needCount += need.getCount();
+            }
+        }
+        return needCount;
     }
 
     public List<Need> findAllNeed(Connection connection) {

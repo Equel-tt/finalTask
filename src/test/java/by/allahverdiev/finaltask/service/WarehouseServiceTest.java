@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class WarehouseServiceTest {
     Connection connection = ConnectionCreator.createConnection();
     WarehouseService serviceTest = new WarehouseService(DaoFactoryTest.getInstance());
-    static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
     WarehouseServiceTest() throws SQLException {
     }
@@ -71,7 +70,10 @@ class WarehouseServiceTest {
                         entry(2, 0))),
                 Arguments.of(LocalDate.parse("2021-03-13"), Map.ofEntries(
                         entry(1, 50),
-                        entry(2, 100)))
+                        entry(2, 100))),
+                Arguments.of(LocalDate.parse("2021-02-15"), Map.ofEntries(
+                        entry(1, 0),
+                        entry(2, 300)))
         );
     }
 
@@ -131,8 +133,4 @@ class WarehouseServiceTest {
         List<Arrival> act = serviceTest.findArrivalInDate(tempDate, connection);
         assertEquals(act.get(0).getDocument(), exp);
     }
-
-//    @Test
-//    void addArrivalEntry() {
-//    }
 }

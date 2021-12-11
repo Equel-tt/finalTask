@@ -27,10 +27,6 @@ public class ConsumptionDaoPg implements Dao {
     public ConsumptionDaoPg() {
     }
 
-    public ConsumptionDaoPg(Connection connection) {
-        this.connection = connection;
-    }
-
     private static final String SQL_SELECT_ALL_CONSUMPTION_IN_TIME_PERIOD =
             "SELECT * " +
                     "FROM manufacture.public.consumption " +

@@ -52,4 +52,29 @@ public class Need implements Entity, Serializable {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Need)) return false;
+        if (this.hashCode() == o.hashCode()) return true;
+        Need need = (Need) o;
+        return month == (need.month) && (product == need.product);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = month == null ? 0 : month.hashCode();
+        result = 31 * result + product.getId();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Need{ "
+                + "month=" + month
+                + ", product=" + product
+                + ", count=" + count
+                + ", department=" + department + '}';
+    }
 }

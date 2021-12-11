@@ -27,10 +27,6 @@ public class ArrivalDaoPg implements ArrivalDao {
     public ArrivalDaoPg() {
     }
 
-    public ArrivalDaoPg(Connection newConnection) {
-        this.connection = newConnection;
-    }
-
     private static final String SQL_SELECT_ALL_ARRIVALS_IN_PERIOD =
             "SELECT * " +
                     "FROM manufacture.public.arrival " +

@@ -22,10 +22,6 @@ public class UserDaoPg implements UserDao {
     public UserDaoPg() {
     }
 
-    public UserDaoPg(Connection newConnection) {
-        this.connection = newConnection;
-    }
-
     private static final String SQL_SELECT_ALL_USERS =
             "SELECT *" +
                     "FROM manufacture.public.employee";

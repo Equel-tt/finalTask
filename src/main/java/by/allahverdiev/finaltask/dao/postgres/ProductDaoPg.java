@@ -20,10 +20,6 @@ public class ProductDaoPg implements ProductDao {
     public ProductDaoPg() {
     }
 
-    public ProductDaoPg(Connection newConnection) {
-        this.connection = newConnection;
-    }
-
     private static final String SQL_SELECT_ALL_PRODUCTS =
             "SELECT *" +
                     "FROM manufacture.public.product";
@@ -119,15 +115,15 @@ public class ProductDaoPg implements ProductDao {
         return result;
     }
 
-    public List<Product> findAllByManagerRole(int roleId) {
+    public List<Product> findAllByManagerRole(int userId) {
         List<Product> products = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_MANAGER)) {
-            ps.setInt(1, roleId);
+            ps.setInt(1, userId);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
                 int newId = resultSet.getInt("id");
                 String newName = resultSet.getString("name");
-                User user = new User(roleId);
+                User user = new User(userId);
                 ProductType type = new ProductType(resultSet.getInt("product_type_id"));
                 Provider provider = new Provider(resultSet.getInt("provider_id"));
                 products.add(new Product(newId, newName, user, type, provider));

@@ -83,4 +83,9 @@ public class Product implements Entity, Serializable {
         Product product = (Product) o;
         return id == (product.id);
     }
+
+    @Override
+    public int hashCode() {
+        return id == 0 ? 0 : id * 31;
+    }
 }

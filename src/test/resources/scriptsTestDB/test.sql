@@ -1,3 +1,3 @@
-UPDATE manufacturetest.public.product
-SET name = 'ВТУЛКА 4040'
-WHERE name = 'ВТУЛКА 4040 '
+DELETE
+FROM manufacturetest.public.archive
+WHERE month = '2021.03.31'
