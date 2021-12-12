@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -47,20 +48,7 @@ public class BookkeepingService implements Service {
                 ConsumptionDaoPg consumptionDao = factory.getConsumptionDao(connection);
                 List<Consumption> consumptionsList = consumptionDao.findAllInTimePeriod(start, month);
 
-                for (Product product : productList) {
-                    int count = 0;
-                    for (Arrival arrival : arrivalList) {
-                        if (arrival.getProduct().getId() == product.getId()) {
-                            count += arrival.getCount();
-                        }
-                    }
-                    for (Consumption consumption : consumptionsList) {
-                        if (consumption.getProduct().getId() == product.getId()) {
-                            count -= consumption.getCount();
-                        }
-                    }
-                    result.put(product, count);
-                }
+                calculateRemainderOfMaterial(result, productList, arrivalList, consumptionsList);
 
                 if (!month.equals(LocalDate.parse("2021-01-31"))) {
                     List<Archive> archiveList = archiveDao.findLastArchiveEntry(date);
@@ -83,6 +71,23 @@ public class BookkeepingService implements Service {
         return false;
     }
 
+    private void calculateRemainderOfMaterial(Map<Product, Integer> result, List<Product> productList, List<Arrival> arrivalList, List<Consumption> consumptionsList) {
+        for (Product product : productList) {
+            int count = 0;
+            for (Arrival arrival : arrivalList) {
+                if (arrival.getProduct().getId() == product.getId()) {
+                    count += arrival.getCount();
+                }
+            }
+            for (Consumption consumption : consumptionsList) {
+                if (consumption.getProduct().getId() == product.getId()) {
+                    count -= consumption.getCount();
+                }
+            }
+            result.put(product, count);
+        }
+    }
+
     public List<Archive> findArchiveEntryByMonth(LocalDate date, Connection connection) {
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
         LocalDate month = tempMonth.atEndOfMonth();
@@ -95,15 +100,29 @@ public class BookkeepingService implements Service {
         return archiveDaoPg.findAll();
     }
 
-    public List<Archive> findPreviousArchiveEntry(LocalDate date, Connection connection) throws RegulationException {
-        ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);
-        return archiveDao.findLastArchiveEntry(date);
-    }
+//    public List<Archive> findPreviousArchiveEntry(LocalDate date, Connection connection) throws RegulationException {
+//        ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);
+//        return archiveDao.findLastArchiveEntry(date);
+//    }
 
     public boolean deleteArrivalEntry(Connection connection, String document, int productId) throws SQLException {
         ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);
         connection.setAutoCommit(false);
         if (arrivalDao.deleteEntityByKeys(document, productId) == 1) {
+            connection.commit();
+            return true;
+        } else {
+            connection.rollback();
+            return false;
+        }
+    }
+
+    public boolean deleteArchiveEntry(Connection connection, LocalDate date) throws SQLException {
+        ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);
+        YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
+        LocalDate month = tempMonth.atEndOfMonth();
+        connection.setAutoCommit(false);
+        if (archiveDao.deleteArchiveEntry(Date.valueOf(month))) {
             connection.commit();
             return true;
         } else {

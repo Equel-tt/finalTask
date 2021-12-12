@@ -18,7 +18,6 @@ import java.util.Map;
 
 public class ArchiveDaoPg implements Dao {
     private static final Logger logger = LogManager.getLogger(ArchiveDaoPg.class);
-    private static final LocalDate startDate = LocalDate.of(2021, 01, 07);
     DateConversion conversion = new DateConversion();
     Connection connection;
 
@@ -39,6 +38,9 @@ public class ArchiveDaoPg implements Dao {
     private static final String SQL_INSERT_ARCHIVE_ENTRY =
             "INSERT INTO manufacture.public.archive " +
                     "(month, product_id, count) VALUES ((?),(?),(?))";
+    private static final String SQL_DELETE_ARCHIVE_ENTRY =
+            "DELETE FROM manufacture.public.archive " +
+                    "WHERE month = (?) ";
 
     @Override
     public List findAll() {
@@ -86,11 +88,10 @@ public class ArchiveDaoPg implements Dao {
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
-        logger.info(isExist + " существует ли запись");
         return isExist;
     }
 
-    public List findLastArchiveEntry(LocalDate date) throws RegulationException {
+    public List<Archive> findLastArchiveEntry(LocalDate date) throws RegulationException {
         List<Archive> archive = new ArrayList<>();
         LocalDate previousMonth = date.minusMonths(1);
         YearMonth tempMonth = YearMonth.of(previousMonth.getYear(), previousMonth.getMonthValue());
@@ -102,7 +103,7 @@ public class ArchiveDaoPg implements Dao {
         }
     }
 
-    private List buildArchiveList(List<Archive> archive, LocalDate currentDate) {
+    private List<Archive> buildArchiveList(List<Archive> archive, LocalDate currentDate) {
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARCHIVE_AT_MONTH)) {
             ps.setDate(1, Date.valueOf(currentDate));
             ResultSet resultSet = ps.executeQuery();
@@ -117,6 +118,18 @@ public class ArchiveDaoPg implements Dao {
             logger.error(e.getMessage());
         }
         return archive;
+    }
+
+    public boolean deleteArchiveEntry(Date date) {
+        try (PreparedStatement ps = connection.prepareStatement(SQL_DELETE_ARCHIVE_ENTRY)) {
+            ps.setDate(1, date);
+            if (ps.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return false;
     }
 
     @Override

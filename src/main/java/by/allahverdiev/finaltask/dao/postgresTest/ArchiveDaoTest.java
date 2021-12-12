@@ -36,6 +36,9 @@ public class ArchiveDaoTest extends ArchiveDaoPg {
     private static final String SQL_INSERT_ARCHIVE_ENTRY =
             "INSERT INTO manufacturetest.public.archive " +
                     "(month, product_id, count) VALUES ((?),(?),(?))";
+    private static final String SQL_DELETE_ARCHIVE_ENTRY =
+            "DELETE FROM manufacturetest.public.archive " +
+                    "WHERE month = (?) ";
 
     @Override
     public List findAll() {
@@ -114,6 +117,17 @@ public class ArchiveDaoTest extends ArchiveDaoPg {
 
         }
         return archive;
+    }
+
+    public boolean deleteArchiveEntry(Date date) {
+        try (PreparedStatement ps = connection.prepareStatement(SQL_DELETE_ARCHIVE_ENTRY)) {
+            ps.setDate(1, date);
+            if (ps.executeUpdate() > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+        }
+        return false;
     }
 
     @Override
