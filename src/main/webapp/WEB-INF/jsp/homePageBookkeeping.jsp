@@ -36,7 +36,7 @@
     <hr>
     <form role="form" action="<c:out value="${urlServlet}"/>" method="post">
         <input type="hidden" name="command" value="FIND_ARCHIVE_ENTRY_BY_MONTH">
-        <label for="archive"><fmt:message key="bookkeeping.general.close" bundle="${bundle}"/></label>
+        <label for="archive"><fmt:message key="bookkeeping.archive.view" bundle="${bundle}"/></label>
         <div class="input-group">
             <input class="form-control row-cols-sm-2" type="date" name="date">
         </div>

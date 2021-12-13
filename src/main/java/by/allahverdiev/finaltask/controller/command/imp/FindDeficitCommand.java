@@ -31,7 +31,8 @@ public class FindDeficitCommand implements Command {
     @Override
     public HttpServletRequest execute(HttpServletRequest request, Connection connection) {
         try {
-            String s = request.getParameter("date");
+//            String s = request.getParameter("date");
+            String s = (String) request.getAttribute("date");
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date tempDate = format.parse(s);
             LocalDate date = conversion.toLocalDate(tempDate);

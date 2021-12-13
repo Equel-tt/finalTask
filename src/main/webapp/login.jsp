@@ -74,7 +74,7 @@
         <form action="<c:out value="${urlServlet}"/>" method="post">
             <label class="btn btn-outline-success">
                 <input type="hidden" name="command" value="CHANGE_LANGUAGE">
-                <input type="hidden" name="language" value="be_BE">
+                <input type="hidden" name="language" value="be_BY">
                 <input type="submit" class="btn" value="BY">
             </label>
         </form>

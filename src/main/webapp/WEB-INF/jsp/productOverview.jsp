@@ -23,18 +23,18 @@
 <table class="table table-bordered table-hover container-sm">
     <thead>
     <tr class="bg-success">
-        <td rowspan="2" class="text-dark">Name</td>
-        <td colspan="3">Manager</td>
-        <td rowspan="2">Type</td>
-        <td rowspan="2">Provider</td>
+        <td rowspan="2" class="text-dark"><fmt:message key="product.name" bundle="${bundle}"/></td>
+        <td colspan="3"><fmt:message key="general.user" bundle="${bundle}"/></td>
+        <td rowspan="2"><fmt:message key="general.type" bundle="${bundle}"/></td>
+        <td rowspan="2"><fmt:message key="general.provider" bundle="${bundle}"/></td>
     </tr>
     </thead>
     <tbody>
     <tr>
         <th class="col-sm-3"></th>
-        <th class="col-sm-1">Surname</th>
-        <th class="col-sm-1">Name</th>
-        <th class="col-sm-1">Patronymic</th>
+        <th class="col-sm-1"><fmt:message key="general.user.surname" bundle="${bundle}"/></th>
+        <th class="col-sm-1"><fmt:message key="general.user.name" bundle="${bundle}"/></th>
+        <th class="col-sm-1"><fmt:message key="general.user.patronymic" bundle="${bundle}"/></th>
     </tr>
     <tr>
         <td><c:out value="${result.name}"/></td>

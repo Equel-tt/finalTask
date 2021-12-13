@@ -30,10 +30,15 @@ public class AddArrivalEntryCommand implements Command {
 
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            String doc = request.getParameter("doc");
-            int count = Integer.parseInt(request.getParameter("count"));
-            Date date = format.parse(request.getParameter("date"));
-            Product product = (Product) service.findProductByName(request.getParameter("product"), connection);
+            // old version using request Parameters
+            // String doc = request.getParameter("doc");
+            // int count = Integer.parseInt(request.getParameter("count"));
+            // Date date = format.parse(request.getParameter("date"));
+            // Product product = (Product) service.findProductByName(request.getParameter("product"), connection);
+            String doc = (String) request.getAttribute("doc");
+            int count = Integer.parseInt((String) request.getAttribute("count"));
+            Date date = format.parse((String) request.getAttribute("date"));
+            Product product = (Product) service.findProductByName((String) request.getAttribute("product"), connection);
             double price = Double.parseDouble(request.getParameter("price"));
             User user = (User) request.getSession(false).getAttribute("user");
 

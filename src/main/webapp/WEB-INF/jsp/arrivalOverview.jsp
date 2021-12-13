@@ -32,7 +32,7 @@
             <th><fmt:message key="arrival.table.date" bundle="${bundle}"/></th>
             <th><fmt:message key="arrival.table.product" bundle="${bundle}"/></th>
             <th><fmt:message key="arrival.table.price" bundle="${bundle}"/></th>
-            <th><fmt:message key="arrival.table.user" bundle="${bundle}"/></th>
+            <th><fmt:message key="general.user" bundle="${bundle}"/></th>
         </tr>
         </thead>
         <tbody>
