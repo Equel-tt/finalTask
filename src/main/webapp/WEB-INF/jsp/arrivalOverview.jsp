@@ -7,8 +7,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Arrival overview</title>
+
     <!-- URL -->
     <c:url value="/control" var="urlServlet"/>
+    <c:url value="/js/sort.js" var="urlSortScript"/>
+
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -16,23 +20,22 @@
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"></script>
 
-    <title>Arrival overview</title>
-
+    <script src="<c:out value="${urlSortScript}"/>"></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/header.jsp"/>
 <jsp:useBean id="result" scope="request" type="java.util.List"/>
 <br>
 <div class="container-fluid col-md-8">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" id="tableForSort">
         <thead>
         <tr class="bg-success">
-            <th><fmt:message key="arrival.table.doc" bundle="${bundle}"/></th>
-            <th><fmt:message key="product.count" bundle="${bundle}"/></th>
-            <th><fmt:message key="arrival.table.date" bundle="${bundle}"/></th>
-            <th><fmt:message key="arrival.table.product" bundle="${bundle}"/></th>
-            <th><fmt:message key="arrival.table.price" bundle="${bundle}"/></th>
-            <th><fmt:message key="general.user" bundle="${bundle}"/></th>
+            <th onclick="sortTable(0)"><fmt:message key="arrival.table.doc" bundle="${bundle}"/></th>
+            <th onclick="sortTable(1)"><fmt:message key="product.count" bundle="${bundle}"/></th>
+            <th onclick="sortTable(2)"><fmt:message key="arrival.table.date" bundle="${bundle}"/></th>
+            <th onclick="sortTable(3)"><fmt:message key="arrival.table.product" bundle="${bundle}"/></th>
+            <th onclick="sortTable(4)"><fmt:message key="arrival.table.price" bundle="${bundle}"/></th>
+            <th onclick="sortTable(5)"><fmt:message key="general.user" bundle="${bundle}"/></th>
         </tr>
         </thead>
         <tbody>

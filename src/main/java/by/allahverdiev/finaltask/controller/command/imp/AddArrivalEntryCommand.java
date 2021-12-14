@@ -30,11 +30,6 @@ public class AddArrivalEntryCommand implements Command {
 
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            // old version using request Parameters
-            // String doc = request.getParameter("doc");
-            // int count = Integer.parseInt(request.getParameter("count"));
-            // Date date = format.parse(request.getParameter("date"));
-            // Product product = (Product) service.findProductByName(request.getParameter("product"), connection);
             String doc = (String) request.getAttribute("doc");
             int count = Integer.parseInt((String) request.getAttribute("count"));
             Date date = format.parse((String) request.getAttribute("date"));
@@ -47,6 +42,8 @@ public class AddArrivalEntryCommand implements Command {
                     if (validator.checkPositiveDouble(price)) {
                         if (service.addArrivalEntry(doc, count, date, product, price, user, connection)) {
                             request.setAttribute("message", "message.success");
+                        } else {
+                            request.setAttribute("error", "error.add.month.closed");
                         }
                     } else {
                         request.setAttribute("error", "error.add.price.wrong");

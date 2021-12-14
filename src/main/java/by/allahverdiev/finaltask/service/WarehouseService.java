@@ -9,7 +9,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -99,10 +102,17 @@ public class WarehouseService implements Service {
 
     public boolean addArrivalEntry(String doc, int count, Date date, Product product, double price, User user, Connection connection) throws SQLException {
         ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);
+        ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);
         int productId = product.getId();
         logger.info(product.getId());
         int userId = user.getId();
         logger.info(user.getId());
+        LocalDate localDate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        YearMonth tempMonth = YearMonth.of(localDate.getYear(), localDate.getMonthValue());
+        LocalDate lastDate = tempMonth.atEndOfMonth();
+        if (archiveDao.isArchiveEntryExist(lastDate)) {
+            return false; //нельзя оформить поступление, т.к. месяц уже закрыт
+        }
         arrivalDao.createArrivalEntry(doc, count, new java.sql.Date(date.getTime()), productId, price, userId);
         return true;
     }

@@ -92,7 +92,12 @@ public class BookkeepingService implements Service {
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
         LocalDate month = tempMonth.atEndOfMonth();
         ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);
-        return archiveDao.findEntryForMonth(month);
+        ProductDaoPg productDao = factory.getProductDao(connection);
+        List<Archive> result = archiveDao.findEntryForMonth(month);
+        for (Archive archive : result) {
+            productDao.updateName(archive.getProduct());
+        }
+        return result;
     }
 
     public List<Archive> findAllArchive(Connection connection) {
