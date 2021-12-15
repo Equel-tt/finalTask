@@ -1,6 +1,6 @@
 package by.allahverdiev.finaltask.dao.postgres;
 
-import by.allahverdiev.finaltask.dao.Dao;
+import by.allahverdiev.finaltask.dao.ArchiveDao;
 import by.allahverdiev.finaltask.dao.RegulationException;
 import by.allahverdiev.finaltask.dao.util.DateConversion;
 import by.allahverdiev.finaltask.entity.Archive;
@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ArchiveDaoPg implements Dao {
+public class ArchiveDaoPg implements ArchiveDao {
     private static final Logger logger = LogManager.getLogger(ArchiveDaoPg.class);
-    DateConversion conversion = new DateConversion();
-    Connection connection;
+    private final DateConversion conversion = new DateConversion();
+    private Connection connection;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
@@ -59,6 +59,7 @@ public class ArchiveDaoPg implements Dao {
         return archive;
     }
 
+    @Override
     public List<Archive> findEntryForMonth(LocalDate date) {
         List<Archive> archive = new ArrayList<>();
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
@@ -66,6 +67,7 @@ public class ArchiveDaoPg implements Dao {
         return buildArchiveList(archive, currentDate);
     }
 
+    @Override
     public void createArchiveEntry(LocalDate date, Map<Product, Integer> map) {
         for (Map.Entry<Product, Integer> m : map.entrySet()) {
             try (PreparedStatement ps = connection.prepareStatement(SQL_INSERT_ARCHIVE_ENTRY)) {
@@ -79,6 +81,7 @@ public class ArchiveDaoPg implements Dao {
         }
     }
 
+    @Override
     public boolean isArchiveEntryExist(LocalDate date) {
         boolean isExist = true;
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARCHIVE_AT_MONTH)) {
@@ -91,6 +94,7 @@ public class ArchiveDaoPg implements Dao {
         return isExist;
     }
 
+    @Override
     public List<Archive> findLastArchiveEntry(LocalDate date) throws RegulationException {
         List<Archive> archive = new ArrayList<>();
         LocalDate previousMonth = date.minusMonths(1);
@@ -120,6 +124,7 @@ public class ArchiveDaoPg implements Dao {
         return archive;
     }
 
+    @Override
     public boolean deleteArchiveEntry(Date date) {
         try (PreparedStatement ps = connection.prepareStatement(SQL_DELETE_ARCHIVE_ENTRY)) {
             ps.setDate(1, date);

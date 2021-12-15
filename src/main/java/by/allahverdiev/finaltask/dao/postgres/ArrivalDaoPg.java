@@ -54,7 +54,7 @@ public class ArrivalDaoPg implements ArrivalDao {
             "DELETE FROM manufacture.public.arrival " +
                     "WHERE doc = (?) AND product_id = (?)";
 
-
+    @Override
     public List<Arrival> findAllInTimePeriod(LocalDate startDate, LocalDate endDate) {
         List<Arrival> arrivals = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ALL_ARRIVALS_IN_PERIOD)) {
@@ -76,6 +76,7 @@ public class ArrivalDaoPg implements ArrivalDao {
         return arrivals;
     }
 
+    @Override
     public List<Arrival> findByProductId(int id) {
         List<Arrival> arrivals = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARRIVALS_BY_PRODUCT_ID)) {
@@ -87,6 +88,7 @@ public class ArrivalDaoPg implements ArrivalDao {
         return arrivals;
     }
 
+    @Override
     public List<Arrival> findByProductIdInTimePeriod(int id, LocalDate start, LocalDate end) {
         List<Arrival> arrivals = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARRIVALS_BY_PRODUCT_ID_IN_PERIOD)) {
@@ -100,6 +102,7 @@ public class ArrivalDaoPg implements ArrivalDao {
         return arrivals;
     }
 
+    @Override
     public int countOfProductInTimePeriod(Product product, LocalDate startDate, LocalDate endDate) {
         int count = 0;
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_COUNT_BY_ID_IN_PERIOD)) {
@@ -129,6 +132,7 @@ public class ArrivalDaoPg implements ArrivalDao {
         }
     }
 
+    @Override
     public void createArrivalEntry(String doc, int count, Date date, int productId, double price, int userId) throws SQLException {
         PreparedStatement ps = connection.prepareStatement(SQL_INSERT_ARRIVAL_ENTRY);
         ps.setString(1, doc);
@@ -140,6 +144,7 @@ public class ArrivalDaoPg implements ArrivalDao {
         ps.executeUpdate();
     }
 
+    @Override
     public List<Arrival> findArrivalsInCurrentDate(Date date) {
         List<Arrival> result = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ARRIVALS_IN_DATE)) {
@@ -160,6 +165,7 @@ public class ArrivalDaoPg implements ArrivalDao {
         return result;
     }
 
+    @Override
     public int deleteEntityByKeys(String doc, int productId) {
         int deletedRows = 0;
         try (PreparedStatement ps = connection.prepareStatement(SQL_DELETE_ARRIVAL_BY_DOC_AND_PRODUCT)) {

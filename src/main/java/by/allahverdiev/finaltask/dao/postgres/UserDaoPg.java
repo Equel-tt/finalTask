@@ -55,6 +55,7 @@ public class UserDaoPg implements UserDao {
         return users;
     }
 
+    @Override
     public User login(String login, String inputPassword) {
         User user = new User();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN)) {
@@ -88,6 +89,7 @@ public class UserDaoPg implements UserDao {
         return null;
     }
 
+    @Override
     public User findEntityById(int id) {
         User user = new User();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_USER_BY_ID)) {
@@ -133,6 +135,7 @@ public class UserDaoPg implements UserDao {
         return entity;
     }
 
+    @Override
     public User updateName(User user) {
         int id = user.getId();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_USER_BY_ID)) {

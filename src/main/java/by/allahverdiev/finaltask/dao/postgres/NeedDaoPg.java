@@ -1,6 +1,6 @@
 package by.allahverdiev.finaltask.dao.postgres;
 
-import by.allahverdiev.finaltask.dao.Dao;
+import by.allahverdiev.finaltask.dao.NeedDao;
 import by.allahverdiev.finaltask.dao.util.DateConversion;
 import by.allahverdiev.finaltask.entity.Department;
 import by.allahverdiev.finaltask.entity.Entity;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NeedDaoPg implements Dao {
+public class NeedDaoPg implements NeedDao {
     private static final Logger logger = LogManager.getLogger(NeedDaoPg.class);
     DateConversion conversion = new DateConversion();
     Connection connection;
@@ -39,13 +39,14 @@ public class NeedDaoPg implements Dao {
         List<Need> need = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_NEED);
-            BuildResultList(need, resultSet);
+            buildResultList(need, resultSet);
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
         return need;
     }
 
+    @Override
     public List<Need> findNeedForCurrentMonth(LocalDate date) {
         List<Need> need = new ArrayList<>();
         int montNum = date.getMonthValue();
@@ -54,14 +55,14 @@ public class NeedDaoPg implements Dao {
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_NEED_FOR_MONTH)) {
             ps.setDate(1, Date.valueOf(startDate));
             ResultSet resultSet = ps.executeQuery();
-            BuildResultList(need, resultSet);
+            buildResultList(need, resultSet);
         } catch (SQLException e) {
             logger.error(e.getMessage());
         }
         return need;
     }
 
-    private void BuildResultList(List<Need> need, ResultSet resultSet) throws SQLException {
+    private void buildResultList(List<Need> need, ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             LocalDate month = conversion.toLocalDate(resultSet.getDate("month"));
             Product product = new Product(resultSet.getInt("product_id"));

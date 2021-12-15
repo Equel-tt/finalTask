@@ -75,6 +75,7 @@ public class ProductDaoPg implements ProductDao {
         return null;
     }
 
+    @Override
     public Product findEntityById(int id) {
         Product result = new Product();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {
@@ -95,6 +96,7 @@ public class ProductDaoPg implements ProductDao {
         return result;
     }
 
+    @Override
     public Product findEntityByName(String name) {
         Product result = new Product();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_NAME)) {
@@ -115,6 +117,7 @@ public class ProductDaoPg implements ProductDao {
         return result;
     }
 
+    @Override
     public List<Product> findAllByManagerRole(int userId) {
         List<Product> products = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_MANAGER)) {
@@ -134,6 +137,7 @@ public class ProductDaoPg implements ProductDao {
         return products;
     }
 
+    @Override
     public List<String> findNamesOfProducts() {
         List<String> result = new ArrayList<>();
         try (Statement statement = connection.createStatement()) {
@@ -147,6 +151,7 @@ public class ProductDaoPg implements ProductDao {
         return result;
     }
 
+    @Override
     public int createProduct(String name, int managerId, int productTypeId, int providerId) {
         int rows = 0;
         try (PreparedStatement ps = connection.prepareStatement(SQL_INSERT_PRODUCT)) {
@@ -226,6 +231,7 @@ public class ProductDaoPg implements ProductDao {
         return entity;
     }
 
+    @Override
     public Product updateName(Product product) {
         int id = product.getId();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {

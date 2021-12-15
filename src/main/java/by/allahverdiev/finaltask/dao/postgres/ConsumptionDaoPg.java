@@ -1,6 +1,6 @@
 package by.allahverdiev.finaltask.dao.postgres;
 
-import by.allahverdiev.finaltask.dao.Dao;
+import by.allahverdiev.finaltask.dao.ConsumptionDao;
 import by.allahverdiev.finaltask.dao.util.DateConversion;
 import by.allahverdiev.finaltask.entity.Consumption;
 import by.allahverdiev.finaltask.entity.Department;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsumptionDaoPg implements Dao {
+public class ConsumptionDaoPg implements ConsumptionDao {
     private static final Logger LOGGER = LogManager.getLogger(ConsumptionDaoPg.class);
     public static final LocalDate startDate = LocalDate.of(2021, 01, 07);
     DateConversion conversion = new DateConversion();
@@ -36,6 +36,7 @@ public class ConsumptionDaoPg implements Dao {
                     "FROM manufacture.public.consumption " +
                     "WHERE (product_id = (?)) AND (date BETWEEN (?) AND (?))";
 
+    @Override
     public List<Consumption> findAllInTimePeriod(LocalDate startDate, LocalDate endDate) {
         List<Consumption> consumptions = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ALL_CONSUMPTION_IN_TIME_PERIOD)) {
@@ -56,6 +57,7 @@ public class ConsumptionDaoPg implements Dao {
         return consumptions;
     }
 
+    @Override
     public List<Consumption> findByProductInTimePeriod(int productId, LocalDate startDate, LocalDate endDate) {
         List<Consumption> consumptions = new ArrayList<>();
         try (PreparedStatement ps = connection.prepareStatement(SQL_SELECT_PRODUCT_CONSUMPTION_IN_TIME_PERIOD)) {
