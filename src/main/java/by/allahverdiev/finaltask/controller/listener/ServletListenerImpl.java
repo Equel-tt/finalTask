@@ -11,10 +11,12 @@ import javax.servlet.annotation.WebListener;
 public class ServletListenerImpl implements ServletContextListener {
     private static final Logger logger = LogManager.getLogger(ServletListenerImpl.class);
 
+    @Override
     public void contextInitialized(ServletContextEvent event) {
         logger.info(event);
     }
 
+    @Override
     public void contextDestroyed(ServletContextEvent event) {
         logger.info(event);
     }

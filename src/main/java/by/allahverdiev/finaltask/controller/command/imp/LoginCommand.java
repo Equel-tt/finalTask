@@ -41,7 +41,7 @@ public class LoginCommand implements Command {
         } catch (AccessException e) {
             logger.info(e.getMessage());
             request.setAttribute("way", "redirect");
-            request.setAttribute("error", "error.login");
+            request.setAttribute("error", e.getMessage());
         }
         return request;
     }

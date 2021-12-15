@@ -16,11 +16,6 @@ public class ControlServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(ControlServlet.class);
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.service(req, resp);
-    }
-
-    @Override
     public void init() throws ServletException {
         super.init();
         InitializationService.getInstance().initialize();
@@ -73,8 +68,5 @@ public class ControlServlet extends HttpServlet {
         } catch (ServletException | IOException e) {
             logger.info(e.getMessage());
         }
-    }
-
-    public void destroy() {
     }
 }

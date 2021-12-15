@@ -9,17 +9,21 @@ import javax.servlet.http.HttpSessionBindingEvent;
 public class SessionAttributeListenerImpl implements HttpSessionAttributeListener {
     private static final Logger logger = LogManager.getLogger(SessionAttributeListenerImpl.class);
 
+    @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
         logger.info("add: " + event.getClass().getSimpleName() + " : " + event.getName()
                 + " : " + event.getValue());
     }
 
+    @Override
     public void attributeRemoved(HttpSessionBindingEvent event) {
-        logger.info("replace: " + event.getClass().getSimpleName() + " : " + event.getName()
+        logger.info("removed: " + event.getClass().getSimpleName() + " : " + event.getName()
                 + " : " + event.getValue());
     }
 
-    public void attributeReplaced(HttpSessionBindingEvent e) {
-
+    @Override
+    public void attributeReplaced(HttpSessionBindingEvent event) {
+        logger.info("replaced: " + event.getClass().getSimpleName() + " : " + event.getName()
+                + " : " + event.getValue());
     }
 }

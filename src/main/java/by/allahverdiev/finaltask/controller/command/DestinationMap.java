@@ -14,7 +14,6 @@ public class DestinationMap {
         destination.put("FindArchiveEntryByMonthCommand", "/archiveOverview.jsp");
         destination.put("FindAllProdInCurrDateCommand", "/warehouseOverview.jsp");
         destination.put("FindAllNeedCommand", "/needOverview.jsp");
-//        destination.put("FindAllArchiveCommand", "/archiveOverview.jsp");
         destination.put("LoginCommand", "/index.jsp");
         destination.put("LogoutCommand", "/login.jsp");
         destination.put("ProductSearchCommand", "/productSearch.jsp");

@@ -31,6 +31,13 @@ public class BookkeepingService implements Service {
         this.factory = factory;
     }
 
+    /**
+     * creates archive entry for the selected month
+     * use private method {@link #calculateRemainderOfMaterial(Map, List, List, List)}
+     * use private method {@link #addPreviousArchiveValues(Map, List)}
+     *
+     * @throws RegulationException if the record already exists or there is no record for the previous month
+     */
     public boolean createArchiveEntry(LocalDate date, Connection connection) throws RegulationException, SQLException {
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
         LocalDate start = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
@@ -52,13 +59,7 @@ public class BookkeepingService implements Service {
 
                 if (!month.equals(LocalDate.parse("2021-01-31"))) {
                     List<Archive> archiveList = archiveDao.findLastArchiveEntry(date);
-                    for (Map.Entry<Product, Integer> map : result.entrySet()) {
-                        for (Archive archive : archiveList) {
-                            if (map.getKey().getId() == archive.getProduct().getId()) {
-                                map.setValue(map.getValue() + archive.getCount());
-                            }
-                        }
-                    }
+                    addPreviousArchiveValues(result, archiveList);
                 }
 
                 archiveDao.createArchiveEntry(month, result);
@@ -71,6 +72,24 @@ public class BookkeepingService implements Service {
         return false;
     }
 
+    /**
+     * adds the value of the archived entry of the previous month
+     * to the result obtained from the method {@link #calculateRemainderOfMaterial(Map, List, List, List)}
+     */
+    private void addPreviousArchiveValues(Map<Product, Integer> result, List<Archive> archiveList) {
+        for (Map.Entry<Product, Integer> map : result.entrySet()) {
+            for (Archive archive : archiveList) {
+                if (map.getKey().getId() == archive.getProduct().getId()) {
+                    map.setValue(map.getValue() + archive.getCount());
+                }
+            }
+        }
+    }
+
+    /**
+     * calculates the amount of material
+     * taking into account all arrivals and consumptions for the month
+     */
     private void calculateRemainderOfMaterial(Map<Product, Integer> result, List<Product> productList, List<Arrival> arrivalList, List<Consumption> consumptionsList) {
         for (Product product : productList) {
             int count = 0;
@@ -104,11 +123,6 @@ public class BookkeepingService implements Service {
         ArchiveDaoPg archiveDaoPg = factory.getArchiveDao(connection);
         return archiveDaoPg.findAll();
     }
-
-//    public List<Archive> findPreviousArchiveEntry(LocalDate date, Connection connection) throws RegulationException {
-//        ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);
-//        return archiveDao.findLastArchiveEntry(date);
-//    }
 
     public boolean deleteArrivalEntry(Connection connection, String document, int productId) throws SQLException {
         ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);

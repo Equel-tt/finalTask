@@ -23,6 +23,12 @@ public class SupplyService implements Service {
         this.factory = factory;
     }
 
+    /**
+     * calculates the available quantity of materials and compares with the requirement for the selected month
+     * use private method {@link #getArchiveCount(List, Product, int)}
+     * use private method {@link #getArrivalCount(List, Product, int)}
+     * use private method {@link #getNeedCount(List, Product, int)}
+     */
     public Map<Product, ArrayList<Integer>> findDeficit(LocalDate date, int userId, Connection connection) {
         YearMonth tempMonth = YearMonth.of(date.getYear(), date.getMonthValue());
         LocalDate startOfMonth = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
@@ -79,6 +85,9 @@ public class SupplyService implements Service {
         return needCount;
     }
 
+    /**
+     * shows all records with need
+     */
     public List<Need> findAllNeed(Connection connection) {
         NeedDaoPg needDao = factory.getNeedDao(connection);
         ProductDaoPg productDao = factory.getProductDao(connection);
@@ -89,6 +98,9 @@ public class SupplyService implements Service {
         return result;
     }
 
+    /**
+     * shows record with need for the selected month
+     */
     public List<Need> findNeedForCurrentMonth(LocalDate date, Connection connection) {
         NeedDaoPg needDao = factory.getNeedDao(connection);
         ProductDaoPg productDao = factory.getProductDao(connection);

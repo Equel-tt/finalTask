@@ -16,7 +16,6 @@ import java.util.List;
 
 public class ArrivalDaoPg implements ArrivalDao {
     private static final Logger logger = LogManager.getLogger(ArrivalDaoPg.class);
-    private static final LocalDate startDate = LocalDate.of(2021, 01, 07);
     DateConversion conversion = new DateConversion();
     Connection connection;
 

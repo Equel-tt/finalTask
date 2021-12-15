@@ -2,11 +2,12 @@ package by.allahverdiev.finaltask.service;
 
 public class Validator {
 
+    /**
+     * checking invoice number
+     * must contain 7 digits
+     */
     public boolean checkInvoice(String doc) {
-        if (doc.matches("\\d{7}")) {
-            return true;
-        }
-        return false;
+        return doc.matches("\\d{7}");
     }
 
     public boolean checkPositiveInteger(int count) {

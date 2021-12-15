@@ -44,6 +44,12 @@ public class WarehouseService implements Service {
         return product;
     }
 
+    /**
+     * starting from the existing archive record for the previous month,
+     * calculate the current quantity for each material, adding arrivals and subtracting consumptions
+     *
+     * @throws RegulationException
+     */
     public Map<Product, Integer> findAllProductsCountInCurrentDate(LocalDate date, Connection connection) throws RegulationException {
         LocalDate start = LocalDate.of(date.getYear(), date.getMonthValue(), 1);
         Map<Product, Integer> result = new HashMap<>();
@@ -56,19 +62,11 @@ public class WarehouseService implements Service {
 
         for (Product product : productList) {
             int count = 0;
-            for (Arrival arrival : arrivalList) {
-                if (arrival.getProduct().getId() == product.getId()) {
-                    count += arrival.getCount();
-                }
-            }
-            for (Consumption consumption : consumptionsList) {
-                if (consumption.getProduct().getId() == product.getId()) {
-                    count -= consumption.getCount();
-                }
-            }
+            count = addArrivalCount(arrivalList, product, count);
+            count = takeAwayConsumptionCount(consumptionsList, product, count);
             result.put(product, count);
         }
-        //find last archive entry, and it's date, if not exist - use static startDate (start date of accounting)
+        //find last archive entry, and it's date
         if (date.getMonthValue() != 1 && date.getYear() != 2021) {
             ArchiveDaoPg archiveDao = factory.getArchiveDao(connection);
             List<Archive> archiveList = archiveDao.findLastArchiveEntry(date);
@@ -83,6 +81,24 @@ public class WarehouseService implements Service {
         return result;
     }
 
+    private int takeAwayConsumptionCount(List<Consumption> consumptionsList, Product product, int count) {
+        for (Consumption consumption : consumptionsList) {
+            if (consumption.getProduct().getId() == product.getId()) {
+                count -= consumption.getCount();
+            }
+        }
+        return count;
+    }
+
+    private int addArrivalCount(List<Arrival> arrivalList, Product product, int count) {
+        for (Arrival arrival : arrivalList) {
+            if (arrival.getProduct().getId() == product.getId()) {
+                count += arrival.getCount();
+            }
+        }
+        return count;
+    }
+
     public List<Arrival> findArrivalInDate(Date date, Connection connection) {
         ArrivalDaoPg arrivalDao = factory.getArrivalDao(connection);
         List<Arrival> arrivalList = arrivalDao.findArrivalsInCurrentDate(new java.sql.Date(date.getTime()));
@@ -95,6 +111,9 @@ public class WarehouseService implements Service {
         return arrivalList;
     }
 
+    /**
+     * prepare a list of names of all products for prompting the user
+     */
     public List<String> prepareForSearch(Connection connection) {
         ProductDaoPg productDao = factory.getProductDao(connection);
         return productDao.findNamesOfProducts();
