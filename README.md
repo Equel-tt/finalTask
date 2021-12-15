@@ -33,8 +33,10 @@
 База данных - postgress
 Использованные технологии, паттерны
 - Command
-- Listener
+- Observer (Listener)
 - DAO
+- Singleton
+- Factory Method
 - Filter
 - JS
 - Bootstrap
