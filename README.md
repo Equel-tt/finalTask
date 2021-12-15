@@ -38,6 +38,7 @@
 - Singleton
 - Factory Method
 - Filter
+- JSP
 - JS
 - Bootstrap
 - CSS
