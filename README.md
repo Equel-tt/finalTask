@@ -31,6 +31,7 @@
 
 ![manufacture](https://user-images.githubusercontent.com/73549654/146060490-b94fe90c-12cf-4733-8f53-b354d6bd2271.PNG)
 База данных - postgress
+
 Использованные технологии, паттерны
 - Command
 - Observer (Listener)
